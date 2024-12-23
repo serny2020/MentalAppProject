@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { SvgXml } from "react-native-svg";
 import { Audio } from "expo-av";
-import { useFocusEffect } from "@react-navigation/native";
+import { useMusic } from "../../context/MusicContext";  
 
 const musicLogo = `
 <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -22,6 +22,7 @@ const WelcomePage = ({ navigation }) => {
   const [breatheText, setBreatheText] = useState("breathe in");
   const [sound, setSound] = useState(null);
   const [isPlaying, setIsPlaying] = useState(true);
+  const { isMusicPlaying, toggleMusic } = useMusic();
 
   // Animation Logic
   useEffect(() => {
@@ -57,31 +58,31 @@ const WelcomePage = ({ navigation }) => {
   }, [scaleAnim]);
 
   // Music Logic
-  useEffect(() => {
-    const loadMusic = async () => {
-      try {
-        const { sound: music } = await Audio.Sound.createAsync(
-          require("../../assets/media/music.mp3")
-        );
-        setSound(music);
-        await music.setIsLoopingAsync(true);
-        await music.playAsync();
-        setIsPlaying(true);
-        console.log("playing")
-      } catch (error) {
-        console.error("Error loading music:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const loadMusic = async () => {
+  //     try {
+  //       const { sound: music } = await Audio.Sound.createAsync(
+  //         require("../../assets/media/music.mp3")
+  //       );
+  //       setSound(music);
+  //       await music.setIsLoopingAsync(true);
+  //       await music.playAsync();
+  //       setIsPlaying(true);
+  //       console.log("playing")
+  //     } catch (error) {
+  //       console.error("Error loading music:", error);
+  //     }
+  //   };
 
-    loadMusic();
+  //   loadMusic();
 
-    return () => {
-      if (sound) {
-        sound.stopAsync();
-        sound.unloadAsync();
-      }
-    };
-  }, []);
+  //   return () => {
+  //     if (sound) {
+  //       sound.stopAsync();
+  //       sound.unloadAsync();
+  //     }
+  //   };
+  // }, []);
 
   // Music Toggle
   const handleMusicToggle = async () => {
@@ -123,7 +124,9 @@ const WelcomePage = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.svgContainer}>
-        <TouchableOpacity onPress={handleMusicToggle}>
+        {/* <TouchableOpacity onPress={handleMusicToggle}> */}
+        <TouchableOpacity onPress={toggleMusic}>
+          {/* {console.log(isMusicPlaying ? 'Play Music': 'Pause Music')} */}
           <SvgXml xml={musicLogo} width="40" height="40" />
         </TouchableOpacity>
       </View>

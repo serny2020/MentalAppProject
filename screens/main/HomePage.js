@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { SvgXml } from "react-native-svg";
 // import MusicIcon from "../assets/icons/musicIcon";
 import { Audio } from "expo-av";
+import { useMusic } from "../../context/MusicContext";
 
 const musicLogo = `
 <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -13,6 +14,7 @@ const musicLogo = `
 const HomePage = ({ navigation }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [sound, setSound] = useState();
+  const { isMusicPlaying, toggleMusic } = useMusic(); // Access music controls
 
   const stopMusic = async () => {
     if (sound) {
@@ -28,47 +30,49 @@ const HomePage = ({ navigation }) => {
     }
   };
 
-  const handleMusicToggle = async () => {
-    try {
-      if (isPlaying) {
-        // Pause the music
-        await sound.pauseAsync();
-        setIsPlaying(false);
-        console.log("unplaying");
-      } else {
-        if (!sound) {
-          // Load the music if not already loaded
-          const { sound: newSound } = await Audio.Sound.createAsync(
-            require("../../assets/media/music.mp3")
-          );
-          setSound(newSound);
-          console.log("load");
-          await newSound.playAsync();
-        } else {
-          // Resume the music
-          await sound.playAsync();
-          console.log("resume");
-        }
-        setIsPlaying(true);
-      }
-    } catch (error) {
-      console.error("Error playing music:", error);
-    }
-  };
+  // const handleMusicToggle = async () => {
+  //   try {
+  //     if (isPlaying) {
+  //       // Pause the music
+  //       await sound.pauseAsync();
+  //       setIsPlaying(false);
+  //       console.log("unplaying");
+  //     } else {
+  //       if (!sound) {
+  //         // Load the music if not already loaded
+  //         const { sound: newSound } = await Audio.Sound.createAsync(
+  //           require("../../assets/media/music.mp3")
+  //         );
+  //         setSound(newSound);
+  //         console.log("load");
+  //         await newSound.playAsync();
+  //       } else {
+  //         // Resume the music
+  //         await sound.playAsync();
+  //         console.log("resume");
+  //       }
+  //       setIsPlaying(true);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error playing music:", error);
+  //   }
+  // };
 
-  // Cleanup the sound object when the component unmounts
-  useEffect(() => {
-    return sound
-      ? () => {
-          sound.unloadAsync();
-        }
-      : undefined;
-  }, [sound]);
+  // // Cleanup the sound object when the component unmounts
+  // useEffect(() => {
+  //   return sound
+  //     ? () => {
+  //         sound.unloadAsync();
+  //       }
+  //     : undefined;
+  // }, [sound]);
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={handleMusicToggle}>
+        {/* <TouchableOpacity onPress={handleMusicToggle}> */}
+        <TouchableOpacity onPress={toggleMusic}>
+          {/* {console.log(isMusicPlaying ? 'Play Music': 'Pause Music')} */}
           <SvgXml xml={musicLogo} width={40} height={40} />
           {/* <Image
           source={require("../assets/icons/music.png")} // Path to your image
@@ -82,7 +86,7 @@ const HomePage = ({ navigation }) => {
       <View style={styles.centerContainer}>
         <Text style={styles.welcomeText}>Welcome</Text>
       </View>
-      <View style={styles.buttonContainer}>
+      {/* <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.button}
           onPress={async () => {
@@ -114,6 +118,43 @@ const HomePage = ({ navigation }) => {
           style={styles.secondaryButton}
           onPress={async () => {
             await stopMusic(); // Stop music before navigating
+            navigation.navigate("CheckIn");
+          }}
+        >
+          <Text style={styles.secondaryButtonText}>
+            Continue without registration
+          </Text>
+        </TouchableOpacity>
+      </View> */}
+
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            navigation.navigate("Welcome");
+          }}
+        >
+          <Text style={styles.buttonText}>Enter Welcome Page</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            navigation.navigate("Auth", { screen: "SignUp" });
+          }}
+        >
+          <Text style={styles.buttonText}>Sign Up</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            navigation.navigate("Auth", { screen: "Login" });
+          }}
+        >
+          <Text style={styles.buttonText}>Log In</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.secondaryButton}
+          onPress={() => {
             navigation.navigate("CheckIn");
           }}
         >
