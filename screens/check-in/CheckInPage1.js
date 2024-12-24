@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { CheckInContext } from "../../context/CheckInContext";
 
 const CheckInPage1 = ({ navigation }) => {
   const [selectedMood, setSelectedMood] = useState(null);
   const [currentDate, setCurrentDate] = useState(new Date());
+
+  const { updateCheckInData } = useContext(CheckInContext); // Access context functions
 
   useEffect(() => {
     // Update the time every second
@@ -23,8 +26,14 @@ const CheckInPage1 = ({ navigation }) => {
 
   const handleNext = () => {
     if (selectedMood) {
-      console.log("Selected Mood:", moods.find((m) => m.id === selectedMood));
-      navigation.navigate("NextCheckInPage"); // Navigate to next page
+      const moodData = moods.find((m) => m.id === selectedMood);
+      console.log("Selected Mood:", moodData);
+
+      // Update the context with the selected mood
+      updateCheckInData("mood", moodData);
+
+      // Navigate to the next page
+      navigation.navigate("CheckInPage2");
     }
   };
 
@@ -43,7 +52,7 @@ const CheckInPage1 = ({ navigation }) => {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.skip} onPress={() => navigation.navigate('Home')}>
+        <Text style={styles.skip} onPress={() => navigation.navigate("Home")}>
           Skip
         </Text>
       </View>

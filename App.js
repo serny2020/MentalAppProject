@@ -30,7 +30,7 @@ export default function App() {
       <CheckInProvider>
         <MusicProvider>
           <NavigationContainer>
-            <Stack.Navigator initialRouteName="Home">
+            <Stack.Navigator initialRouteName="CheckIn">
               <Stack.Screen
                 name="Welcome"
                 component={WelcomePage}
