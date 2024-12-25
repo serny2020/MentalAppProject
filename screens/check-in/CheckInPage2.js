@@ -18,6 +18,7 @@ const CheckInPage2 = ({ navigation }) => {
       { id: 7, emoji: "😄", label: "Proud" },
       { id: 8, emoji: "❤️", label: "Loved" },
       { id: 9, emoji: "😄", label: "Optimistic" },
+      { id: "other", emoji: "➕", label: "Other" },
     ],
     Negative: [
       { id: 10, emoji: "😟", label: "Worried" },
@@ -28,6 +29,7 @@ const CheckInPage2 = ({ navigation }) => {
       { id: 15, emoji: "😨", label: "Scared" },
       { id: 16, emoji: "😒", label: "Frustrated" },
       { id: 17, emoji: "😩", label: "Stressed" },
+      { id: "other", emoji: "➕", label: "Other" },
     ],
   };
 
@@ -53,7 +55,7 @@ const CheckInPage2 = ({ navigation }) => {
     updateCheckInData("emotions", selectedEmotionData);
 
     // Log the updated context for debugging
-    console.log("Updated CheckIn Context:", checkInData);
+    // console.log("Updated CheckIn Context:", checkInData);
 
     // Navigate to the next page
     navigation.navigate("NextCheckInPage");
@@ -63,6 +65,66 @@ const CheckInPage2 = ({ navigation }) => {
     // Log the updated emotions when state changes for debugging
     console.log("Selected Emotions:", selectedEmotions);
   }, [selectedEmotions]);
+
+
+  const additionalEmotions = [
+    { id: 18, emoji: "🤔", label: "Curious" },
+    { id: 19, emoji: "🙃", label: "Playful" },
+    { id: 20, emoji: "🥰", label: "Affectionate" },
+    { id: 21, emoji: "😐", label: "Neutral" },
+    { id: 22, emoji: "😵", label: "Overwhelmed" },
+  ];
+  // const handleSelectFromOtherPage = (selectedEmotionsFromOtherPage) => {
+  //   // Replace the parent's selectedEmotions list with the one received from the child
+  //   const selectedIds = selectedEmotionsFromOtherPage.map((emotion) => emotion.id);
+  
+  //   console.log("Updated selections from child:", selectedIds);
+  
+  //   setSelectedEmotions(selectedIds); // Update parent's list to match the child's list exactly
+  // };
+
+  const handleSelectFromOtherPage = (selectedEmotionsFromOtherPage) => {
+  
+    setSelectedEmotions(() => {
+      // Extract IDs of selected items from the child
+      const selectedIdsFromChild = selectedEmotionsFromOtherPage.map((emotion) => emotion.id);
+  
+      console.log("Updated selections from child:", selectedIdsFromChild);
+  
+      // Return the exact state of the child selections
+      return selectedIdsFromChild; // Reflect the exact state of the child
+    });
+  };
+
+  // const handleSelectFromOtherPage = (selectedEmotionsFromOtherPage) => {
+  //   setSelectedEmotions((prevSelectedEmotions) => {
+  //     // Extract IDs of selected items from the child
+  //     const selectedIdsFromChild = selectedEmotionsFromOtherPage.map((emotion) => emotion.id);
+  
+  //     console.log("Selections received from child:", selectedIdsFromChild);
+  
+  //   // Create the updated list of IDs
+  //   const updatedSelections = [
+  //     ...selectedIdsFromChild, // IDs from the child
+  //     ...selectedEmotions.filter((id) => !selectedIdsFromChild.includes(id)), // IDs from the parent not in child
+  //   ];
+
+  //   console.log("Updated selections:", updatedSelections);
+
+  //   return updatedSelections; // Return the updated list of IDs
+  //   });
+  // };
+  
+
+  const handleOpenOtherPage = () => {
+    navigation.navigate("OtherPage", {
+      existingEmotions : [...emotions.Positive, ...emotions.Negative],
+      additionalEmotions, // List of available items for selection
+      onSelect: handleSelectFromOtherPage, // Callback to handle the selected items
+      initialSelectedEmotions: selectedEmotions, // Pass the currently selected emotions
+    });
+  };
+
 
   return (
     <View style={styles.container}>
@@ -119,19 +181,30 @@ const CheckInPage2 = ({ navigation }) => {
 
       {/* Emotions Grid */}
       <View style={styles.moodContainer}>
-        {emotions[selectedCategory].map((emotion) => (
-          <TouchableOpacity
-            key={emotion.id}
-            style={[
-              styles.moodButton,
-              selectedEmotions.includes(emotion.id) && styles.selectedMoodButton,
-            ]}
-            onPress={() => toggleEmotion(emotion.id)}
-          >
-            <Text style={styles.moodEmoji}>{emotion.emoji}</Text>
-            <Text style={styles.selectedMoodLabel}>{emotion.label}</Text>
-          </TouchableOpacity>
-        ))}
+        {emotions[selectedCategory].map((emotion) =>
+          emotion.id === "other" ? (
+            <TouchableOpacity
+              key={emotion.id}
+              style={styles.moodButton}
+              onPress={handleOpenOtherPage}
+            >
+              <Text style={styles.moodEmoji}>{emotion.emoji}</Text>
+              <Text style={styles.moodLabel}>{emotion.label}</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              key={emotion.id}
+              style={[
+                styles.moodButton,
+                selectedEmotions.includes(emotion.id) && styles.selectedMoodButton,
+              ]}
+              onPress={() => toggleEmotion(emotion.id)}
+            >
+              <Text style={styles.moodEmoji}>{emotion.emoji}</Text>
+              <Text style={styles.moodLabel}>{emotion.label}</Text>
+            </TouchableOpacity>
+          )
+        )}
       </View>
 
       {/* Next Button */}

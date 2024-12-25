@@ -8,6 +8,7 @@ import AuthNavigator from "./navigator/AuthNavigator";
 import { MusicProvider } from "./context/MusicContext";
 import { CheckInProvider } from "./context/CheckInContext";
 import { AuthProvider } from "./context/AuthContext";
+import OtherPage from "./components/OtherPage";
 
 const Stack = createStackNavigator();
 
@@ -51,6 +52,7 @@ export default function App() {
                 component={CheckInNavigator}
                 options={{ headerShown: false }}
               />
+              
             </Stack.Navigator>
           </NavigationContainer>
         </MusicProvider>
