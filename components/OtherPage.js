@@ -8,14 +8,20 @@ import {
 } from "react-native";
 
 const OtherPage = ({ route, navigation }) => {
-  const { existingEmotions, additionalEmotions, onSelect, initialSelectedEmotions } =
+  //props from parent: 
+  //existing emotions is old list of objects, 
+  //additional emotions is the new list objects,
+  //onSelect is the current selection in this child component 
+  //initial selected emotions id is the id selected from parent component
+  const { existingEmotions, additionalEmotions, onSelect, initialSelectedEmotionsId } =
     route.params;
   const [selectedEmotions, setSelectedEmotions] = useState([]);
 
-  //BUG:  
   useEffect(() => {
-    setSelectedEmotions(initialSelectedEmotions || []);
+    setSelectedEmotions(initialSelectedEmotionsId || []);
   }, []); // Run only once on mount
+
+  //for debugging 
   useEffect(() => {
     // Log the updated emotions when state changes for debugging
     console.log("Current Selected Emotions:", selectedEmotions);
@@ -52,11 +58,10 @@ const OtherPage = ({ route, navigation }) => {
   //   navigation.goBack(); // Navigate back to the previous page
   // };
 
-  //can't deselect
   const handleConfirm = () => {
-    // Convert initial IDs to full emotion objects
+    // Convert initial IDs to existing emotion objects
     const existingSelections = existingEmotions.filter((emotion) =>
-      initialSelectedEmotions.includes(emotion.id)
+      initialSelectedEmotionsId.includes(emotion.id)
     );
     console.log("inital selection: " + existingSelections.map((emotion) => emotion.id))
   
@@ -217,6 +222,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderRadius: 8,
     backgroundColor: "#E5E5E5",
+    top: 100,
   },
   selectedItemContainer: {
     backgroundColor: "#B7FFBF",
@@ -237,6 +243,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 16,
+    bottom: 80,
   },
   confirmButtonActive: {
     backgroundColor: "#9b59b6",

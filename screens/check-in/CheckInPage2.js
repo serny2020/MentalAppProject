@@ -121,7 +121,7 @@ const CheckInPage2 = ({ navigation }) => {
       existingEmotions : [...emotions.Positive, ...emotions.Negative],
       additionalEmotions, // List of available items for selection
       onSelect: handleSelectFromOtherPage, // Callback to handle the selected items
-      initialSelectedEmotions: selectedEmotions, // Pass the currently selected emotions
+      initialSelectedEmotionsId: selectedEmotions, // Pass the currently selected emotions
     });
   };
 
