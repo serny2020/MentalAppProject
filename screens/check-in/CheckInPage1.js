@@ -45,7 +45,7 @@ const CheckInPage1 = ({ navigation }) => {
     console.log("Selected Mood:", moodData);
 
     // Update the context with the selected mood
-    updateCheckInData("mood", moodData);
+    updateCheckInData("moods", moodData);
 
     // Navigate to the next page
     navigation.navigate("CheckInPage2");

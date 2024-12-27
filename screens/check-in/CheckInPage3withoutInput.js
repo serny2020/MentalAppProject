@@ -59,20 +59,20 @@ const CheckInPage3 = ({ navigation }) => {
       });
   };
 
-//   const handleOpenOtherPage = () => {
-
-//     navigation.navigate("OtherPage", {
-//       existingEmotions: causes, // Existing causes (used generically)
-//       additionalEmotions: additionalCauses, // Additional options
-//       onSelect: handleOtherSelection, // Callback for selections
-//       initialSelectedEmotionsId: selectedCauses, // Pass current selection
-//       showInputBox: true,
-//     });
-//   };
   const handleOpenOtherPage = () => {
 
-    navigation.navigate("OtherPageInput");
+    navigation.navigate("OtherPage", {
+      existingEmotions: causes, // Existing causes (used generically)
+      additionalEmotions: additionalCauses, // Additional options
+      onSelect: handleOtherSelection, // Callback for selections
+      initialSelectedEmotionsId: selectedCauses, // Pass current selection
+      // showInputBox: true,
+    });
   };
+  // const handleOpenOtherPage = () => {
+
+  //   navigation.navigate("OtherPageInput");
+  // };
 
   const handleNext = () => {
     const selectedCauseData = causes
