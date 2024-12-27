@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet,Alert } from "react-native";
 import { CheckInContext } from "../../context/CheckInContext";
 
 const CheckInPage1 = ({ navigation }) => {
@@ -30,14 +30,22 @@ const CheckInPage1 = ({ navigation }) => {
   ];
 
   const handleNext = () => {
-    const moodData = selectedMood
-      ? moods.find((m) => m.id === selectedMood)
-      : []; // Empty array if no mood is selected
+    if (!selectedMood) {
+      // Show alert if no mood is selected
+      Alert.alert(
+        "No Mood Selected",
+        "Please select a mood before proceeding.",
+        [{ text: "OK" }] // Dismiss button
+      );
+      return;
+    }
+
+    const moodData = moods.find((m) => m.id === selectedMood);
 
     console.log("Selected Mood:", moodData);
 
-    // Update the context with the selected mood or an empty list
-    updateCheckInData("mood", selectedMood ? moodData : []);
+    // Update the context with the selected mood
+    updateCheckInData("mood", moodData);
 
     // Navigate to the next page
     navigation.navigate("CheckInPage2");
@@ -96,8 +104,12 @@ const CheckInPage1 = ({ navigation }) => {
       </View>
 
       <TouchableOpacity
-        style={[styles.nextButton, styles.nextButtonActive]} // Always active style
+        style={[
+          styles.nextButton,
+          styles.nextButtonActive,
+        ]}
         onPress={handleNext}
+        // disabled={!selectedMood} // Disable button if no mood is selected
       >
         <Text style={styles.nextButtonText}>Next</Text>
       </TouchableOpacity>

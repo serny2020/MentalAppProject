@@ -113,22 +113,22 @@ const OtherPage = ({ route, navigation }) => {
       updatedSelections.map((emotion) => emotion.id)
     );
   
-  // Add all custom causes to the final selections
-  const customSelections = InputValues.map((cause) => ({
-    id: cause.id,
-    value: cause.label, // Ensure compatibility with your data structure
-    isCustom: true,
-  }));
+    // Add the input from the text box, if it's not empty
+    if (customInput.trim().length > 0) {
+      const newCustomEmotion = {
+        id: `custom-${Date.now()}`, // Unique ID
+        label: customInput.trim(),
+      };
+      updatedSelections.push(newCustomEmotion);
+    }
 
-  updatedSelections.push(...customSelections);
+    console.log(
+      "Final merged selections:",
+      updatedSelections.map((emotion) => emotion.label)
+    );
 
-  console.log(
-    "Final merged selections after custom causes:",
-    updatedSelections.map((emotion) => emotion.id)
-  );
-
-  onSelect(updatedSelections); // Pass merged full objects back to parent
-  navigation.goBack(); // Navigate back to the previous page
+    onSelect(updatedSelections); // Pass merged full objects back to parent
+    navigation.goBack(); // Navigate back to the previous page
   };
   
 
@@ -156,9 +156,9 @@ const OtherPage = ({ route, navigation }) => {
             value={customInput}
             onChangeText={setcustomInput}
           />
-          <TouchableOpacity style={styles.addButton} onPress={addCustomInput}>
+          {/* <TouchableOpacity style={styles.addButton} onPress={addCustomInput}>
             <Text style={styles.addButtonText}>Add</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       )}
       {/* Emotions List */}
@@ -183,13 +183,11 @@ const OtherPage = ({ route, navigation }) => {
       {/* Confirm Button */}
       <TouchableOpacity
         style={[
-          styles.confirmButton,
-          (selectedEmotions.length > 0 || customInput.trim().length > 0)
-            ? styles.confirmButtonActive
-            : styles.confirmButtonInactive,
+          styles.confirmButton,styles.confirmButtonActive
+            
         ]}
         onPress={handleConfirm}
-        disabled={selectedEmotions.length === 0 && customInput.trim().length === 0}
+        // disabled={selectedEmotions.length === 0 && customInput.trim().length === 0}
       >
         <Text style={styles.confirmButtonText}>Confirm</Text>
       </TouchableOpacity>

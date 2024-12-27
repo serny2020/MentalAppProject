@@ -48,7 +48,7 @@ const CheckInPage2 = ({ navigation }) => {
   };
 
   const handleNext = () => {
-    const selectedEmotionData = emotions[selectedCategory].filter((e) =>
+    const selectedEmotionData = [...emotions.Negative, ...emotions.Positive, ...additionalEmotions].filter((e) =>
       selectedEmotions.includes(e.id)
     );
     console.log("Selected emotions:", selectedEmotionData);

@@ -82,7 +82,7 @@ const CheckInPage3 = ({ navigation }) => {
     updateCheckInData("causes", selectedCauseData);
 
     // Navigate to the next page
-    navigation.navigate("SummaryPage");
+    navigation.navigate("CheckInPage2");
   };
 
   useEffect(() => {
@@ -103,7 +103,7 @@ const CheckInPage3 = ({ navigation }) => {
 
       {/* Title */}
       <View style={styles.centeredTimeContainer}>
-        <Text style={styles.questionText}>What’s the major cause of that?</Text>
+        <Text style={styles.questionText}>What's the major cause of that?</Text>
       </View>
 
       {/* Causes Grid */}
