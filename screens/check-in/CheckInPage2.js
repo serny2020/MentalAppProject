@@ -50,15 +50,12 @@ const CheckInPage2 = ({ navigation }) => {
     const selectedEmotionData = emotions[selectedCategory].filter((e) =>
       selectedEmotions.includes(e.id)
     );
-
+    console.log("Selected emotions:", selectedEmotionData);
     // Update context
     updateCheckInData("emotions", selectedEmotionData);
 
-    // Log the updated context for debugging
-    // console.log("Updated CheckIn Context:", checkInData);
-
     // Navigate to the next page
-    navigation.navigate("NextCheckInPage");
+    navigation.navigate("CheckInPage3");
   };
 
   useEffect(() => {
@@ -74,14 +71,6 @@ const CheckInPage2 = ({ navigation }) => {
     { id: 21, emoji: "😐", label: "Neutral" },
     { id: 22, emoji: "😵", label: "Overwhelmed" },
   ];
-  // const handleSelectFromOtherPage = (selectedEmotionsFromOtherPage) => {
-  //   // Replace the parent's selectedEmotions list with the one received from the child
-  //   const selectedIds = selectedEmotionsFromOtherPage.map((emotion) => emotion.id);
-  
-  //   console.log("Updated selections from child:", selectedIds);
-  
-  //   setSelectedEmotions(selectedIds); // Update parent's list to match the child's list exactly
-  // };
 
   const handleSelectFromOtherPage = (selectedEmotionsFromOtherPage) => {
   
@@ -96,24 +85,6 @@ const CheckInPage2 = ({ navigation }) => {
     });
   };
 
-  // const handleSelectFromOtherPage = (selectedEmotionsFromOtherPage) => {
-  //   setSelectedEmotions((prevSelectedEmotions) => {
-  //     // Extract IDs of selected items from the child
-  //     const selectedIdsFromChild = selectedEmotionsFromOtherPage.map((emotion) => emotion.id);
-  
-  //     console.log("Selections received from child:", selectedIdsFromChild);
-  
-  //   // Create the updated list of IDs
-  //   const updatedSelections = [
-  //     ...selectedIdsFromChild, // IDs from the child
-  //     ...selectedEmotions.filter((id) => !selectedIdsFromChild.includes(id)), // IDs from the parent not in child
-  //   ];
-
-  //   console.log("Updated selections:", updatedSelections);
-
-  //   return updatedSelections; // Return the updated list of IDs
-  //   });
-  // };
   
 
   const handleOpenOtherPage = () => {

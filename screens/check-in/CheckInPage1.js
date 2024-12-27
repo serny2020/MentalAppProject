@@ -16,6 +16,11 @@ const CheckInPage1 = ({ navigation }) => {
     return () => clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    // Log the updated emotions when state changes for debugging
+    console.log("Selected Moods:", selectedMood);
+  }, [selectedMood]);
+
   const moods = [
     { id: 1, emoji: "😢", label: "Sad" },
     { id: 2, emoji: "😟", label: "Worried" },
@@ -25,16 +30,17 @@ const CheckInPage1 = ({ navigation }) => {
   ];
 
   const handleNext = () => {
-    if (selectedMood) {
-      const moodData = moods.find((m) => m.id === selectedMood);
-      console.log("Selected Mood:", moodData);
+    const moodData = selectedMood
+      ? moods.find((m) => m.id === selectedMood)
+      : []; // Empty array if no mood is selected
 
-      // Update the context with the selected mood
-      updateCheckInData("mood", moodData);
+    console.log("Selected Mood:", moodData);
 
-      // Navigate to the next page
-      navigation.navigate("CheckInPage2");
-    }
+    // Update the context with the selected mood or an empty list
+    updateCheckInData("mood", selectedMood ? moodData : []);
+
+    // Navigate to the next page
+    navigation.navigate("CheckInPage2");
   };
 
   const formattedDate = currentDate.toLocaleDateString("en-US", {
@@ -53,7 +59,7 @@ const CheckInPage1 = ({ navigation }) => {
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.skip} onPress={() => navigation.navigate("Home")}>
-          Skip
+          ❌
         </Text>
       </View>
 
@@ -74,7 +80,9 @@ const CheckInPage1 = ({ navigation }) => {
                 styles.moodButton,
                 selectedMood === mood.id && styles.selectedMoodButton,
               ]}
-              onPress={() => setSelectedMood(mood.id)}
+              onPress={() =>
+                setSelectedMood(selectedMood === mood.id ? null : mood.id)
+              }
             >
               <Text style={styles.moodEmoji}>{mood.emoji}</Text>
             </TouchableOpacity>
@@ -87,14 +95,9 @@ const CheckInPage1 = ({ navigation }) => {
         )}
       </View>
 
-      {/* Next Button */}
       <TouchableOpacity
-        style={[
-          styles.nextButton,
-          selectedMood ? styles.nextButtonActive : styles.nextButtonInactive,
-        ]}
+        style={[styles.nextButton, styles.nextButtonActive]} // Always active style
         onPress={handleNext}
-        disabled={!selectedMood}
       >
         <Text style={styles.nextButtonText}>Next</Text>
       </TouchableOpacity>
@@ -115,7 +118,7 @@ const styles = StyleSheet.create({
   },
   skip: {
     fontSize: 16,
-    color: '#9b59b6',
+    color: "#9b59b6",
     top: 10,
   },
   centeredTimeContainer: {

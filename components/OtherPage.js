@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
+  TextInput,
   TouchableOpacity,
   FlatList,
   StyleSheet,
@@ -13,10 +14,25 @@ const OtherPage = ({ route, navigation }) => {
   //additional emotions is the new list objects,
   //onSelect is the current selection in this child component 
   //initial selected emotions id is the id selected from parent component
-  const { existingEmotions, additionalEmotions, onSelect, initialSelectedEmotionsId } =
+  const { existingEmotions, additionalEmotions, onSelect, initialSelectedEmotionsId, showInputBox,  } =
     route.params;
   const [selectedEmotions, setSelectedEmotions] = useState([]);
 
+
+    const [customInput, setcustomInput] = useState(""); // Input state
+  const [InputValues, setInputValues] = useState([]); // Store user-added custom causes
+  const addCustomInput = () => {
+    if (customInput.trim().length > 0) {
+      const newCause = {
+        id: `custom-${Date.now()}`,
+        label: customInput.trim(),
+      };
+      setInputValues((prev) => [...prev, newCause]); // Add new cause
+      setcustomInput(""); // Clear input field
+    }
+  };
+
+  
   useEffect(() => {
     setSelectedEmotions(initialSelectedEmotionsId || []);
   }, []); // Run only once on mount
@@ -39,22 +55,34 @@ const OtherPage = ({ route, navigation }) => {
     });
   };
 
-  // lost the parent election
+
   // const handleConfirm = () => {
-  //     // Log the full additionalEmotions list and the selected IDs
-  // // console.log("All available emotions:", additionalEmotions);
-  // console.log("Currently selected IDs:", selectedEmotions);
-  //   // Ensure `selectedData` reflects only the items currently in `selectedEmotions`
-  //   const selectedData = additionalEmotions.filter((emotion) =>
+  //   // Convert initial IDs to existing emotion objects
+  //   const existingSelections = existingEmotions.filter((emotion) =>
+  //     initialSelectedEmotionsId.includes(emotion.id)
+  //   );
+  //   console.log("inital selection: " + existingSelections.map((emotion) => emotion.id))
+  
+  //   // Get the newly selected emotions based on the current state
+  //   const newlySelected = additionalEmotions.filter((emotion) =>
   //     selectedEmotions.includes(emotion.id)
   //   );
-
+  //   console.log("new selection: " + newlySelected.map((emotion) => emotion.id))
+  //   // Merge existing and new selections, avoiding duplicates
+  //   const updatedSelections = [
+  //     ...existingSelections,
+  //     ...newlySelected.filter(
+  //       (newEmotion) =>
+  //         !existingSelections.some((existing) => existing.id === newEmotion.id)
+  //     ),
+  //   ];
+  
   //   console.log(
-  //     "Final confirmed selections:",
-  //     selectedData.map((emotion) => emotion.id)
+  //     "Final merged selections:",
+  //     updatedSelections.map((emotion) => emotion.id)
   //   );
-
-  //   onSelect(selectedData); // Pass the filtered data back to the parent
+  
+  //   onSelect(updatedSelections); // Pass merged full objects back to parent
   //   navigation.goBack(); // Navigate back to the previous page
   // };
 
@@ -63,13 +91,14 @@ const OtherPage = ({ route, navigation }) => {
     const existingSelections = existingEmotions.filter((emotion) =>
       initialSelectedEmotionsId.includes(emotion.id)
     );
-    console.log("inital selection: " + existingSelections.map((emotion) => emotion.id))
+    console.log("Initial selection: " + existingSelections.map((emotion) => emotion.id));
   
     // Get the newly selected emotions based on the current state
     const newlySelected = additionalEmotions.filter((emotion) =>
       selectedEmotions.includes(emotion.id)
     );
-    console.log("new selection: " + newlySelected.map((emotion) => emotion.id))
+    console.log("New selection: " + newlySelected.map((emotion) => emotion.id));
+  
     // Merge existing and new selections, avoiding duplicates
     const updatedSelections = [
       ...existingSelections,
@@ -80,67 +109,28 @@ const OtherPage = ({ route, navigation }) => {
     ];
   
     console.log(
-      "Final merged selections:",
+      "Final merged selections before custom causes:",
       updatedSelections.map((emotion) => emotion.id)
     );
   
-    onSelect(updatedSelections); // Pass merged full objects back to parent
-    navigation.goBack(); // Navigate back to the previous page
+  // Add all custom causes to the final selections
+  const customSelections = InputValues.map((cause) => ({
+    id: cause.id,
+    value: cause.label, // Ensure compatibility with your data structure
+    isCustom: true,
+  }));
+
+  updatedSelections.push(...customSelections);
+
+  console.log(
+    "Final merged selections after custom causes:",
+    updatedSelections.map((emotion) => emotion.id)
+  );
+
+  onSelect(updatedSelections); // Pass merged full objects back to parent
+  navigation.goBack(); // Navigate back to the previous page
   };
-
-  // const handleConfirm = () => {
-  //   console.log("initial selected emotions: " + initialSelectedEmotions)
-  //   // Ensure parent-selected emotions are unique and valid IDs from additionalEmotions
-  //   const filteredSelection = initialSelectedEmotions.filter(
-  //     (id) => !additionalEmotions.some((emotion) => emotion.id === id)
-  //   );
-  //   // Get the unique IDs from the parent selections
-  //   // const parentSelectedIds = validParentSelectedData.map((emotion) => emotion.id);
-  //   console.log("filtered out additional emotions: " + filteredSelection)
-  //   // Combine parent-selected IDs with child-edited selections
-  //   const mergedSelections = Array.from(
-  //     new Set([...selectedEmotions, ...filteredSelection])
-  //   );
-  //   console.log("merged selection: " + mergedSelections)
-  //   // Get full objects for the merged selections
-  //   const finalSelectedData = additionalEmotions.filter((emotion) =>
-  //     mergedSelections.includes(emotion.id)
-  //   );
   
-  //   // Log the final merged selections
-  //   console.log(
-  //     "Final merged selections (IDs only):",
-  //     finalSelectedData.map((e) => e.id)
-  //   );
-    
-  //   onSelect(finalSelectedData); // Pass the merged data back to the parent
-  //   navigation.goBack(); // Navigate back to the previous page
-  // };
-  
-  
-
-
-  // const handleConfirm = () => {
-  //   // Ensure `selectedData` reflects only the items currently in `selectedEmotions`
-  //   const selectedDataFromChild = additionalEmotions.filter((emotion) =>
-  //     selectedEmotions.includes(emotion.id)
-  //   );
-
-  //   console.log("Final confirmed selections from child:", selectedDataFromChild.map((emotion) => emotion.id));
-
-  //   // Combine parent data (`initialSelectedEmotions`) with selected data from child
-  //   const mergedData = [...initialSelectedEmotions, ...selectedDataFromChild];
-
-  //   // Deduplicate based on emotion ID
-  //   const uniqueMergedData = Array.from(
-  //     new Map(mergedData.map((emotion) => [emotion.id, emotion])).values()
-  //   );
-
-  //   console.log("Final merged confirmed selections:", uniqueMergedData.map((emotion) => emotion.id));
-
-  //   onSelect(uniqueMergedData); // Pass the merged and deduplicated data back to the parent
-  //   navigation.goBack(); // Navigate back to the previous page
-  // };
 
   const handleCancel = () => {
     setSelectedEmotions([]);
@@ -155,9 +145,22 @@ const OtherPage = ({ route, navigation }) => {
         <TouchableOpacity onPress={handleCancel}>
           <Text style={styles.crossButton}>❌</Text>
         </TouchableOpacity>
-        <Text style={styles.title}>Select Emotions</Text>
+        <Text style={styles.title}>Others</Text>
       </View>
-
+      {/* Render Input Box Conditionally */}
+      {showInputBox && (
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.inputBox}
+            placeholder="Type a custom cause"
+            value={customInput}
+            onChangeText={setcustomInput}
+          />
+          <TouchableOpacity style={styles.addButton} onPress={addCustomInput}>
+            <Text style={styles.addButtonText}>Add</Text>
+          </TouchableOpacity>
+        </View>
+      )}
       {/* Emotions List */}
       <FlatList
         data={additionalEmotions}
@@ -181,12 +184,12 @@ const OtherPage = ({ route, navigation }) => {
       <TouchableOpacity
         style={[
           styles.confirmButton,
-          selectedEmotions.length > 0
+          (selectedEmotions.length > 0 || customInput.trim().length > 0)
             ? styles.confirmButtonActive
             : styles.confirmButtonInactive,
         ]}
         onPress={handleConfirm}
-        disabled={selectedEmotions.length === 0}
+        disabled={selectedEmotions.length === 0 && customInput.trim().length === 0}
       >
         <Text style={styles.confirmButtonText}>Confirm</Text>
       </TouchableOpacity>
@@ -256,6 +259,23 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
+  inputContainer: { flexDirection: "row", alignItems: "center", marginBottom: 20 },
+  inputBox: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: "#9b59b6",
+    borderRadius: 8,
+    padding: 10,
+    backgroundColor: "#E5E5E5",
+    marginRight: 10,
+  },
+  addButton: {
+    backgroundColor: "#9b59b6",
+    borderRadius: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+  },
+  addButtonText: { color: "#FFF", fontSize: 14, fontWeight: "bold" },
 });
 
 export default OtherPage;
