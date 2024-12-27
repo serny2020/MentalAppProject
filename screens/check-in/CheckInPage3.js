@@ -140,18 +140,13 @@ const CheckInPage3 = ({ navigation }) => {
       </View>
 
       {/* Next Button */}
+
       <TouchableOpacity
-        style={[
-          styles.nextButton,
-          selectedCauses.length > 0
-            ? styles.nextButtonActive
-            : styles.nextButtonInactive,
-        ]}
-        onPress={handleNext}
-        disabled={selectedCauses.length === 0}
-      >
-        <Text style={styles.nextButtonText}>Next</Text>
-      </TouchableOpacity>
+  style={[styles.nextButton, styles.nextButtonActive]} // Always active style
+  onPress={handleNext}
+>
+  <Text style={styles.nextButtonText}>Next</Text>
+</TouchableOpacity>
     </View>
   );
 };

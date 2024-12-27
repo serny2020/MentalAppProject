@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect} from "react";
+import { useState, useContext, useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { CheckInContext } from "../../context/CheckInContext";
 
@@ -34,10 +34,11 @@ const CheckInPage2 = ({ navigation }) => {
   };
 
   const toggleEmotion = (emotionId) => {
-    setSelectedEmotions((prev) =>
-      prev.includes(emotionId)
-        ? prev.filter((id) => id !== emotionId) // Remove if already selected
-        : [...prev, emotionId] // Add if not selected
+    setSelectedEmotions(
+      (prev) =>
+        prev.includes(emotionId)
+          ? prev.filter((id) => id !== emotionId) // Remove if already selected
+          : [...prev, emotionId] // Add if not selected
     );
   };
 
@@ -63,7 +64,6 @@ const CheckInPage2 = ({ navigation }) => {
     console.log("Selected Emotions:", selectedEmotions);
   }, [selectedEmotions]);
 
-
   const additionalEmotions = [
     { id: 18, emoji: "🤔", label: "Curious" },
     { id: 19, emoji: "🙃", label: "Playful" },
@@ -73,29 +73,27 @@ const CheckInPage2 = ({ navigation }) => {
   ];
 
   const handleSelectFromOtherPage = (selectedEmotionsFromOtherPage) => {
-  
     setSelectedEmotions(() => {
       // Extract IDs of selected items from the child
-      const selectedIdsFromChild = selectedEmotionsFromOtherPage.map((emotion) => emotion.id);
-  
+      const selectedIdsFromChild = selectedEmotionsFromOtherPage.map(
+        (emotion) => emotion.id
+      );
+
       console.log("Updated selections from child:", selectedIdsFromChild);
-  
+
       // Return the exact state of the child selections
       return selectedIdsFromChild; // Reflect the exact state of the child
     });
   };
 
-  
-
   const handleOpenOtherPage = () => {
     navigation.navigate("OtherPage", {
-      existingEmotions : [...emotions.Positive, ...emotions.Negative],
+      existingEmotions: [...emotions.Positive, ...emotions.Negative],
       additionalEmotions, // List of available items for selection
       onSelect: handleSelectFromOtherPage, // Callback to handle the selected items
       initialSelectedEmotionsId: selectedEmotions, // Pass the currently selected emotions
     });
   };
-
 
   return (
     <View style={styles.container}>
@@ -105,13 +103,15 @@ const CheckInPage2 = ({ navigation }) => {
           <Text style={styles.skip}>{"⬅️"}</Text>
         </TouchableOpacity>
         <Text style={styles.skip} onPress={() => navigation.navigate("Home")}>
-        {"❌"}
+          {"❌"}
         </Text>
       </View>
 
       {/* Title */}
       <View style={styles.centeredTimeContainer}>
-        <Text style={styles.questionText}>What emotions are you experiencing?</Text>
+        <Text style={styles.questionText}>
+          What emotions are you experiencing?
+        </Text>
       </View>
 
       {/* Positive/Negative Buttons */}
@@ -126,7 +126,8 @@ const CheckInPage2 = ({ navigation }) => {
           <Text
             style={[
               styles.categoryButtonText,
-              selectedCategory === "Positive" && styles.activeCategoryButtonText,
+              selectedCategory === "Positive" &&
+                styles.activeCategoryButtonText,
             ]}
           >
             Positive
@@ -142,7 +143,8 @@ const CheckInPage2 = ({ navigation }) => {
           <Text
             style={[
               styles.categoryButtonText,
-              selectedCategory === "Negative" && styles.activeCategoryButtonText,
+              selectedCategory === "Negative" &&
+                styles.activeCategoryButtonText,
             ]}
           >
             Negative
@@ -167,7 +169,8 @@ const CheckInPage2 = ({ navigation }) => {
               key={emotion.id}
               style={[
                 styles.moodButton,
-                selectedEmotions.includes(emotion.id) && styles.selectedMoodButton,
+                selectedEmotions.includes(emotion.id) &&
+                  styles.selectedMoodButton,
               ]}
               onPress={() => toggleEmotion(emotion.id)}
             >
@@ -180,21 +183,14 @@ const CheckInPage2 = ({ navigation }) => {
 
       {/* Next Button */}
       <TouchableOpacity
-        style={[
-          styles.nextButton,
-          selectedEmotions.length > 0
-            ? styles.nextButtonActive
-            : styles.nextButtonInactive,
-        ]}
+        style={[styles.nextButton, styles.nextButtonActive]} // Always active style
         onPress={handleNext}
-        disabled={selectedEmotions.length === 0}
       >
         <Text style={styles.nextButtonText}>Next</Text>
       </TouchableOpacity>
     </View>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
