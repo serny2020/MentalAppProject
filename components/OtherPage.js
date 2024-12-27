@@ -21,16 +21,39 @@ const OtherPage = ({ route, navigation }) => {
 
     const [customInput, setcustomInput] = useState(""); // Input state
   const [InputValues, setInputValues] = useState([]); // Store user-added custom causes
-  const addCustomInput = () => {
-    if (customInput.trim().length > 0) {
-      const newCause = {
-        id: `custom-${Date.now()}`,
-        label: customInput.trim(),
-      };
-      setInputValues((prev) => [...prev, newCause]); // Add new cause
-      setcustomInput(""); // Clear input field
-    }
-  };
+// Updated addCustomInput function
+const addCustomInput = () => {
+  if (customInput.trim().length > 0) {
+    const newCustomEmotion = {
+      id: `custom-${Date.now()}`, // Unique ID
+      label: customInput.trim(),
+    };
+
+    // Add the new custom emotion to both the input list and selected emotions
+    setInputValues((prev) => [...prev, newCustomEmotion]);
+    setSelectedEmotions((prev) => [...prev, newCustomEmotion.id]); // Mark it as active
+    setcustomInput(""); // Clear the input field
+  }
+};
+
+// Add this render function for InputValues
+const renderCustomInput = () => (
+  <FlatList
+    data={InputValues}
+    keyExtractor={(item) => item.id.toString()}
+    renderItem={({ item }) => (
+      <TouchableOpacity
+        style={[
+          styles.itemContainer,
+          selectedEmotions.includes(item.id) && styles.selectedItemContainer,
+        ]}
+        onPress={() => toggleSelection(item.id)} // Allow toggling custom items
+      >
+        <Text style={styles.label}>{item.label}</Text>
+      </TouchableOpacity>
+    )}
+  />
+);
 
   
   useEffect(() => {
@@ -156,9 +179,9 @@ const OtherPage = ({ route, navigation }) => {
             value={customInput}
             onChangeText={setcustomInput}
           />
-          {/* <TouchableOpacity style={styles.addButton} onPress={addCustomInput}>
+          <TouchableOpacity style={styles.addButton} onPress={addCustomInput}>
             <Text style={styles.addButtonText}>Add</Text>
-          </TouchableOpacity> */}
+          </TouchableOpacity>
         </View>
       )}
       {/* Emotions List */}
@@ -179,6 +202,8 @@ const OtherPage = ({ route, navigation }) => {
           </TouchableOpacity>
         )}
       />
+      {/* Render Custom Inputs */}
+{renderCustomInput()}
 
       {/* Confirm Button */}
       <TouchableOpacity

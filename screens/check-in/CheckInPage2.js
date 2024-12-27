@@ -56,7 +56,7 @@ const CheckInPage2 = ({ navigation }) => {
     updateCheckInData("emotions", selectedEmotionData);
 
     // Navigate to the next page
-    navigation.navigate("CheckInPage3");
+    navigation.navigate('OtherNavigator', { screen: 'CheckInPage3' });
   };
 
   useEffect(() => {

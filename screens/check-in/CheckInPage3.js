@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { CheckInContext } from "../../context/CheckInContext";
+import { OtherPageInput } from "../../util/OtherPageInput";
 
 const CheckInPage3 = ({ navigation }) => {
   const { updateCheckInData } = useContext(CheckInContext);
@@ -58,15 +59,19 @@ const CheckInPage3 = ({ navigation }) => {
       });
   };
 
+//   const handleOpenOtherPage = () => {
+
+//     navigation.navigate("OtherPage", {
+//       existingEmotions: causes, // Existing causes (used generically)
+//       additionalEmotions: additionalCauses, // Additional options
+//       onSelect: handleOtherSelection, // Callback for selections
+//       initialSelectedEmotionsId: selectedCauses, // Pass current selection
+//       showInputBox: true,
+//     });
+//   };
   const handleOpenOtherPage = () => {
 
-    navigation.navigate("OtherPage", {
-      existingEmotions: causes, // Existing causes (used generically)
-      additionalEmotions: additionalCauses, // Additional options
-      onSelect: handleOtherSelection, // Callback for selections
-      initialSelectedEmotionsId: selectedCauses, // Pass current selection
-      showInputBox: true,
-    });
+    navigation.navigate("OtherPageInput");
   };
 
   const handleNext = () => {
@@ -82,7 +87,7 @@ const CheckInPage3 = ({ navigation }) => {
     updateCheckInData("causes", selectedCauseData);
 
     // Navigate to the next page
-    navigation.navigate("CheckInPage2");
+    navigation.navigate("");
   };
 
   useEffect(() => {
