@@ -1,12 +1,12 @@
 import React, { useState, useContext, useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { CheckInContext } from "../../context/CheckInContext";
-import { OtherPageInput } from "../../util/OtherPageInput";
+import { OtherPageInput } from "../../util/OtherPageInputKeyIssue";
+import { OtherPageInputFormated } from "../../util/OtherPageInputFormatedCrash";
 
 const CheckInPage3 = ({ navigation }) => {
   const { updateCheckInData } = useContext(CheckInContext);
   const [selectedCauses, setSelectedCauses] = useState([]);
-  const [InputValues, setInputValues] = useState([]); // Store custom inputs
 
   const causes = [
     { id: 1, label: "work" },
@@ -60,22 +60,20 @@ const CheckInPage3 = ({ navigation }) => {
       });
   };
 
+//   const handleOpenOtherPage = () => {
+
+//     navigation.navigate("OtherPage", {
+//       existingEmotions: causes, // Existing causes (used generically)
+//       additionalEmotions: additionalCauses, // Additional options
+//       onSelect: handleOtherSelection, // Callback for selections
+//       initialSelectedEmotionsId: selectedCauses, // Pass current selection
+//       showInputBox: true,
+//     });
+//   };
   const handleOpenOtherPage = () => {
 
-    navigation.navigate("OtherPageInput", {
-      existingEmotions: causes, // Existing causes (used generically)
-      additionalEmotions: additionalCauses, // Additional options
-      onSelect: handleOtherSelection, // Callback for selections
-      initialSelectedEmotionsId: selectedCauses, // Pass current selection
-      showInputBox: true,
-      parentInput: InputValues, // Pass custom inputs
-      setParentInput: setInputValues, // Pass the setter for lifting
-    });
+    navigation.navigate("OtherPageInputFormatedCrash");
   };
-  // const handleOpenOtherPage = () => {
-
-  //   navigation.navigate("OtherPageInput");
-  // };
 
   const handleNext = () => {
     const selectedCauseData = causes

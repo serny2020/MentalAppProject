@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { CheckInContext } from "../../context/CheckInContext";
-import { OtherPageInput } from "../../util/OtherPageInput";
+import { OtherPageInput } from "../../util/OtherPageInputKeyIssue";
 
 const CheckInPage3 = ({ navigation }) => {
   const { updateCheckInData } = useContext(CheckInContext);
