@@ -1,85 +1,145 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, FlatList } from 'react-native';
-import { CheckInContext } from '../context/CheckInContext';
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  FlatList,
+  StyleSheet,
+} from "react-native";
 
-const CustomCausePage = ({ navigation }) => {
-  const { updateCheckInData, checkInData } = useContext(CheckInContext);
-  const [causes, setCauses] = useState(['trauma', 'substance', 'music', 'parenting']);
-  const [newCause, setNewCause] = useState('');
-  const [selectedCauses, setSelectedCauses] = useState(checkInData.causes || []);
+const OtherPage = ({ route, navigation }) => {
+  const {
+    existingEmotions,
+    additionalEmotions,
+    onSelect,
+    initialSelectedEmotionsId,
+    showInputBox,
+  } = route.params;
 
-  useEffect(() => {
-    // Merge previously selected causes with the default causes, avoiding duplicates
-    const allCauses = Array.from(new Set([...causes, ...(checkInData.causes || [])]));
-    setCauses(allCauses);
-  }, []);
+  const [selectedEmotions, setSelectedEmotions] = useState([]);
+  const [customInput, setcustomInput] = useState(""); // Input state
+  const [customValues, setCustomValues] = useState([]); // Store user-added custom causes
 
-  const addCause = () => {
-    if (newCause.trim() && !causes.includes(newCause)) {
-      setCauses([...causes, newCause]);
-      setNewCause('');
+  // Add new custom input
+  const addCustomInput = () => {
+    if (customInput.trim().length > 0) {
+      const newCustomEmotion = {
+        id: `custom-${Date.now()}`, // Unique ID
+        label: customInput.trim(),
+      };
+
+      // Add the new custom emotion to both the input list and selected emotions
+      setCustomValues((prev) => [...prev, newCustomEmotion]);
+      setSelectedEmotions((prev) => [...prev, newCustomEmotion.id]); // Mark it as active
+      setcustomInput(""); // Clear the input field
     }
   };
 
-  const toggleSelectCause = (cause) => {
-    if (selectedCauses.includes(cause)) {
-      setSelectedCauses(selectedCauses.filter(item => item !== cause));
-    } else {
-      setSelectedCauses([...selectedCauses, cause]);
-    }
+  // Toggle selection for multiple emotions
+  const toggleSelection = (emotionId) => {
+    setSelectedEmotions((prev) => {
+      const isAlreadySelected = prev.includes(emotionId);
+      const updatedSelection = isAlreadySelected
+        ? prev.filter((id) => id !== emotionId) // Remove
+        : [...prev, emotionId]; // Add
+
+      return updatedSelection;
+    });
   };
+
+  // Combine additionalEmotions and customValues into a single array
+  const combinedData = [...additionalEmotions, ...customValues];
 
   const handleConfirm = () => {
-    updateCheckInData('causes', selectedCauses);
-    navigation.goBack();
+    // Convert initial IDs to existing emotion objects
+    const existingSelections = existingEmotions.filter((emotion) =>
+      initialSelectedEmotionsId.includes(emotion.id)
+    );
+  
+    // Get the newly selected emotions based on the current state
+    const newlySelected = combinedData.filter((emotion) =>
+      selectedEmotions.includes(emotion.id)
+    );
+  
+    // Merge existing and new selections, avoiding duplicates
+    const updatedSelections = [
+      ...existingSelections,
+      ...newlySelected.filter(
+        (newEmotion) =>
+          !existingSelections.some((existing) => existing.id === newEmotion.id)
+      ),
+    ];
+  
+    console.log("Final merged selections:", updatedSelections.map((e) => e.label));
+  
+    // Update check-in data (assuming updateCheckInData is a function passed as a prop or from context)
+    if (typeof updateCheckInData === "function") {
+      updateCheckInData("selectedCauses", updatedSelections); // Replace "selectedCauses" with your desired key
+    }
+  
+    onSelect(updatedSelections); // Pass merged full objects back to parent
+    navigation.goBack(); // Navigate back to the previous page
   };
 
-  useEffect(() => {
-    console.log('Current causes:', causes);
-    console.log('Selected causes:', selectedCauses);
-  }, [causes, selectedCauses]);
+  // Handle cancel
+  const handleCancel = () => {
+    setSelectedEmotions([]);
+    navigation.goBack(); // Close the page without saving
+  };
 
   return (
     <View style={styles.container}>
+      {/* Header with Cross Button */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Text style={{ fontSize: 24, color: 'red' }}>❌</Text>
+        <TouchableOpacity onPress={handleCancel}>
+          <Text style={styles.crossButton}>❌</Text>
         </TouchableOpacity>
-        <Text style={styles.skip}>Others</Text>
+        <Text style={styles.title}>Others</Text>
       </View>
 
-      <View style={styles.centeredTimeContainer}>
-        <Text style={styles.questionText}>What is your cause?</Text>
-      </View>
+      {/* Render Input Box Conditionally */}
+      {showInputBox && (
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.inputBox}
+            placeholder="Type a custom cause"
+            value={customInput}
+            onChangeText={setcustomInput}
+          />
+          <TouchableOpacity style={styles.addButton} onPress={addCustomInput}>
+            <Text style={styles.addButtonText}>Add</Text>
+          </TouchableOpacity>
+        </View>
+      )}
 
-      <View style={{ marginTop: 20, marginBottom: 20 }}>
-        <TextInput
-          style={styles.textInput}
-          placeholder="Type a custom cause"
-          value={newCause}
-          onChangeText={setNewCause}
-        />
-        <TouchableOpacity style={[styles.moodButton, { backgroundColor: '#9b59b6', marginTop: 10 }]} onPress={addCause}>
-          <Text style={{ color: '#FFF', fontWeight: 'bold' }}>Add</Text>
-        </TouchableOpacity>
-      </View>
-
+      {/* Combined FlatList */}
       <FlatList
-        data={causes}
-        keyExtractor={(item, index) => index.toString()}
+        data={combinedData} // Combined list of additionalEmotions and customValues
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <TouchableOpacity
-            style={[styles.moodButton, selectedCauses.includes(item) ? styles.selectedMoodButton : {}]}
-            onPress={() => toggleSelectCause(item)}
+            style={[
+              styles.itemContainer,
+              selectedEmotions.includes(item.id) && styles.selectedItemContainer,
+            ]}
+            onPress={() => toggleSelection(item.id)}
           >
-            <Text style={{ color: selectedCauses.includes(item) ? '#FFF' : '#9b59b6' }}>{item}</Text>
+            <Text style={styles.label}>{item.label}</Text>
           </TouchableOpacity>
         )}
-        contentContainerStyle={styles.moodContainer}
       />
 
-      <TouchableOpacity style={[styles.nextButton, styles.nextButtonActive]} onPress={handleConfirm}>
-        <Text style={styles.nextButtonText}>Confirm</Text>
+      {/* Confirm Button */}
+      <TouchableOpacity
+        style={[
+          styles.confirmButton,
+          selectedEmotions.length > 0 ? styles.confirmButtonActive : styles.confirmButtonInactive,
+        ]}
+        onPress={handleConfirm}
+        disabled={selectedEmotions.length === 0}
+      >
+        <Text style={styles.confirmButtonText}>Confirm</Text>
       </TouchableOpacity>
     </View>
   );
@@ -96,68 +156,76 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginTop: 50,
   },
-  skip: {
+  crossButton: {
     fontSize: 16,
     color: "#9b59b6",
-    top: 10,
   },
-  centeredTimeContainer: {
-    alignItems: "center",
-    marginVertical: 20,
-    marginTop: 40,
-  },
-  questionText: {
+  title: {
     fontSize: 22,
     color: "#9b59b6",
     fontWeight: "bold",
     marginBottom: 20,
   },
-  textInput: {
-    borderWidth: 1,
-    borderColor: '#9b59b6',
-    borderRadius: 8,
-    padding: 10,
-    fontSize: 16,
-    marginBottom: 10,
-    color: '#333',
-  },
-  moodContainer: {
+  itemContainer: {
     flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    marginBottom: 20,
-  },
-  moodButton: {
-    width: 100,
-    height: 40,
-    justifyContent: "center",
     alignItems: "center",
+    padding: 12,
+    marginBottom: 10,
     borderRadius: 8,
-    margin: 10,
     backgroundColor: "#E5E5E5",
   },
-  selectedMoodButton: {
+  selectedItemContainer: {
     backgroundColor: "#B7FFBF",
     borderWidth: 2,
     borderColor: "#9b59b6",
   },
-  nextButton: {
-    width: "100%",
+  label: {
+    fontSize: 16,
+    color: "#9b59b6",
+  },
+  confirmButton: {
     padding: 16,
     borderRadius: 8,
     justifyContent: "center",
     alignItems: "center",
-    bottom: 80,
-    marginTop: "auto",
+    marginTop: 16,
   },
-  nextButtonActive: {
+  confirmButtonActive: {
     backgroundColor: "#9b59b6",
   },
-  nextButtonText: {
+  confirmButtonInactive: {
+    backgroundColor: "#d3d3d3",
+  },
+  confirmButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  inputBox: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: "#9b59b6",
+    borderRadius: 8,
+    padding: 10,
+    backgroundColor: "#E5E5E5",
+    marginRight: 10,
+  },
+  addButton: {
+    backgroundColor: "#9b59b6",
+    borderRadius: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+  },
+  addButtonText: {
     color: "#FFF",
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: "bold",
   },
 });
 
-export default CustomCausePage;
+export default OtherPage;

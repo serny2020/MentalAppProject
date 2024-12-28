@@ -14,7 +14,14 @@ const OtherPage = ({ route, navigation }) => {
   //additional emotions is the new list objects,
   //onSelect is the current selection in this child component 
   //initial selected emotions id is the id selected from parent component
-  const { existingEmotions, additionalEmotions, onSelect, initialSelectedEmotionsId, showInputBox,  } =
+  const { existingEmotions, 
+    additionalEmotions, 
+    onSelect, 
+    initialSelectedEmotionsId, 
+    showInputBox,  
+    parentInput, // Received from parent
+    // setParentInput, // Setter from parent
+  } =
     route.params;
   const [selectedEmotions, setSelectedEmotions] = useState([]);
 
@@ -31,6 +38,7 @@ const addCustomInput = () => {
 
     // Add the new custom emotion to both the input list and selected emotions
     setInputValues((prev) => [...prev, newCustomEmotion]);
+    // setParentInput((prev) => [...prev, newCustomEmotion]);
     setSelectedEmotions((prev) => [...prev, newCustomEmotion.id]); // Mark it as active
     setcustomInput(""); // Clear the input field
   }
@@ -124,7 +132,7 @@ const renderCustomInput = () => (
   
     // Merge existing and new selections, avoiding duplicates
     const updatedSelections = [
-      ...existingSelections,
+      ...existingSelections, ...InputValues,
       ...newlySelected.filter(
         (newEmotion) =>
           !existingSelections.some((existing) => existing.id === newEmotion.id)
@@ -186,24 +194,38 @@ const renderCustomInput = () => (
       )}
       {/* Emotions List */}
       <FlatList
-        data={additionalEmotions}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={[
-              styles.itemContainer,
-              selectedEmotions.includes(item.id) &&
-                styles.selectedItemContainer,
-            ]}
-            onPress={() => toggleSelection(item.id)}
-          >
-            <Text style={styles.emoji}>{item.emoji}</Text>
-            <Text style={styles.label}>{item.label}</Text>
-          </TouchableOpacity>
-        )}
-      />
-      {/* Render Custom Inputs */}
-{renderCustomInput()}
+  data={[
+    ...additionalEmotions, // Include additional emotions
+    ...InputValues, // Include custom inputs
+    ...selectedEmotions
+      .filter(
+        (id) =>
+          !additionalEmotions.some((item) => item.id === id) &&
+          !existingEmotions.some((item) => item.id === id) &&
+          !InputValues.some((item) => item.id === id) // Exclude items in InputValues
+      )
+      .map((id) => ({
+        id, // Construct item for rendering
+        label: `Custom Emotion (${id})`, // Default label for unknown IDs
+      })),
+  ]}
+  keyExtractor={(item) => item.id.toString()}
+  renderItem={({ item }) => (
+    <TouchableOpacity
+      style={[
+        styles.itemContainer,
+        selectedEmotions.includes(item.id) && styles.selectedItemContainer,
+      ]}
+      onPress={() => toggleSelection(item.id)}
+    >
+      {item.emoji && <Text style={styles.emoji}>{item.emoji}</Text>}
+      <Text style={styles.label}>{item.label}</Text>
+    </TouchableOpacity>
+  )}
+  extraData={[additionalEmotions, InputValues, selectedEmotions]} // Trigger re-render on state change
+/>
+
+
 
       {/* Confirm Button */}
       <TouchableOpacity

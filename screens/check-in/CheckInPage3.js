@@ -6,6 +6,7 @@ import { OtherPageInput } from "../../util/OtherPageInput";
 const CheckInPage3 = ({ navigation }) => {
   const { updateCheckInData } = useContext(CheckInContext);
   const [selectedCauses, setSelectedCauses] = useState([]);
+  const [InputValues, setInputValues] = useState([]); // Store custom inputs
 
   const causes = [
     { id: 1, label: "work" },
@@ -59,20 +60,22 @@ const CheckInPage3 = ({ navigation }) => {
       });
   };
 
-//   const handleOpenOtherPage = () => {
-
-//     navigation.navigate("OtherPage", {
-//       existingEmotions: causes, // Existing causes (used generically)
-//       additionalEmotions: additionalCauses, // Additional options
-//       onSelect: handleOtherSelection, // Callback for selections
-//       initialSelectedEmotionsId: selectedCauses, // Pass current selection
-//       showInputBox: true,
-//     });
-//   };
   const handleOpenOtherPage = () => {
 
-    navigation.navigate("OtherPageInput");
+    navigation.navigate("OtherPage", {
+      existingEmotions: causes, // Existing causes (used generically)
+      additionalEmotions: additionalCauses, // Additional options
+      onSelect: handleOtherSelection, // Callback for selections
+      initialSelectedEmotionsId: selectedCauses, // Pass current selection
+      showInputBox: true,
+      parentInput: InputValues, // Pass custom inputs
+      setParentInput: setInputValues, // Pass the setter for lifting
+    });
   };
+  // const handleOpenOtherPage = () => {
+
+  //   navigation.navigate("OtherPageInput");
+  // };
 
   const handleNext = () => {
     const selectedCauseData = causes
