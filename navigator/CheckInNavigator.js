@@ -7,6 +7,8 @@ import CheckInPage3KeyIssue from '../screens/check-in/CheckInPage3KeyIssue';
 import CheckInPage3formatedCrash from '../screens/check-in/CheckInPage3formatedCrash';
 import CheckInPage3withoutInput from '../screens/check-in/CheckInPage3withoutInput';
 import CheckInPage4 from '../screens/check-in/CheckInPage4';
+import CheckInPage5 from '../screens/check-in/CheckInPage5';
+import CognitiveDistortionsPage from '../screens/check-in/CognitiveDistortionsPage';
 import OtherPage from '../components/OtherPage';
 import OtherPageInputKeyIssue from "../util/OtherPageInputKeyIssue"
 import OtherPageInputFormatedCrash from "../util/OtherPageInputFormatedCrash"
@@ -37,6 +39,8 @@ const CheckInNavigator = () => {
       {/* <Stack.Screen name="OtherPageInputFormatedCrash" component={OtherPageInputFormatedCrash} options={{ headerShown: false }}/>  */}
       <Stack.Screen name="OtherPage" component={OtherPage} options={{ headerShown: false }}/>
       <Stack.Screen name="CheckInPage4" component={CheckInPage4} options={{ headerShown: false }} /> 
+      <Stack.Screen name="CheckInPage5" component={CheckInPage5} options={{ headerShown: false }} /> 
+      <Stack.Screen name="CognitiveDistortionsPage" component={CognitiveDistortionsPage} options={{ headerShown: false }} /> 
       {/* <Stack.Screen
         name="OtherNavigator"
         component={OtherNavigator}

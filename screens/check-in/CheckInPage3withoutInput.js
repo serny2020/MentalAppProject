@@ -31,10 +31,11 @@ const CheckInPage3 = ({ navigation }) => {
   ];
 
   const toggleCause = (causeId) => {
-    setSelectedCauses((prev) =>
-      prev.includes(causeId)
-        ? prev.filter((id) => id !== causeId) // Remove if already selected
-        : [...prev, causeId] // Add if not selected
+    setSelectedCauses(
+      (prev) =>
+        prev.includes(causeId)
+          ? prev.filter((id) => id !== causeId) // Remove if already selected
+          : [...prev, causeId] // Add if not selected
     );
   };
 
@@ -49,18 +50,19 @@ const CheckInPage3 = ({ navigation }) => {
     // console.log("Updated Causes after OtherPage:", updatedSelections);
 
     setSelectedCauses(() => {
-        // Extract IDs of selected items from the child
-        const selectedIdsFromChild = updatedSelections.map((emotion) => emotion.id);
-    
-        console.log("Updated selections from child:", selectedIdsFromChild);
-    
-        // Return the exact state of the child selections
-        return selectedIdsFromChild; // Reflect the exact state of the child
-      });
+      // Extract IDs of selected items from the child
+      const selectedIdsFromChild = updatedSelections.map(
+        (emotion) => emotion.id
+      );
+
+      console.log("Updated selections from child:", selectedIdsFromChild);
+
+      // Return the exact state of the child selections
+      return selectedIdsFromChild; // Reflect the exact state of the child
+    });
   };
 
   const handleOpenOtherPage = () => {
-
     navigation.navigate("OtherPage", {
       existingEmotions: causes, // Existing causes (used generically)
       additionalEmotions: additionalCauses, // Additional options
@@ -147,11 +149,11 @@ const CheckInPage3 = ({ navigation }) => {
       {/* Next Button */}
 
       <TouchableOpacity
-  style={[styles.nextButton, styles.nextButtonActive]} // Always active style
-  onPress={handleNext}
->
-  <Text style={styles.nextButtonText}>Next</Text>
-</TouchableOpacity>
+        style={[styles.nextButton, styles.nextButtonActive]} // Always active style
+        onPress={handleNext}
+      >
+        <Text style={styles.nextButtonText}>Next</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -232,7 +234,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
-
 });
 
 export default CheckInPage3;

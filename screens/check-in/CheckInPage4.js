@@ -16,6 +16,17 @@ const CheckInPage4 = ({ navigation }) => {
     );
   };
 
+  const handleNext = () => {
+    // Update context with new data
+    updateCheckInData({
+      ...checkInData,
+      details, // Add details to the existing data
+    });
+
+    // Navigate to the next page
+    navigation.navigate("CheckInPage5");
+  };
+
   // Debugging: Log the context data
   useEffect(() => {
     console.log("Moods from context:", moods); // Dictionary
@@ -101,14 +112,15 @@ const CheckInPage4 = ({ navigation }) => {
       <TouchableOpacity
         style={[
           styles.nextButton,
-          details ? styles.nextButtonActive : styles.nextButtonInactive,
+          styles.nextButtonActive,
         ]}
-        disabled={!details}
+        // disabled={!details}
         onPress={() => {
           // Navigate to the next page or handle the next logic
           console.log("Selected Causes:", selectedCauses);
           console.log("Selected Emotions:", selectedEmotions);
           console.log("Details:", details);
+          handleNext();
         }}
       >
         <Text style={styles.nextButtonText}>Next</Text>
@@ -186,6 +198,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     justifyContent: "center",
     alignItems: "center",
+    bottom: 80,
     marginTop: "auto",
   },
   nextButtonActive: {
