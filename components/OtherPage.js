@@ -186,6 +186,7 @@ const renderCustomInput = () => (
       )}
       {/* Emotions List */}
       <FlatList
+      contentContainerStyle={{ flexGrow: 1 }}
         data={additionalEmotions}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (

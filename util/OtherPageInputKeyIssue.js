@@ -8,6 +8,9 @@ import {
   StyleSheet,
 } from "react-native";
 
+import { CheckInContext } from '../context/CheckInContext';
+
+
 const OtherPage = ({ route, navigation }) => {
   //props from parent:
   //existing emotions is old list of objects,
@@ -27,6 +30,8 @@ const OtherPage = ({ route, navigation }) => {
 
   const [customInput, setcustomInput] = useState(""); // Input state
   const [InputValues, setInputValues] = useState([]); // Store user-added custom causes
+
+
   // Updated addCustomInput function
   const addCustomInput = () => {
     if (customInput.trim().length > 0) {
@@ -43,25 +48,6 @@ const OtherPage = ({ route, navigation }) => {
     }
   };
 
-  // Add this render function for InputValues
-  const renderCustomInput = () => (
-    <FlatList
-      data={InputValues}
-      keyExtractor={(item) => item.id.toString()}
-      renderItem={({ item }) => (
-        <TouchableOpacity
-          style={[
-            styles.itemContainer,
-            selectedEmotions.includes(item.id) && styles.selectedItemContainer,
-          ]}
-          onPress={() => toggleSelection(item.id)} // Allow toggling custom items
-        >
-          <Text style={styles.label}>{item.label}</Text>
-        </TouchableOpacity>
-      )}
-    />
-  );
-
   useEffect(() => {
     setSelectedEmotions(initialSelectedEmotionsId || []);
   }, []); // Run only once on mount
@@ -71,9 +57,11 @@ const OtherPage = ({ route, navigation }) => {
     // Log the updated emotions when state changes for debugging
     console.log("Current Selected Emotions:", selectedEmotions);
   }, [selectedEmotions]);
+  
 
   // Toggle selection for multiple emotions
   const toggleSelection = (emotionId) => {
+    console.log(emotionId)
     setSelectedEmotions((prev) => {
       const isAlreadySelected = prev.includes(emotionId);
       const updatedSelection = isAlreadySelected
@@ -166,7 +154,9 @@ const OtherPage = ({ route, navigation }) => {
       )}
       {/* Emotions List */}
       <FlatList
-        data={[
+      contentContainerStyle={{ flexGrow: 1 }} //ensure flat list has enough space
+        data=
+        {[
           ...additionalEmotions, // Include additional emotions
           ...InputValues, // Include custom inputs
           ...selectedEmotions
@@ -184,7 +174,7 @@ const OtherPage = ({ route, navigation }) => {
                 InputValues.find((item) => item.id === id) ||
                 parentInput.find((item) => item.id === id);
 
-              return foundItem || { id, label: `Custom Emotion (${id})` }; // Fallback for unknown IDs
+              return foundItem; 
             }),
         ]}
         keyExtractor={(item) => item.id.toString()}
@@ -192,12 +182,12 @@ const OtherPage = ({ route, navigation }) => {
           <TouchableOpacity
             style={[
               styles.itemContainer,
-              selectedEmotions.includes(item.id) &&
+              [...additionalEmotions,...InputValues,...selectedEmotions].includes(item.id) &&
                 styles.selectedItemContainer,
             ]}
+            
             onPress={() => toggleSelection(item.id)}
           >
-            {item.emoji && <Text style={styles.emoji}>{item.emoji}</Text>}
             <Text style={styles.label}>{item.label}</Text>
           </TouchableOpacity>
         )}
