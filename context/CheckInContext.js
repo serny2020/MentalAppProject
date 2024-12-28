@@ -14,7 +14,7 @@ const CheckInProvider = ({ children }) => {
   };
 
   return (
-    <CheckInContext.Provider value={{ ...checkInData, updateCheckInData }}>
+    <CheckInContext.Provider value={{ checkInData, updateCheckInData }}>
       {children}
     </CheckInContext.Provider>
   );

@@ -58,7 +58,8 @@ const CheckInPage2 = ({ navigation }) => {
     // Navigate to the next page
     // navigation.navigate('OtherNavigator', { screen: 'CheckInPage3' });
     // navigation.navigate('CheckInPage3withoutInput');
-    navigation.navigate('CheckInPage3');
+    navigation.navigate('CheckInPage3formated');
+    // navigation.navigate('CheckInPage3');
   };
 
   useEffect(() => {

@@ -3,7 +3,9 @@ import { View, Text, TouchableOpacity, TextInput, StyleSheet } from "react-nativ
 import { useCheckInContext } from "../../context/CheckInContext";
 
 const CheckInPage4 = ({ navigation }) => {
-  const { moods, emotions, causes } = useCheckInContext(); // Get data from context
+  // const { moods, emotions, causes } = useCheckInContext(); // Get data from context
+  const { checkInData, updateCheckInData } = useCheckInContext(); // Get data from context
+  const { moods, emotions, causes } = checkInData; // Extract data from checkInData
   const [selectedCauses, setSelectedCauses] = useState([]);
   const [selectedEmotions, setSelectedEmotions] = useState([]);
   const [details, setDetails] = useState("");
