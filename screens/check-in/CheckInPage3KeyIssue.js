@@ -49,7 +49,8 @@ const CheckInPage3 = ({ navigation }) => {
 
     // console.log("Updated Causes after OtherPage:", updatedSelections);
 
-    setSelectedCauses(() => {
+    setSelectedCauses(
+      () => {
         // Extract IDs of selected items from the child
         const selectedIdsFromChild = updatedSelections.map((emotion) => emotion.id);
     
@@ -57,7 +58,9 @@ const CheckInPage3 = ({ navigation }) => {
     
         // Return the exact state of the child selections
         return selectedIdsFromChild; // Reflect the exact state of the child
-      });
+      }
+      // updatedSelections
+    );
   };
 
   const handleOpenOtherPage = () => {
@@ -70,7 +73,8 @@ const CheckInPage3 = ({ navigation }) => {
       showInputBox: true,
       parentInput: InputValues, // Pass custom inputs
       setParentInput: setInputValues, // Pass the setter for lifting
-    });
+    }
+  );
   };
   // const handleOpenOtherPage = () => {
 
@@ -78,20 +82,31 @@ const CheckInPage3 = ({ navigation }) => {
   // };
 
   const handleNext = () => {
+    // Combine causes and additionalCauses based on selected IDs
     const selectedCauseData = causes
       .filter((cause) => selectedCauses.includes(cause.id))
       .concat(
         additionalCauses.filter((cause) => selectedCauses.includes(cause.id))
+      )
+      .concat(
+        InputValues.filter((cause) => selectedCauses.includes(cause.id)) // Include items from parentValue
       );
-
-    console.log("Selected Causes:", selectedCauseData);
-
+  
+    // Deduplicate selectedCauseData by ID
+    const uniqueSelectedCauseData = selectedCauseData.filter(
+      (cause, index, self) =>
+        index === self.findIndex((item) => item.id === cause.id)
+    );
+  
+    console.log("Selected Causes:", uniqueSelectedCauseData);
+  
     // Update context
-    updateCheckInData("causes", selectedCauseData);
-
+    updateCheckInData("causes", uniqueSelectedCauseData);
+  
     // Navigate to the next page
     navigation.navigate("CheckInPage4");
   };
+  
 
   useEffect(() => {
     console.log("Selected Causes:", selectedCauses);

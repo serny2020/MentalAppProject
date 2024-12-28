@@ -32,10 +32,10 @@ const CheckInNavigator = () => {
     <Stack.Navigator initialRouteName="CheckInPage1">
       <Stack.Screen name="CheckInPage1" component={CheckInPage1} options={{ headerShown: false }} />
       <Stack.Screen name="CheckInPage2" component={CheckInPage2} options={{ headerShown: false }} /> 
-      <Stack.Screen name="CheckInPage3withoutInput" component={CheckInPage3withoutInput} options={{ headerShown: false }} />
+      {/* <Stack.Screen name="CheckInPage3withoutInput" component={CheckInPage3withoutInput} options={{ headerShown: false }} /> */}
+      <Stack.Screen name="CheckInPage3KeyIssue" component={CheckInPage3KeyIssue} options={{ headerShown: false }} />
+      <Stack.Screen name="OtherPageInputKeyIssue" component={OtherPageInputKeyIssue} options={{ headerShown: false }}/> 
       {/* <Stack.Screen name="CheckInPage3formatedCrash" component={CheckInPage3formatedCrash} options={{ headerShown: false }} /> */}
-      {/* <Stack.Screen name="CheckInPage3KeyIssue" component={CheckInPage3KeyIssue} options={{ headerShown: false }} /> */}
-      {/* <Stack.Screen name="OtherPageInputKeyIssue" component={OtherPageInputKeyIssue} options={{ headerShown: false }}/>  */}
       {/* <Stack.Screen name="OtherPageInputFormatedCrash" component={OtherPageInputFormatedCrash} options={{ headerShown: false }}/>  */}
       <Stack.Screen name="OtherPage" component={OtherPage} options={{ headerShown: false }}/>
       <Stack.Screen name="CheckInPage4" component={CheckInPage4} options={{ headerShown: false }} /> 
