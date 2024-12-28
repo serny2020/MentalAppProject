@@ -9,32 +9,70 @@ import {
 } from "react-native";
 
 const OtherPage = ({ route, navigation }) => {
-  const {
-    existingEmotions,
-    additionalEmotions,
-    onSelect,
-    initialSelectedEmotionsId,
-    showInputBox,
-  } = route.params;
-
+  //props from parent: 
+  //existing emotions is old list of objects, 
+  //additional emotions is the new list objects,
+  //onSelect is the current selection in this child component 
+  //initial selected emotions id is the id selected from parent component
+  const { existingEmotions, 
+    additionalEmotions, 
+    onSelect, 
+    initialSelectedEmotionsId, 
+    showInputBox,  
+    parentInput, // Received from parent
+    // setParentInput, // Setter from parent
+  } =
+    route.params;
   const [selectedEmotions, setSelectedEmotions] = useState([]);
-  const [customInput, setcustomInput] = useState(""); // Input state
-  const [customValues, setCustomValues] = useState([]); // Store user-added custom causes
 
-  // Add new custom input
-  const addCustomInput = () => {
-    if (customInput.trim().length > 0) {
-      const newCustomEmotion = {
-        id: `custom-${Date.now()}`, // Unique ID
-        label: customInput.trim(),
-      };
 
-      // Add the new custom emotion to both the input list and selected emotions
-      setCustomValues((prev) => [...prev, newCustomEmotion]);
-      setSelectedEmotions((prev) => [...prev, newCustomEmotion.id]); // Mark it as active
-      setcustomInput(""); // Clear the input field
-    }
-  };
+    const [customInput, setcustomInput] = useState(""); // Input state
+  const [InputValues, setInputValues] = useState([]); // Store user-added custom causes
+// Updated addCustomInput function
+const addCustomInput = () => {
+  if (customInput.trim().length > 0) {
+    const newCustomEmotion = {
+      id: `custom-${Date.now()}`, // Unique ID
+      label: customInput.trim(),
+    };
+
+    // Add the new custom emotion to both the input list and selected emotions
+    setInputValues((prev) => [...prev, newCustomEmotion]);
+    // setParentInput((prev) => [...prev, newCustomEmotion]);
+    setSelectedEmotions((prev) => [...prev, newCustomEmotion.id]); // Mark it as active
+    setcustomInput(""); // Clear the input field
+  }
+};
+
+// Add this render function for InputValues
+const renderCustomInput = () => (
+  <FlatList
+    data={InputValues}
+    keyExtractor={(item) => item.id.toString()}
+    renderItem={({ item }) => (
+      <TouchableOpacity
+        style={[
+          styles.itemContainer,
+          selectedEmotions.includes(item.id) && styles.selectedItemContainer,
+        ]}
+        onPress={() => toggleSelection(item.id)} // Allow toggling custom items
+      >
+        <Text style={styles.label}>{item.label}</Text>
+      </TouchableOpacity>
+    )}
+  />
+);
+
+  
+  useEffect(() => {
+    setSelectedEmotions(initialSelectedEmotionsId || []);
+  }, []); // Run only once on mount
+
+  //for debugging 
+  useEffect(() => {
+    // Log the updated emotions when state changes for debugging
+    console.log("Current Selected Emotions:", selectedEmotions);
+  }, [selectedEmotions]);
 
   // Toggle selection for multiple emotions
   const toggleSelection = (emotionId) => {
@@ -48,43 +86,86 @@ const OtherPage = ({ route, navigation }) => {
     });
   };
 
-  // Combine additionalEmotions and customValues into a single array
-  const combinedData = [...additionalEmotions, ...customValues];
+
+  // const handleConfirm = () => {
+  //   // Convert initial IDs to existing emotion objects
+  //   const existingSelections = existingEmotions.filter((emotion) =>
+  //     initialSelectedEmotionsId.includes(emotion.id)
+  //   );
+  //   console.log("inital selection: " + existingSelections.map((emotion) => emotion.id))
+  
+  //   // Get the newly selected emotions based on the current state
+  //   const newlySelected = additionalEmotions.filter((emotion) =>
+  //     selectedEmotions.includes(emotion.id)
+  //   );
+  //   console.log("new selection: " + newlySelected.map((emotion) => emotion.id))
+  //   // Merge existing and new selections, avoiding duplicates
+  //   const updatedSelections = [
+  //     ...existingSelections,
+  //     ...newlySelected.filter(
+  //       (newEmotion) =>
+  //         !existingSelections.some((existing) => existing.id === newEmotion.id)
+  //     ),
+  //   ];
+  
+  //   console.log(
+  //     "Final merged selections:",
+  //     updatedSelections.map((emotion) => emotion.id)
+  //   );
+  
+  //   onSelect(updatedSelections); // Pass merged full objects back to parent
+  //   navigation.goBack(); // Navigate back to the previous page
+  // };
 
   const handleConfirm = () => {
     // Convert initial IDs to existing emotion objects
     const existingSelections = existingEmotions.filter((emotion) =>
       initialSelectedEmotionsId.includes(emotion.id)
     );
+    console.log("Initial selection: " + existingSelections.map((emotion) => emotion.id));
   
     // Get the newly selected emotions based on the current state
-    const newlySelected = combinedData.filter((emotion) =>
+    const newlySelected = additionalEmotions.filter((emotion) =>
       selectedEmotions.includes(emotion.id)
     );
+    console.log("New selection: " + newlySelected.map((emotion) => emotion.id));
   
     // Merge existing and new selections, avoiding duplicates
     const updatedSelections = [
-      ...existingSelections,
+      ...existingSelections, ...InputValues,
       ...newlySelected.filter(
         (newEmotion) =>
           !existingSelections.some((existing) => existing.id === newEmotion.id)
       ),
     ];
   
-    console.log("Final merged selections:", updatedSelections.map((e) => e.label));
+    console.log(
+      "Final merged selections before custom causes:",
+      updatedSelections.map((emotion) => emotion.id)
+    );
   
-    // Update check-in data (assuming updateCheckInData is a function passed as a prop or from context)
-    if (typeof updateCheckInData === "function") {
-      updateCheckInData("selectedCauses", updatedSelections); // Replace "selectedCauses" with your desired key
+    // Add the input from the text box, if it's not empty
+    if (customInput.trim().length > 0) {
+      const newCustomEmotion = {
+        id: `custom-${Date.now()}`, // Unique ID
+        label: customInput.trim(),
+      };
+      updatedSelections.push(newCustomEmotion);
     }
-  
+
+    console.log(
+      "Final merged selections:",
+      updatedSelections.map((emotion) => emotion.label)
+    );
+
     onSelect(updatedSelections); // Pass merged full objects back to parent
     navigation.goBack(); // Navigate back to the previous page
   };
+  
 
-  // Handle cancel
   const handleCancel = () => {
     setSelectedEmotions([]);
+    // onSelect([]);
     navigation.goBack(); // Close the page without saving
   };
 
@@ -97,7 +178,6 @@ const OtherPage = ({ route, navigation }) => {
         </TouchableOpacity>
         <Text style={styles.title}>Others</Text>
       </View>
-
       {/* Render Input Box Conditionally */}
       {showInputBox && (
         <View style={styles.inputContainer}>
@@ -112,32 +192,49 @@ const OtherPage = ({ route, navigation }) => {
           </TouchableOpacity>
         </View>
       )}
-
-      {/* Combined FlatList */}
+      {/* Emotions List */}
       <FlatList
-        data={combinedData} // Combined list of additionalEmotions and customValues
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={[
-              styles.itemContainer,
-              selectedEmotions.includes(item.id) && styles.selectedItemContainer,
-            ]}
-            onPress={() => toggleSelection(item.id)}
-          >
-            <Text style={styles.label}>{item.label}</Text>
-          </TouchableOpacity>
-        )}
-      />
+  data={[
+    ...additionalEmotions, // Include additional emotions
+    ...InputValues, // Include custom inputs
+    ...selectedEmotions
+      .filter(
+        (id) =>
+          !additionalEmotions.some((item) => item.id === id) &&
+          !existingEmotions.some((item) => item.id === id) &&
+          !InputValues.some((item) => item.id === id) // Exclude items in InputValues
+      )
+      .map((id) => ({
+        id, // Construct item for rendering
+        label: `Custom Emotion (${id})`, // Default label for unknown IDs
+      })),
+  ]}
+  keyExtractor={(item) => item.id.toString()}
+  renderItem={({ item }) => (
+    <TouchableOpacity
+      style={[
+        styles.itemContainer,
+        selectedEmotions.includes(item.id) && styles.selectedItemContainer,
+      ]}
+      onPress={() => toggleSelection(item.id)}
+    >
+      {item.emoji && <Text style={styles.emoji}>{item.emoji}</Text>}
+      <Text style={styles.label}>{item.label}</Text>
+    </TouchableOpacity>
+  )}
+  extraData={[additionalEmotions, InputValues, selectedEmotions]} // Trigger re-render on state change
+/>
+
+
 
       {/* Confirm Button */}
       <TouchableOpacity
         style={[
-          styles.confirmButton,
-          selectedEmotions.length > 0 ? styles.confirmButtonActive : styles.confirmButtonInactive,
+          styles.confirmButton,styles.confirmButtonActive
+            
         ]}
         onPress={handleConfirm}
-        disabled={selectedEmotions.length === 0}
+        // disabled={selectedEmotions.length === 0 && customInput.trim().length === 0}
       >
         <Text style={styles.confirmButtonText}>Confirm</Text>
       </TouchableOpacity>
@@ -173,11 +270,16 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderRadius: 8,
     backgroundColor: "#E5E5E5",
+    top: 100,
   },
   selectedItemContainer: {
     backgroundColor: "#B7FFBF",
     borderWidth: 2,
     borderColor: "#9b59b6",
+  },
+  emoji: {
+    fontSize: 28,
+    marginRight: 16,
   },
   label: {
     fontSize: 16,
@@ -189,6 +291,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 16,
+    bottom: 80,
   },
   confirmButtonActive: {
     backgroundColor: "#9b59b6",
@@ -201,11 +304,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
-  inputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 20,
-  },
+  inputContainer: { flexDirection: "row", alignItems: "center", marginBottom: 20 },
   inputBox: {
     flex: 1,
     borderWidth: 1,
@@ -221,11 +320,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 16,
   },
-  addButtonText: {
-    color: "#FFF",
-    fontSize: 14,
-    fontWeight: "bold",
-  },
+  addButtonText: { color: "#FFF", fontSize: 14, fontWeight: "bold" },
 });
 
 export default OtherPage;

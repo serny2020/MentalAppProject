@@ -62,7 +62,7 @@ const CheckInPage3 = ({ navigation }) => {
 
   const handleOpenOtherPage = () => {
 
-    navigation.navigate("OtherPage", {
+    navigation.navigate("OtherPageInput", {
       existingEmotions: causes, // Existing causes (used generically)
       additionalEmotions: additionalCauses, // Additional options
       onSelect: handleOtherSelection, // Callback for selections
