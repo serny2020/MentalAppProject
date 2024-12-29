@@ -57,6 +57,10 @@ const OtherPage = ({ route, navigation }) => {
     // Log the updated emotions when state changes for debugging
     console.log("Current Selected Emotions:", selectedEmotions);
   }, [selectedEmotions]);
+  useEffect(() => {
+    // Log the updated emotions when state changes for debugging
+    console.log("parent input:", parentInput);
+  }, [parentInput]);
   
 
   // Toggle selection for multiple emotions
@@ -77,21 +81,21 @@ const OtherPage = ({ route, navigation }) => {
     const existingSelections = existingEmotions.filter((emotion) =>
       initialSelectedEmotionsId.includes(emotion.id)
     );
-    console.log(
-      "Initial selection: " + existingSelections.map((emotion) => emotion.id)
-    );
-
+  
     // Get the newly selected emotions based on the current state
     const newlySelected = additionalEmotions.filter((emotion) =>
       selectedEmotions.includes(emotion.id)
     );
-    console.log("New selection: " + newlySelected.map((emotion) => emotion.id));
-
+  
     // Merge existing and new selections, avoiding duplicates
     const updatedSelections = [
       ...existingSelections,
-      ...InputValues,
-      ...parentInput, // Include items from parentInput
+      ...InputValues.filter((customItem) =>
+        selectedEmotions.includes(customItem.id)
+      ), // Only include selected custom inputs
+      ...parentInput.filter((customItem) =>
+        selectedEmotions.includes(customItem.id)
+      ), // Only include selected custom inputs
       ...newlySelected.filter(
         (newEmotion) =>
           !existingSelections.some(
@@ -99,26 +103,12 @@ const OtherPage = ({ route, navigation }) => {
           ) && !parentInput.some((parent) => parent.id === newEmotion.id) // Avoid duplicates with parentInput
       ),
     ];
-
-    console.log(
-      "Final merged selections before custom causes:",
-      updatedSelections.map((emotion) => emotion.id)
-    );
-
-    // Add the input from the text box, if it's not empty
-    if (customInput.trim().length > 0) {
-      const newCustomEmotion = {
-        id: `custom-${Date.now()}`, // Unique ID
-        label: customInput.trim(),
-      };
-      updatedSelections.push(newCustomEmotion);
-    }
-
+  
     console.log(
       "Final merged selections:",
       updatedSelections.map((emotion) => emotion.label)
     );
-
+  
     onSelect(updatedSelections); // Pass merged full objects back to parent
     navigation.goBack(); // Navigate back to the previous page
   };

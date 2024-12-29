@@ -79,36 +79,6 @@ const renderCustomInput = () => (
   };
 
 
-  // const handleConfirm = () => {
-  //   // Convert initial IDs to existing emotion objects
-  //   const existingSelections = existingEmotions.filter((emotion) =>
-  //     initialSelectedEmotionsId.includes(emotion.id)
-  //   );
-  //   console.log("inital selection: " + existingSelections.map((emotion) => emotion.id))
-  
-  //   // Get the newly selected emotions based on the current state
-  //   const newlySelected = additionalEmotions.filter((emotion) =>
-  //     selectedEmotions.includes(emotion.id)
-  //   );
-  //   console.log("new selection: " + newlySelected.map((emotion) => emotion.id))
-  //   // Merge existing and new selections, avoiding duplicates
-  //   const updatedSelections = [
-  //     ...existingSelections,
-  //     ...newlySelected.filter(
-  //       (newEmotion) =>
-  //         !existingSelections.some((existing) => existing.id === newEmotion.id)
-  //     ),
-  //   ];
-  
-  //   console.log(
-  //     "Final merged selections:",
-  //     updatedSelections.map((emotion) => emotion.id)
-  //   );
-  
-  //   onSelect(updatedSelections); // Pass merged full objects back to parent
-  //   navigation.goBack(); // Navigate back to the previous page
-  // };
-
   const handleConfirm = () => {
     // Convert initial IDs to existing emotion objects
     const existingSelections = existingEmotions.filter((emotion) =>
