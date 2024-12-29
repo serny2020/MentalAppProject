@@ -3,36 +3,33 @@ import { View, Text, TouchableOpacity, TextInput, StyleSheet } from "react-nativ
 import { useCheckInContext } from "../../context/CheckInContext";
 
 const CheckInPage4 = ({ navigation }) => {
-  // const { moods, emotions, causes } = useCheckInContext(); // Get data from context
   const { checkInData, updateCheckInData } = useCheckInContext(); // Get data from context
   const { moods, emotions, causes } = checkInData; // Extract data from checkInData
   const [selectedCauses, setSelectedCauses] = useState([]);
   const [selectedEmotions, setSelectedEmotions] = useState([]);
   const [details, setDetails] = useState("");
 
+      
   const toggleSelection = (id, selectedItems, setSelectedItems) => {
     setSelectedItems((prev) =>
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
     );
   };
 
-  const handleNext = () => {
-    // Update context with new data
-    updateCheckInData({
-      ...checkInData,
-      details, // Add details to the existing data
-    });
+  useEffect(() => {
+    console.log("Check-In Data Updated:", checkInData);
+  }, [checkInData]);
 
+  const handleNext = () => {
+    // Update context with new details
+    updateCheckInData(
+      "details", 
+      details
+    );  
     // Navigate to the next page
-    navigation.navigate("CheckInPage5");
+    navigation.navigate("Thoughts");
   };
 
-  // Debugging: Log the context data
-  useEffect(() => {
-    console.log("Moods from context:", moods); // Dictionary
-    console.log("Causes from context:", causes); // List of dictionaries
-    console.log("Emotions from context:", emotions); // List of dictionaries
-  }, [moods, causes, emotions]);
 
   return (
     <View style={styles.container}>
@@ -117,8 +114,6 @@ const CheckInPage4 = ({ navigation }) => {
         // disabled={!details}
         onPress={() => {
           // Navigate to the next page or handle the next logic
-          console.log("Selected Causes:", selectedCauses);
-          console.log("Selected Emotions:", selectedEmotions);
           console.log("Details:", details);
           handleNext();
         }}

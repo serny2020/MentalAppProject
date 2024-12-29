@@ -6,9 +6,13 @@ import CheckInPage2 from '../screens/check-in/CheckInPage2';
 import CheckInPage3KeyIssue from '../screens/check-in/CheckInPage3KeyIssue';
 import CheckInPage3formatedCrash from '../screens/check-in/CheckInPage3formatedCrash';
 import CheckInPage3withoutInput from '../screens/check-in/CheckInPage3withoutInput';
-import CheckInPage4 from '../screens/check-in/CheckInPage4';
-import CheckInPage5 from '../screens/check-in/CheckInPage5';
+import Details from '../screens/check-in/Details';
+import Thoughts from '../screens/check-in/Thoughts';
+import Challenge from '../screens/check-in/Challenge';
+import Reframe from '../screens/check-in/Reframe';
 import CognitiveDistortionsPage from '../screens/check-in/CognitiveDistortionsPage';
+import ChallengeTips from '../screens/check-in/ChallengeTips';
+import ReframeTips from '../screens/check-in/ReframeTips';
 import OtherPage from '../components/OtherPage';
 import OtherPageInputKeyIssue from "../util/OtherPageInputKeyIssue"
 import OtherPageInputFormatedCrash from "../util/OtherPageInputFormatedCrash"
@@ -17,15 +21,6 @@ const Stack = createStackNavigator();
 
 const OtherStack = createStackNavigator();
 
-const OtherNavigator = () => {
-  return (
-    <OtherStack.Navigator initialRouteName="CheckInPage3">
-      {/* <OtherStack.Screen name="CheckInPage3" component={CheckInPage3} options={{ headerShown: false }} /> */}
-      <OtherStack.Screen name="CheckInPage3" component={CheckInPage3withoutInput} options={{ headerShown: false }} />
-      <OtherStack.Screen name="OtherPageInput" component={OtherPageInput} options={{ headerShown: false }} />
-    </OtherStack.Navigator>
-  );
-};
 
 const CheckInNavigator = () => {
   return (
@@ -38,14 +33,13 @@ const CheckInNavigator = () => {
       {/* <Stack.Screen name="CheckInPage3formatedCrash" component={CheckInPage3formatedCrash} options={{ headerShown: false }} /> */}
       {/* <Stack.Screen name="OtherPageInputFormatedCrash" component={OtherPageInputFormatedCrash} options={{ headerShown: false }}/>  */}
       <Stack.Screen name="OtherPage" component={OtherPage} options={{ headerShown: false }}/>
-      <Stack.Screen name="CheckInPage4" component={CheckInPage4} options={{ headerShown: false }} /> 
-      <Stack.Screen name="CheckInPage5" component={CheckInPage5} options={{ headerShown: false }} /> 
+      <Stack.Screen name="Details" component={Details} options={{ headerShown: false }} /> 
+      <Stack.Screen name="Thoughts" component={Thoughts} options={{ headerShown: false }} /> 
+      <Stack.Screen name="Challenge" component={Challenge} options={{ headerShown: false }} /> 
+      <Stack.Screen name="Reframe" component={Reframe} options={{ headerShown: false }} /> 
       <Stack.Screen name="CognitiveDistortionsPage" component={CognitiveDistortionsPage} options={{ headerShown: false }} /> 
-      {/* <Stack.Screen
-        name="OtherNavigator"
-        component={OtherNavigator}
-        options={{ headerShown: false }}
-      /> */}
+      <Stack.Screen name="ChallengeTips" component={ChallengeTips} options={{ headerShown: false }} /> 
+      <Stack.Screen name="ReframeTips" component={ReframeTips} options={{ headerShown: false }} /> 
     </Stack.Navigator>
   );
 };

@@ -32,10 +32,11 @@ const CheckInPage3 = ({ navigation }) => {
   ];
 
   const toggleCause = (causeId) => {
-    setSelectedCauses((prev) =>
-      prev.includes(causeId)
-        ? prev.filter((id) => id !== causeId) // Remove if already selected
-        : [...prev, causeId] // Add if not selected
+    setSelectedCauses(
+      (prev) =>
+        prev.includes(causeId)
+          ? prev.filter((id) => id !== causeId) // Remove if already selected
+          : [...prev, causeId] // Add if not selected
     );
   };
 
@@ -52,10 +53,12 @@ const CheckInPage3 = ({ navigation }) => {
     setSelectedCauses(
       () => {
         // Extract IDs of selected items from the child
-        const selectedIdsFromChild = updatedSelections.map((emotion) => emotion.id);
-    
+        const selectedIdsFromChild = updatedSelections.map(
+          (emotion) => emotion.id
+        );
+
         console.log("Updated selections from child:", selectedIdsFromChild);
-    
+
         // Return the exact state of the child selections
         return selectedIdsFromChild; // Reflect the exact state of the child
       }
@@ -64,7 +67,6 @@ const CheckInPage3 = ({ navigation }) => {
   };
 
   const handleOpenOtherPage = () => {
-
     navigation.navigate("OtherPageInputKeyIssue", {
       existingEmotions: causes, // Existing causes (used generically)
       additionalEmotions: additionalCauses, // Additional options
@@ -73,13 +75,8 @@ const CheckInPage3 = ({ navigation }) => {
       showInputBox: true,
       parentInput: InputValues, // Pass custom inputs
       setParentInput: setInputValues, // Pass the setter for lifting
-    }
-  );
+    });
   };
-  // const handleOpenOtherPage = () => {
-
-  //   navigation.navigate("OtherPageInput");
-  // };
 
   const handleNext = () => {
     // Combine causes and additionalCauses based on selected IDs
@@ -91,22 +88,21 @@ const CheckInPage3 = ({ navigation }) => {
       .concat(
         InputValues.filter((cause) => selectedCauses.includes(cause.id)) // Include items from parentValue
       );
-  
+
     // Deduplicate selectedCauseData by ID
     const uniqueSelectedCauseData = selectedCauseData.filter(
       (cause, index, self) =>
         index === self.findIndex((item) => item.id === cause.id)
     );
-  
+
     console.log("Selected Causes:", uniqueSelectedCauseData);
-  
+
     // Update context
     updateCheckInData("causes", uniqueSelectedCauseData);
-  
+
     // Navigate to the next page
-    navigation.navigate("CheckInPage4");
+    navigation.navigate("Details");
   };
-  
 
   useEffect(() => {
     console.log("Selected Causes:", selectedCauses);
@@ -165,11 +161,11 @@ const CheckInPage3 = ({ navigation }) => {
       {/* Next Button */}
 
       <TouchableOpacity
-  style={[styles.nextButton, styles.nextButtonActive]} // Always active style
-  onPress={handleNext}
->
-  <Text style={styles.nextButtonText}>Next</Text>
-</TouchableOpacity>
+        style={[styles.nextButton, styles.nextButtonActive]} // Always active style
+        onPress={handleNext}
+      >
+        <Text style={styles.nextButtonText}>Next</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -250,7 +246,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
-
 });
 
 export default CheckInPage3;

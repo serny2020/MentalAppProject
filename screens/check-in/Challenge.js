@@ -1,70 +1,58 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { useCheckInContext } from "../../context/CheckInContext"; // Import context hook
 
-const CheckInPage5 = ({ navigation }) => {
-  const [input, setInput] = useState("");
+const ChallengeThoughts = ({ navigation }) => {
+  const { checkInData, updateCheckInData } = useCheckInContext(); // Get data from context
+  const [challenge, setChallenge] = useState("");
 
   const handleNext = () => {
-    // const selectedCauseData = causes
-    //   .filter((cause) => selectedCauseData.includes(cause.id))
-    //   .concat(
-    //     additionalCauses.filter((cause) => selectedCauseData.includes(cause.id))
-    //   );
-
-    // console.log("Selected Causes:", selectedCauseData);
-
-    // // Update context
-    // updateCheckInData("causes", selectedCauseData);
+    // Update context with new challenge thoughts
+    updateCheckInData("challenges", challenge);
 
     // Navigate to the next page
-    navigation.navigate("");
+    navigation.navigate("Reframe");
   };
 
   return (
     <View style={styles.container}>
-      {/* Header */}
+      {/* Header Section */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          {/* Navigate back when the left arrow is pressed */}
-          <Text style={styles.skip}>←</Text>
+          <Ionicons name="arrow-back-outline" size={32} color="#9b59b6" />
         </TouchableOpacity>
         <TouchableOpacity>
-                  <Text style={styles.skip} onPress={() => navigation.navigate("Home")}>
-                    {"❌"}
-                  </Text>
+          <Text style={styles.skip}>Skip</Text>
         </TouchableOpacity>
       </View>
 
-      {/* Question with a question mark button */}
+      {/* Question Section */}
       <View style={styles.questionContainer}>
-        <Text style={styles.questionText}>What thoughts are unhelpful for you?</Text>
-        <TouchableOpacity
-          style={styles.questionMarkButton}
-          onPress={() => navigation.navigate("CognitiveDistortionsPage")}
-        >
+        <Text style={styles.questionText}>
+          How can you challenge these unhelpful thoughts?
+        </Text>
+        <TouchableOpacity style={styles.questionMarkButton} onPress = {() => navigation.navigate("ChallengeTips")}>
           <Text style={styles.questionMarkText}>?</Text>
         </TouchableOpacity>
       </View>
 
-      {/* Input Box */}
+      {/* Input Section */}
       <TextInput
         style={styles.inputBox}
-        placeholder="Write here..."
+        placeholder="Type your thoughts here..."
         placeholderTextColor="#9b59b6"
-        multiline
-        onChangeText={(text) => setInput(text)}
-        value={input}
+        multiline={true}
+        value={challenge}
+        onChangeText={setChallenge}
       />
 
       {/* Next Button */}
       <TouchableOpacity
-        style={[styles.nextButton, styles.nextButtonActive]} // Always active style
+        style={[
+          styles.nextButton,
+          styles.nextButtonActive,
+        ]}
         onPress={handleNext}
       >
         <Text style={styles.nextButtonText}>Next</Text>
@@ -146,4 +134,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CheckInPage5;
+export default ChallengeThoughts;

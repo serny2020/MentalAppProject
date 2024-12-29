@@ -4,9 +4,13 @@ const CheckInContext = createContext();
 
 const CheckInProvider = ({ children }) => {
   const [checkInData, setCheckInData] = useState({ 
-    mood: [],    // Default values
+    moods: [],    // Default values
     emotions: [],
     causes: [],
+    details: [],
+    thoughts: [],
+    challenges: [],
+    reframes: [],
   });
 
   const updateCheckInData = (key, value) => {
