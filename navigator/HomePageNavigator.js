@@ -6,6 +6,7 @@ import Journal from '../screens/home/Journal';
 import Playground from '../screens/home/Playground';
 import Discover from '../screens/home/Discover';
 import SOS from '../screens/home/SOS';
+import PlaygroundNavigator from './PlaygroundNavigator';
 
 const Tab = createBottomTabNavigator();
 

@@ -10,6 +10,7 @@ import { CheckInProvider } from "./context/CheckInContext";
 import { AuthProvider } from "./context/AuthContext";
 import OtherPage from "./components/OtherPage";
 import HomePageNavigator from "./navigator/HomePageNavigator";
+import MainPageOverviewNavigator from "./navigator/MainPageOverviewNavigator";
 
 const Stack = createStackNavigator();
 
@@ -19,7 +20,7 @@ export default function App() {
       <CheckInProvider>
         <MusicProvider>
           <NavigationContainer>
-            <Stack.Navigator initialRouteName="Main">
+            <Stack.Navigator initialRouteName="CheckIn">
               <Stack.Screen
                 name="Welcome"
                 component={WelcomePage}
@@ -42,7 +43,7 @@ export default function App() {
               />
               <Stack.Screen
                 name="Main"
-                component={HomePageNavigator}
+                component={MainPageOverviewNavigator}
                 options={{ headerShown: false }}
               />
               

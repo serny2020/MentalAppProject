@@ -13,7 +13,7 @@ const ReframeThoughts = ({ navigation }) => {
 
     // Navigate to the next page
     
-      navigation.navigate("Main");
+      navigation.navigate("Summary");
 
   };
 

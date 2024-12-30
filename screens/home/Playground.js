@@ -1,8 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native'; // Import the useNavigation hook
 
 const Playground = () => {
+  const navigation = useNavigation(); // Initialize the navigation object
+
   return (
     <View style={styles.container}>
       {/* Header */}
@@ -13,19 +16,31 @@ const Playground = () => {
 
       {/* Boxes */}
       <View style={styles.boxContainer}>
-        <TouchableOpacity style={[styles.box, styles.boxPurple]}>
+        <TouchableOpacity
+          style={[styles.box, styles.boxPurple]}
+          onPress={() => navigation.navigate('PlaygroundNavigator', { screen: 'Dreamboard' })}  // Navigate to Dreamboard
+        >
           <Text style={styles.boxText}>Dreamboard</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.box, styles.boxYellow]}>
+        <TouchableOpacity
+          style={[styles.box, styles.boxYellow]}
+          onPress={() => navigation.navigate('PlaygroundNavigator', { screen: 'Arcade' })} // Navigate to Arcade
+        >
           <Text style={styles.boxText}>Arcade</Text>
         </TouchableOpacity>
       </View>
 
       <View style={styles.boxContainer}>
-        <TouchableOpacity style={[styles.box, styles.boxGreen]}>
+        <TouchableOpacity
+          style={[styles.box, styles.boxGreen]}
+          onPress={() => navigation.navigate('PlaygroundNavigator', { screen: 'LetGo' })} // Navigate to LetGo
+        >
           <Text style={styles.boxText}>LetGo</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.box, styles.boxPink]}>
+        <TouchableOpacity
+          style={[styles.box, styles.boxPink]}
+          onPress={() => navigation.navigate('PlaygroundNavigator', { screen: 'Laughs' })} // Navigate to Laughs
+        >
           <Text style={styles.boxText}>Laughs</Text>
         </TouchableOpacity>
       </View>
@@ -38,7 +53,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#f7ffcc",
     paddingHorizontal: 20,
-    paddingTop: 50,
+    paddingTop: 40,
   },
   header: {
     flexDirection: "row",

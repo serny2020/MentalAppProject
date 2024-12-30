@@ -13,6 +13,9 @@ import Reframe from '../screens/check-in/Reframe';
 import CognitiveDistortionsPage from '../screens/check-in/CognitiveDistortionsPage';
 import ChallengeTips from '../screens/check-in/ChallengeTips';
 import ReframeTips from '../screens/check-in/ReframeTips';
+import Summary from '../screens/check-in/Summary';
+import SummarySample from '../screens/check-in/SummarySample';
+import Finish from '../screens/check-in/Finish';
 import OtherPage from '../components/OtherPage';
 import OtherPageInputKeyIssue from "../util/OtherPageInputKeyIssue"
 import OtherPageInputFormatedCrash from "../util/OtherPageInputFormatedCrash"
@@ -40,6 +43,9 @@ const CheckInNavigator = () => {
       <Stack.Screen name="CognitiveDistortionsPage" component={CognitiveDistortionsPage} options={{ headerShown: false, presentation:'modal' }} /> 
       <Stack.Screen name="ChallengeTips" component={ChallengeTips} options={{ headerShown: false, presentation:'modal' }} /> 
       <Stack.Screen name="ReframeTips" component={ReframeTips} options={{ headerShown: false, presentation:'modal' }} /> 
+      <Stack.Screen name="Summary" component={Summary} options={{ headerShown: false }} /> 
+      <Stack.Screen name="SummarySample" component={SummarySample} options={{ headerShown: false }} /> 
+      <Stack.Screen name="Finish" component={Finish} options={{ headerShown: false }} /> 
     </Stack.Navigator>
   );
 };
