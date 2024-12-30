@@ -61,29 +61,31 @@ const ReframeTips = ({ navigation }) => {
       </View>
 
       {/* Tips and Examples Section with Gray Background */}
-      <View style={styles.tipsBackground}>
-        {/* Fixed Tips Section */}
-        <View style={styles.tipsContainer}>
-          <Text style={styles.tipsHeader}>Tips on reframing unhelpful thoughts:</Text>
+      <View style={styles.tipsBackgroundWrapper}>
+        <View style={styles.tipsBackground}>
+          {/* Fixed Tips Section */}
+          <View style={styles.tipsContainer}>
+            <Text style={styles.tipsHeader}>Tips on reframing unhelpful thoughts:</Text>
 
-          <View style={styles.iconContainer}>
-            <Ionicons name="bulb-outline" size={40} color="#9b59b6" />
+            <View style={styles.iconContainer}>
+              <Ionicons name="bulb-outline" size={40} color="#9b59b6" />
+            </View>
+
+            <Text style={styles.subHeader}>Develop your growth mindset:</Text>
+            <Text style={styles.description}>
+              Abilities and intelligence can be developed through effort, learning, and perseverance.
+            </Text>
+            <Text style={styles.examplesHeader}>Examples:</Text>
           </View>
 
-          <Text style={styles.subHeader}>Develop your growth mindset:</Text>
-          <Text style={styles.description}>
-            Abilities and intelligence can be developed through effort, learning, and perseverance.
-          </Text>
-          <Text style={styles.examplesHeader}>Examples:</Text>
+          {/* Scrollable Examples Section */}
+          <FlatList
+            data={examples}
+            keyExtractor={(item) => item.id}
+            renderItem={renderExample}
+            contentContainerStyle={styles.exampleBox}
+          />
         </View>
-
-        {/* Scrollable Examples Section */}
-        <FlatList
-          data={examples}
-          keyExtractor={(item) => item.id}
-          renderItem={renderExample}
-          contentContainerStyle={styles.exampleBox}
-        />
       </View>
     </View>
   );
@@ -100,6 +102,17 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginTop: 50,
   },
+  tipsBackgroundWrapper: {
+    flex: 1,
+    marginBottom: 30, // Adds distance above the bottom of the phone
+    marginTop: 20, // Adds distance above the bottom of the phone
+  },
+  tipsBackground: {
+    backgroundColor: "#e0e0e0",
+    padding: 15,
+    borderRadius: 10,
+    flex: 1,
+  },
   tipsContainer: {
     marginBottom: 10,
   },
@@ -113,12 +126,6 @@ const styles = StyleSheet.create({
   iconContainer: {
     alignItems: "center",
     marginBottom: 20,
-  },
-  tipsBackground: {
-    backgroundColor: "#e0e0e0",
-    padding: 15,
-    borderRadius: 10,
-    flex: 1,
   },
   exampleBox: {
     padding: 20,
