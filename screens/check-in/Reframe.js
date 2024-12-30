@@ -12,7 +12,9 @@ const ReframeThoughts = ({ navigation }) => {
     updateCheckInData("reframes", reframe);
 
     // Navigate to the next page
-    navigation.navigate("");
+    
+      navigation.navigate("Main");
+
   };
 
   return (

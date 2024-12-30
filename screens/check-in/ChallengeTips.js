@@ -7,10 +7,10 @@ const ChallengeTips = ({ navigation }) => {
     <View style={styles.container}>
       {/* Header Section */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        {/* <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="arrow-back-outline" size={32} color="#9b59b6" />
-        </TouchableOpacity>
-        <TouchableOpacity>
+        </TouchableOpacity> */}
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="close-outline" size={32} color="#9b59b6" />
         </TouchableOpacity>
       </View>
@@ -53,7 +53,8 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    // justifyContent: "space-between",
+    justifyContent: "flex-end",
     marginTop: 50,
   },
   tipsContainer: {

@@ -9,21 +9,9 @@ import { MusicProvider } from "./context/MusicContext";
 import { CheckInProvider } from "./context/CheckInContext";
 import { AuthProvider } from "./context/AuthContext";
 import OtherPage from "./components/OtherPage";
+import HomePageNavigator from "./navigator/HomePageNavigator";
 
 const Stack = createStackNavigator();
-
-// export default function App() {
-//   return (
-//     <NavigationContainer>
-//       <Stack.Navigator initialRouteName="Home">
-//         <Stack.Screen name="Welcome" component={WelcomePage} options={{ headerShown: false }} />
-//         <Stack.Screen name="Home" component={HomePage} options={{ headerShown: false }} />
-//         <Stack.Screen name="Auth" component={AuthNavigator} options={{ headerShown: false }} />
-//         <Stack.Screen name="CheckIn" component={CheckInNavigator} options={{ headerShown: false }} />
-//       </Stack.Navigator>
-//     </NavigationContainer>
-//   );
-// }
 
 export default function App() {
   return (
@@ -31,7 +19,7 @@ export default function App() {
       <CheckInProvider>
         <MusicProvider>
           <NavigationContainer>
-            <Stack.Navigator initialRouteName="CheckIn">
+            <Stack.Navigator initialRouteName="Main">
               <Stack.Screen
                 name="Welcome"
                 component={WelcomePage}
@@ -50,6 +38,11 @@ export default function App() {
               <Stack.Screen
                 name="CheckIn"
                 component={CheckInNavigator}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Main"
+                component={HomePageNavigator}
                 options={{ headerShown: false }}
               />
               

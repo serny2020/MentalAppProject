@@ -16,12 +16,11 @@ const CognitiveDistortionsPage = ({ navigation }) => {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          {/* Navigate back when the left arrow is pressed */}
+        {/* <TouchableOpacity onPress={() => navigation.goBack()}>
           <Text style={styles.skip}>←</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity>
-                  <Text style={styles.skip} onPress={() => navigation.navigate("Home")}>
+                  <Text style={styles.skip} onPress={() => navigation.goBack()}>
                     {"❌"}
                   </Text>
         </TouchableOpacity>
@@ -41,11 +40,11 @@ const CognitiveDistortionsPage = ({ navigation }) => {
       </ScrollView>
 
       {/* Next Button */}
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={[styles.nextButton, styles.nextButtonActive]} // Assuming the button is always active
       >
         <Text style={styles.nextButtonText}>Next</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };
@@ -59,7 +58,8 @@ const styles = StyleSheet.create({
     },
     header: {
       flexDirection: "row",
-      justifyContent: "space-between",
+      // justifyContent: "space-between",
+      justifyContent: "flex-end",
       marginTop: 50,
     },
     skip: {

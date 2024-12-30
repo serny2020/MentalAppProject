@@ -37,9 +37,9 @@ const CheckInNavigator = () => {
       <Stack.Screen name="Thoughts" component={Thoughts} options={{ headerShown: false }} /> 
       <Stack.Screen name="Challenge" component={Challenge} options={{ headerShown: false }} /> 
       <Stack.Screen name="Reframe" component={Reframe} options={{ headerShown: false }} /> 
-      <Stack.Screen name="CognitiveDistortionsPage" component={CognitiveDistortionsPage} options={{ headerShown: false }} /> 
-      <Stack.Screen name="ChallengeTips" component={ChallengeTips} options={{ headerShown: false }} /> 
-      <Stack.Screen name="ReframeTips" component={ReframeTips} options={{ headerShown: false }} /> 
+      <Stack.Screen name="CognitiveDistortionsPage" component={CognitiveDistortionsPage} options={{ headerShown: false, presentation:'modal' }} /> 
+      <Stack.Screen name="ChallengeTips" component={ChallengeTips} options={{ headerShown: false, presentation:'modal' }} /> 
+      <Stack.Screen name="ReframeTips" component={ReframeTips} options={{ headerShown: false, presentation:'modal' }} /> 
     </Stack.Navigator>
   );
 };
