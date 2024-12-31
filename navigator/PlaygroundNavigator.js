@@ -5,6 +5,7 @@ import Arcade from '../screens/playground/Arcade';
 import Dreamboard from '../screens/playground/Dreamboard';
 import Laughs from '../screens/playground/Laughs';
 import LetGo from '../screens/playground/LetGo';
+import DreamOverview from '../screens/playground/DreamOverview';
 import HomePageNavigator from './HomePageNavigator'; // Import your bottom tab navigator
 
 
@@ -39,6 +40,11 @@ const PlaygroundNavigator = () => {
       <Stack.Screen
         name="LetGo"
         component={LetGo}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="DreamOverview"
+        component={DreamOverview}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

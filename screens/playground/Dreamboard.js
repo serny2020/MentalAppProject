@@ -1,6 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, usNavit } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import CategoriesScreen from './CategoriesScreen';
+import CircularCategories from "./CircularCategories";
+
 
 const Dreamboard = ({navigation}) => {
   return (
@@ -30,10 +33,14 @@ const Dreamboard = ({navigation}) => {
 
       {/* Design Your Life Section */}
       <Text style={styles.designText}>Design Your Life: fill in the blank</Text>
-      <Image
+      {/* <Image
         source={{ uri: 'https://example.com/path/to/your/image.png' }} // Replace with the actual image URL or local asset
         style={styles.dreamboardImage}
-      />
+      /> */}
+      <View style={styles.circularCategoriesContainer}>
+        <CircularCategories navigation={navigation}/>
+      </View>
+      {/* <CategoriesScreen navigation={navigation} /> */}
     </View>
   );
 };
@@ -91,13 +98,16 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#000",
     textAlign: "center",
-    marginBottom: 20,
+    marginBottom: 170,
   },
   dreamboardImage: {
     width: "100%",
     height: 200,
     resizeMode: "contain",
     alignSelf: "center",
+  },
+  circularCategoriesContainer: {
+    marginBottom: 10, // Add distance from the bottom
   },
 });
 

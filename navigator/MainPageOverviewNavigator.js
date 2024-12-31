@@ -2,6 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomePageNavigator from './HomePageNavigator'; // Import your bottom tab navigator
 import PlaygroundNavigator from './PlaygroundNavigator'; // Import your stack navigator for Playground
+import DreamOverview from '../screens/playground/DreamOverview'; // Import your stack navigator for Playground
 
 const Stack = createStackNavigator();
 
@@ -23,6 +24,13 @@ const MainPageOverviewNavigator = () => {
             presentation: 'modal'
         }} // Hide header for the Playground stack navigator
       />
+      {/* <Stack.Screen
+        name="DreamOverview"
+        component={DreamOverview}
+        options={{ headerShown: false,
+            presentation: 'modal'
+        }} // Hide header for the Playground stack navigator
+      /> */}
       
     </Stack.Navigator>
   );

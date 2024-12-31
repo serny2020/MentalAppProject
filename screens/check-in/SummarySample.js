@@ -5,7 +5,6 @@ import { Ionicons } from '@expo/vector-icons';
 const MoodCheckInSummary = ({navigation}) => {
   return (
     <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollViewContent}>
         {/* Header */}
         <View style={styles.header}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -16,6 +15,7 @@ const MoodCheckInSummary = ({navigation}) => {
             <Ionicons name="close-circle-outline" size={30} color="#9b59b6" />
           </TouchableOpacity>
         </View>
+      <ScrollView contentContainerStyle={styles.scrollViewContent}>
 
         {/* Date and Time */}
         <Text style={styles.dateTime}>Dec 14, 2024   7:22pm</Text>
@@ -57,10 +57,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f7ffcc',
-    paddingTop: 40, // Added padding to create space at the top
+    paddingTop: 80, // Added padding to create space at the top
   },
   scrollViewContent: {
-    padding: 20,
+    padding: 10,
   },
   header: {
     flexDirection: 'row',

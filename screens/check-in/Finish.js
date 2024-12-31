@@ -20,6 +20,9 @@ const AffirmationPage = ({navigation}) => {
           style={styles.image}
         />
         <Text style={styles.subText}>Added to your Affirmation quotes!</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("Main")}>
+  <Ionicons name="home-outline" size={30} color="#9b59b6" />
+</TouchableOpacity>
       </View>
     </View>
   );

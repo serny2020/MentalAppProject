@@ -20,7 +20,7 @@ export default function App() {
       <CheckInProvider>
         <MusicProvider>
           <NavigationContainer>
-            <Stack.Navigator initialRouteName="CheckIn">
+            <Stack.Navigator initialRouteName="Main">
               <Stack.Screen
                 name="Welcome"
                 component={WelcomePage}
