@@ -20,7 +20,7 @@ export const CATEGORIES = [
       'c1', // Category: Houses
       'Dream Villa',
       'Own a beautiful villa with a garden and pool.',
-      '../assets/image/dream/houses/house1.png', // Relative path for house image
+      require('../assets/image/dream/houses/house1.png'), // Local image resolved
       ['Save money', 'Research locations', 'Work with architects', 'Build the villa'],
       'High',
       false
@@ -30,7 +30,7 @@ export const CATEGORIES = [
       'c2', // Category: Cars
       'Own a Sports Car',
       'Drive a high-performance sports car like a Ferrari or Lamborghini.',
-      '../assets/image/dream/cars/car1.png', // Relative path for car image
+      require('../assets/image/dream/cars/car1.png'), // Update to require
       ['Save money', 'Research car models', 'Purchase the car'],
       'Medium',
       false
@@ -40,7 +40,7 @@ export const CATEGORIES = [
       'c3', // Category: Pets
       'Adopt a Labrador Retriever',
       'Bring home a loving Labrador Retriever and build a bond for life.',
-      '../assets/image/dream/pets/pet1.png', // Relative path for pet image
+      require('../assets/image/dream/pets/pet1.png'), // Update to require
       ['Visit shelters', 'Prepare the home', 'Adopt the dog', 'Train and bond'],
       'Medium',
       false
@@ -50,7 +50,7 @@ export const CATEGORIES = [
       'c4', // Category: Sports
       'Play Tennis at Wimbledon',
       'Participate in a tennis match at the iconic Wimbledon court.',
-      '../assets/image/dream/sports/sport1.png', // Relative path for sports image
+      require('../assets/image/dream/sports/sport1.png'), // Update to require
       ['Train regularly', 'Enter tournaments', 'Qualify for Wimbledon'],
       'High',
       false
@@ -60,10 +60,10 @@ export const CATEGORIES = [
       'c5', // Category: Travel-Bucket-List
       'Visit Santorini, Greece',
       'Explore the stunning views of Santorini and its iconic blue domes.',
-      '../assets/image/dream/travel-bucket-list/travel1.png', // Relative path for travel image
+      require('../assets/image/dream/travel-bucket-list/travel1.png'), // Update to require
       ['Plan a trip', 'Book flights and hotels', 'Enjoy the destination'],
       'High',
       false
     )
   ];
-    
+  

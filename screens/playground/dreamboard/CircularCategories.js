@@ -1,8 +1,8 @@
 import React, {useState}from "react";
 import { View, StyleSheet, Alert } from "react-native";
 import { Svg, Path, G, Text as SvgText } from "react-native-svg";
-import { CATEGORIES } from "../../data/dream-data";
-import CategoryGridTile from "../../components/dreamboard/CategoryGridTile";
+import { CATEGORIES } from "../../../data/dream-data";
+import CategoryGridTile from "../../../components/dreamboard/CategoryGridTile";
 
 // const CATEGORIES = [
 //   { id: "c1", title: "自我梦想", color: "#f8b3c1" },

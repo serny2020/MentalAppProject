@@ -1,7 +1,7 @@
 import React from "react";
 import { View, FlatList, StyleSheet, TouchableOpacity, Text } from "react-native";
-import DreamItem from "../../components/dreamboard/DreamItem"; // Adjust the path to your DreamItem component
-import { DREAMS } from "../../data/dream-data";
+import DreamItem from "../../../components/dreamboard/DreamItem"; // Adjust the path to your DreamItem component
+import { DREAMS } from "../../../data/dream-data";
 // Sample dream data with categories
 // const DREAMS = [
 //   {
@@ -40,19 +40,24 @@ const DreamOverviewPage = ({ route, navigation }) => {
   // Filter dreams by selected category
   const filteredDreams = DREAMS.filter((dream) => dream.categoryId === categoryId);
 
+
   const handleSelectDream = (dreamId) => {
     console.log(`Dream selected: ${dreamId}`);
-    // Navigate to a detailed dream screen if needed
+    navigation.navigate("DreamDetailScreen", { dreamId});
   };
 
-  const renderDreamItem = ({ item }) => (
-    <DreamItem
-      title={item.title}
-      description={item.description}
-      imageUrl={item.imageUrl}
-      onSelect={() => handleSelectDream(item.id)}
-    />
-  );
+  const renderDreamItem = ({ item }) => {
+    console.log('Image Path:', item.image); // Check if the image path is valid
+    return (
+      <DreamItem
+        title={item.title || "Untitled"}
+        description={item.description || "No description"}
+        imagePath={item.image} // Pass `item.image` directly
+        onSelect={() => handleSelectDream(item.id)}
+      />
+    );
+  };
+  
 
   return (
     <View style={styles.container}>

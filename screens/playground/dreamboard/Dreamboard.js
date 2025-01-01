@@ -1,24 +1,34 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, FlatList } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import CategoriesScreen from './CategoriesScreen';
+import React from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  FlatList,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import CategoriesScreen from "../CategoriesScreen";
 import CircularCategories from "./CircularCategories";
 
-
-const Dreamboard = ({navigation}) => {
+const Dreamboard = ({ navigation }) => {
   return (
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity>
-          <Text style={styles.backText} onPress={() => navigation.goBack()}>Back</Text>
+          <Text style={styles.backText} onPress={() => navigation.goBack()}>
+            Back
+          </Text>
         </TouchableOpacity>
         <Ionicons name="settings-outline" size={30} color="#6a1b9a" />
       </View>
 
       {/* Title Section */}
       <Text style={styles.title}>Craft Your Dreamboard</Text>
-      <Text style={styles.subtitle}>How would you want to see yourself in the future?</Text>
+      <Text style={styles.subtitle}>
+        How would you want to see yourself in the future?
+      </Text>
 
       {/* Question Section */}
       <Text style={styles.question}>What would be an ideal life for you?</Text>
@@ -36,11 +46,11 @@ const Dreamboard = ({navigation}) => {
       {/* <Image
         source={{ uri: 'https://example.com/path/to/your/image.png' }} // Replace with the actual image URL or local asset
         style={styles.dreamboardImage}
-      /> */}
-      <View style={styles.circularCategoriesContainer}>
-        <CircularCategories navigation={navigation}/>
-      </View>
+      /> 
       {/* <CategoriesScreen navigation={navigation} /> */}
+      <View style={styles.circularCategoriesContainer}>
+        <CircularCategories navigation={navigation} />
+      </View>
     </View>
   );
 };

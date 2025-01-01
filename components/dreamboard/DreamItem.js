@@ -1,10 +1,26 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 
-const DreamItem = ({ title, description, imageUrl, onSelect }) => {
+
+// const DreamItem = ({ title, description, imagePath, onSelect }) => {
+//   return (
+//     <TouchableOpacity onPress={onSelect} style={styles.itemContainer}>
+//       <Image source={imagePath} style={styles.dreamboardImage} /> {/* Directly use `imagePath` */}
+//       <Text style={styles.title}>{title}</Text>
+//       <Text style={styles.subtitle}>{description}</Text>
+//     </TouchableOpacity>
+//   );
+// };
+const DreamItem = ({ title = "Untitled", description = "No description", imagePath, onSelect }) => {
+  console.log(imagePath)
+
   return (
     <TouchableOpacity onPress={onSelect} style={styles.itemContainer}>
-      <Image source={{ uri: imageUrl }} style={styles.dreamboardImage} />
+      {imagePath ? (
+        <Image source={imagePath} style={styles.dreamboardImage} />
+      ) : (
+        <Text style={styles.imageErrorText}>Image not found</Text>
+      )}
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.subtitle}>{description}</Text>
     </TouchableOpacity>

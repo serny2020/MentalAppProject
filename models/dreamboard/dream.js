@@ -1,24 +1,25 @@
 class Dream {
-    constructor(
-      id,
-      categoryId,
-      title,
-      description,
-      imageUrl,
-      steps,
-      priority,
-      isAchieved
-    ) {
-      this.id = id; // Unique identifier for the dream
-      this.categoryId = categoryId; // Categories this dream belongs to (e.g., "Travel", "Career")
-      this.title = title; // Title of the dream
-      this.description = description; // Detailed description of the dream
-      this.imageUrl = imageUrl; // URL to an image representing the dream
-      this.steps = steps; // List of actionable steps to achieve the dream
-      this.priority = priority; // Priority level (e.g., "High", "Medium", "Low")
-      this.isAchieved = isAchieved; // Boolean flag to indicate if the dream has been achieved
-    }
+  constructor(
+    id, // string
+    categoryId, // string
+    title, // string
+    description, // string
+    image, // require(...) or string (local or remote URL)
+    steps, // array of strings
+    priority, // string
+    isAchieved // boolean
+  ) {
+    this.id = id;
+    this.categoryId = categoryId;
+    this.title = title;
+    this.description = description;
+    this.image = image;
+    this.steps = steps;
+    this.priority = priority;
+    this.isAchieved = isAchieved;
   }
+}
+
   
   export default Dream;
   
