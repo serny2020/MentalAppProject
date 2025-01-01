@@ -1,7 +1,7 @@
 class Dream {
     constructor(
       id,
-      categories,
+      categoryId,
       title,
       description,
       imageUrl,
@@ -10,7 +10,7 @@ class Dream {
       isAchieved
     ) {
       this.id = id; // Unique identifier for the dream
-      this.categories = categories; // Categories this dream belongs to (e.g., "Travel", "Career")
+      this.categoryId = categoryId; // Categories this dream belongs to (e.g., "Travel", "Career")
       this.title = title; // Title of the dream
       this.description = description; // Detailed description of the dream
       this.imageUrl = imageUrl; // URL to an image representing the dream

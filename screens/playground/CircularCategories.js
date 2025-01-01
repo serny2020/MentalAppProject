@@ -1,18 +1,22 @@
 import React, {useState}from "react";
 import { View, StyleSheet, Alert } from "react-native";
 import { Svg, Path, G, Text as SvgText } from "react-native-svg";
+import { CATEGORIES } from "../../data/dream-data";
 import CategoryGridTile from "../../components/dreamboard/CategoryGridTile";
 
-const CATEGORIES = [
-  { id: "c1", title: "自我梦想", color: "#f8b3c1" },
-  { id: "c2", title: "学习/职业发展", color: "#b3e2f8" },
-  { id: "c3", title: "财务状况", color: "#fce9a5" },
-  { id: "c4", title: "身体健康", color: "#ffdab9" },
-  { id: "c5", title: "休闲计划", color: "#ffeeba" },
-  { id: "c6", title: "家人关系", color: "#c9b3f8" },
-  { id: "c7", title: "人际关系", color: "#d1b3f8" },
-  { id: "c8", title: "个人成长", color: "#f7c6d6" },
-];
+// const CATEGORIES = [
+//   { id: "c1", title: "自我梦想", color: "#f8b3c1" },
+//   { id: "c2", title: "学习/职业发展", color: "#b3e2f8" },
+//   { id: "c3", title: "财务状况", color: "#fce9a5" },
+//   { id: "c4", title: "身体健康", color: "#ffdab9" },
+//   { id: "c5", title: "休闲计划", color: "#ffeeba" },
+//   { id: "c6", title: "家人关系", color: "#c9b3f8" },
+//   { id: "c7", title: "人际关系", color: "#d1b3f8" },
+//   { id: "c8", title: "个人成长", color: "#f7c6d6" },
+// ];
+
+
+//emotional, physical, occupational, social, spiritual, intellectual, environmental, and financial.
 
 const CircularCategories = ({ navigation }) => {
   const radius = 150; // Radius of the pie chart

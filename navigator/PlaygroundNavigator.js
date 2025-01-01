@@ -29,7 +29,7 @@ const PlaygroundNavigator = () => {
       component={Dreamboard}
       options={{
         headerShown: false, // Hide header
-        presentation: "modal", // Set modal presentation
+        // presentation: "modal", // Set modal presentation
       }}
     />
       <Stack.Screen

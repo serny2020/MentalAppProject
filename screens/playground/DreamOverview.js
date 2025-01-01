@@ -1,36 +1,45 @@
 import React from "react";
-import { View, FlatList, StyleSheet,TouchableOpacity, Text } from "react-native";
+import { View, FlatList, StyleSheet, TouchableOpacity, Text } from "react-native";
 import DreamItem from "../../components/dreamboard/DreamItem"; // Adjust the path to your DreamItem component
+import { DREAMS } from "../../data/dream-data";
+// Sample dream data with categories
+// const DREAMS = [
+//   {
+//     id: "d1",
+//     title: "Visit Paris",
+//     description: "Experience the Eiffel Tower and Parisian culture.",
+//     imageUrl: "https://upload.wikimedia.org/wikipedia/commons/a/a8/Eiffel_Tower.jpg",
+//     categoryId: "c1", // Corresponding category ID
+//   },
+//   {
+//     id: "d2",
+//     title: "Run a Marathon",
+//     description: "Complete a full marathon in under 4 hours.",
+//     imageUrl: "https://upload.wikimedia.org/wikipedia/commons/3/3b/Marathon_runner.jpg",
+//     categoryId: "c4", // Corresponding category ID
+//   },
+//   {
+//     id: "d3",
+//     title: "Own a Tesla",
+//     description: "Drive a Tesla Model S and experience sustainable luxury.",
+//     imageUrl: "https://upload.wikimedia.org/wikipedia/commons/1/12/Tesla_Model_S_P100D_Front.jpg",
+//     categoryId: "c3", // Corresponding category ID
+//   },
+//   {
+//     id: "d4",
+//     title: "Adopt a Golden Retriever",
+//     description: "Bring home a loving dog and make lifelong memories.",
+//     imageUrl: "https://upload.wikimedia.org/wikipedia/commons/9/9a/Golden_Retriever.jpg",
+//     categoryId: "c6", // Corresponding category ID
+//   },
+// ];
 
-// Sample dream data
-const DREAMS = [
-  {
-    id: "d1",
-    title: "Visit Paris",
-    description: "Experience the Eiffel Tower and Parisian culture.",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/a/a8/Eiffel_Tower.jpg",
-  },
-  {
-    id: "d2",
-    title: "Run a Marathon",
-    description: "Complete a full marathon in under 4 hours.",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/3/3b/Marathon_runner.jpg",
-  },
-  {
-    id: "d3",
-    title: "Own a Tesla",
-    description: "Drive a Tesla Model S and experience sustainable luxury.",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/1/12/Tesla_Model_S_P100D_Front.jpg",
-  },
-  {
-    id: "d4",
-    title: "Adopt a Golden Retriever",
-    description: "Bring home a loving dog and make lifelong memories.",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/9/9a/Golden_Retriever.jpg",
-  },
-];
+const DreamOverviewPage = ({ route, navigation }) => {
+  const { categoryId, categoryTitle } = route.params; // Get category data from route params
 
-const DreamOverviewPage = ({ navigation }) => {
+  // Filter dreams by selected category
+  const filteredDreams = DREAMS.filter((dream) => dream.categoryId === categoryId);
+
   const handleSelectDream = (dreamId) => {
     console.log(`Dream selected: ${dreamId}`);
     // Navigate to a detailed dream screen if needed
@@ -47,11 +56,19 @@ const DreamOverviewPage = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-                <TouchableOpacity>
-                  <Text style={styles.backText} onPress={() => navigation.goBack()}>Back</Text>
-                </TouchableOpacity>
+      {/* Back Button */}
+      <TouchableOpacity>
+        <Text style={styles.backText} onPress={() => navigation.goBack()}>
+          Back
+        </Text>
+      </TouchableOpacity>
+
+      {/* Category Title */}
+      <Text style={styles.categoryTitle}>{categoryTitle}</Text>
+
+      {/* Render Dream Items */}
       <FlatList
-        data={DREAMS}
+        data={filteredDreams}
         keyExtractor={(item) => item.id}
         renderItem={renderDreamItem}
       />
@@ -66,5 +83,17 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     backgroundColor: "#e1bee7",
+  },
+  backText: {
+    fontSize: 16,
+    color: "#6a1b9a",
+    marginBottom: 10,
+  },
+  categoryTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#4a148c",
+    marginBottom: 20,
+    textAlign: "center",
   },
 });
