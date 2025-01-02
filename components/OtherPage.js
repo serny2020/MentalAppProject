@@ -7,6 +7,8 @@ import {
   FlatList,
   StyleSheet,
 } from "react-native";
+import CircularCategories from "../screens/playground/dreamboard/CircularCategories";
+import CircularEmotion from "../components/check-in/CircularEmotions"
 
 const OtherPage = ({ route, navigation }) => {
   //props from parent: 
@@ -38,21 +40,22 @@ const addCustomInput = () => {
 
 // Add this render function for InputValues
 const renderCustomInput = () => (
-  <FlatList
-    data={InputValues}
-    keyExtractor={(item) => item.id.toString()}
-    renderItem={({ item }) => (
-      <TouchableOpacity
-        style={[
-          styles.itemContainer,
-          selectedEmotions.includes(item.id) && styles.selectedItemContainer,
-        ]}
-        onPress={() => toggleSelection(item.id)} // Allow toggling custom items
-      >
-        <Text style={styles.label}>{item.label}</Text>
-      </TouchableOpacity>
-    )}
-  />
+  // <FlatList
+  //   data={InputValues}
+  //   keyExtractor={(item) => item.id.toString()}
+  //   renderItem={({ item }) => (
+  //     <TouchableOpacity
+  //       style={[
+  //         styles.itemContainer,
+  //         selectedEmotions.includes(item.id) && styles.selectedItemContainer,
+  //       ]}
+  //       onPress={() => toggleSelection(item.id)} // Allow toggling custom items
+  //     >
+  //       <Text style={styles.label}>{item.label}</Text>
+  //     </TouchableOpacity>
+  //   )}
+  // />
+  <CircularEmotion navigation={navigation} />
 );
 
   
@@ -155,7 +158,7 @@ const renderCustomInput = () => (
         </View>
       )}
       {/* Emotions List */}
-      <FlatList
+      {/* <FlatList
       contentContainerStyle={{ flexGrow: 1 }}
         data={additionalEmotions}
         keyExtractor={(item) => item.id.toString()}
@@ -172,7 +175,7 @@ const renderCustomInput = () => (
             <Text style={styles.label}>{item.label}</Text>
           </TouchableOpacity>
         )}
-      />
+      /> */}
       {/* Render Custom Inputs */}
 {renderCustomInput()}
 
