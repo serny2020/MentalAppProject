@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, TextInput, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { useCheckInContext } from "../../context/CheckInContext";
 
 const CheckInPage4 = ({ navigation }) => {
@@ -32,6 +32,7 @@ const CheckInPage4 = ({ navigation }) => {
 
 
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
@@ -105,6 +106,8 @@ const CheckInPage4 = ({ navigation }) => {
         multiline
       />
 
+
+
       {/* Next Button */}
       <TouchableOpacity
         style={[
@@ -121,6 +124,7 @@ const CheckInPage4 = ({ navigation }) => {
         <Text style={styles.nextButtonText}>Next</Text>
       </TouchableOpacity>
     </View>
+    </TouchableWithoutFeedback>
   );
 };
 
