@@ -17,6 +17,7 @@ import Summary from '../screens/check-in/Summary';
 import SummarySample from '../screens/check-in/SummarySample';
 import Finish from '../screens/check-in/Finish';
 import OtherPage from '../components/OtherPage';
+import CircularOther from '../components/CircularOther';
 import OtherPageInputKeyIssue from "../util/OtherPageInputKeyIssue"
 import OtherPageInputFormatedCrash from "../util/OtherPageInputFormatedCrash"
 
@@ -36,6 +37,7 @@ const CheckInNavigator = () => {
       {/* <Stack.Screen name="CheckInPage3formatedCrash" component={CheckInPage3formatedCrash} options={{ headerShown: false }} /> */}
       {/* <Stack.Screen name="OtherPageInputFormatedCrash" component={OtherPageInputFormatedCrash} options={{ headerShown: false }}/>  */}
       <Stack.Screen name="OtherPage" component={OtherPage} options={{ headerShown: false, presentation:'modal'}}/>      
+      <Stack.Screen name="CircularOther" component={CircularOther} options={{ headerShown: false, presentation:'modal'}}/>      
       <Stack.Screen name="Details" component={Details} options={{ headerShown: false }} /> 
       <Stack.Screen name="Thoughts" component={Thoughts} options={{ headerShown: false }} /> 
       <Stack.Screen name="Challenge" component={Challenge} options={{ headerShown: false }} /> 

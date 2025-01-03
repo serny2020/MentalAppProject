@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { CheckInContext } from "../../context/CheckInContext";
+import additionalEmotions from "../../data/extra-emotion-data"
 
 const CheckInPage2 = ({ navigation }) => {
   const { updateCheckInData } = useContext(CheckInContext);
@@ -67,14 +68,107 @@ const CheckInPage2 = ({ navigation }) => {
     console.log("Selected Emotions:", selectedEmotions);
   }, [selectedEmotions]);
 
-  const additionalEmotions = [
-    { id: 18, emoji: "🤔", label: "Curious" },
-    { id: 19, emoji: "🙃", label: "Playful" },
-    { id: 20, emoji: "🥰", label: "Affectionate" },
-    { id: 21, emoji: "😐", label: "Neutral" },
-    { id: 22, emoji: "😵", label: "Overwhelmed" },
-  ];
+  // const additionalEmotions = [
+  //   { id: 18, emoji: "🤔", label: "Curious" },
+  //   { id: 19, emoji: "🙃", label: "Playful" },
+  //   { id: 20, emoji: "🥰", label: "Affectionate" },
+  //   { id: 21, emoji: "😐", label: "Neutral" },
+  //   { id: 22, emoji: "😵", label: "Overwhelmed" },
+  // ];
 
+  // const INNER_CATEGORIES = Array.from({ length: 6 }, (_, index) => ({
+  //   id: index + 1,
+  //   label: `inner ${index + 1}`,
+  //   color: `hsl(${(index * 60) % 360}, 70%, 75%)`, // Generate colors dynamically
+  // }));
+  
+  // const MIDDLE_CATEGORIES = Array.from({ length: 12 }, (_, index) => ({
+  //   id: index + 7,
+  //   label: `middle ${index + 1}`,
+  //   color: `hsl(${(index * 30) % 360}, 70%, 75%)`,
+  // }));
+  
+  // const OUTER_CATEGORIES = Array.from({ length: 36 }, (_, index) => ({
+  //   id: index + 19,
+  //   label: `outer ${index + 1}`,
+  //   color: `hsl(${(index * 20) % 360}, 70%, 80%)`,
+  // }));
+  
+  // // Mapping the new categories to the additionalEmotions structure, starting id from 18
+  // const additionalEmotions = [
+  //   ...INNER_CATEGORIES.map((item, index) => ({
+  //     id: index + 18, // Start id from 18
+  //     color: item.color,
+  //     label: `inner ${index + 18}`, // Reflect new id in the label
+  //   })),
+  //   ...MIDDLE_CATEGORIES.map((item, index) => ({
+  //     id: index + 18 + INNER_CATEGORIES.length, // Offset by INNER_CATEGORIES length
+  //     color: item.color,
+  //     label: `middle ${index + 18 + INNER_CATEGORIES.length}`, // Reflect new id in the label
+  //   })),
+  //   ...OUTER_CATEGORIES.map((item, index) => ({
+  //     id: index + 18 + INNER_CATEGORIES.length + MIDDLE_CATEGORIES.length + index, // Offset by INNER and MIDDLE lengths
+  //     color: item.color,
+  //     label: `outer ${index + 18 + INNER_CATEGORIES.length + MIDDLE_CATEGORIES.length + index}`, // Reflect new id in the label
+  //   })),
+  // ];
+  
+  // // console.log(additionalEmotions);
+  
+  
+  // // Helper function to generate emojis for the categories
+  // function getEmojiForCategory(index) {
+  //   const emojis = [
+  //     "😊", "😢", "😡", "😨", "😮", "😠", // Emojis for INNER_CATEGORIES
+  //     "🤔", "🙃", "🥰", "😐", "😵", "😎", // Additional emojis for MIDDLE_CATEGORIES
+  //     "🤯", "😬", "🙄", "😴", "🤗", "😲", "😤", "😇", // Emojis for OUTER_CATEGORIES
+  //     "😳", "😱", "🧐", "😶", "😑", "🙌", "👍", "👎",
+  //   ];
+  //   return emojis[index % emojis.length]; // Cycle through the emoji list
+  // }
+  
+
+
+  // const INNER_CATEGORIES = Array.from({ length: 6 }, (_, index) => ({
+  //   id: index + 1,
+  //   label: `inner ${index + 1}`,
+  //   color: `hsl(${(index * 60) % 360}, 70%, 75%)`, // Generate colors dynamically
+  // }));
+  
+  // const MIDDLE_CATEGORIES = Array.from({ length: 12 }, (_, index) => ({
+  //   id: index + 7,
+  //   label: `middle ${index + 1}`,
+  //   color: `hsl(${(index * 30) % 360}, 70%, 75%)`,
+  // }));
+  
+  // const OUTER_CATEGORIES = Array.from({ length: 36 }, (_, index) => ({
+  //   id: index + 19,
+  //   label: `outer ${index + 1}`,
+  //   color: `hsl(${(index * 20) % 360}, 70%, 80%)`,
+  // }));
+  
+  // // Mapping the new categories to the additionalEmotions structure, starting id from 18
+  // const additionalEmotions = [
+  //   ...INNER_CATEGORIES.map((item, index) => ({
+  //     id: index + 18, // Start id from 18
+  //     label: item.label,
+  //     color: item.color, // Keep the color field
+  //   })),
+  //   ...MIDDLE_CATEGORIES.map((item, index) => ({
+  //     id: index + 18 + INNER_CATEGORIES.length, // Offset by INNER_CATEGORIES length
+  //     label: item.label,
+  //     color: item.color, // Keep the color field
+  //   })),
+  //   ...OUTER_CATEGORIES.map((item, index) => ({
+  //     id: index + 18 + INNER_CATEGORIES.length + MIDDLE_CATEGORIES.length, // Offset by INNER and MIDDLE lengths
+  //     label: item.label,
+  //     color: item.color, // Keep the color field
+  //   })),
+  // ];
+  
+  // console.log(additionalEmotions);
+
+  
   const handleSelectFromOtherPage = (selectedEmotionsFromOtherPage) => {
     setSelectedEmotions(() => {
       // Extract IDs of selected items from the child
@@ -89,8 +183,16 @@ const CheckInPage2 = ({ navigation }) => {
     });
   };
 
+  // const handleOpenOtherPage = () => {
+  //   navigation.navigate("OtherPage", {
+  //     existingEmotions: [...emotions.Positive, ...emotions.Negative],
+  //     additionalEmotions, // List of available items for selection
+  //     onSelect: handleSelectFromOtherPage, // Callback to handle the selected items
+  //     initialSelectedEmotionsId: selectedEmotions, // Pass the currently selected emotions
+  //   });
+  // };
   const handleOpenOtherPage = () => {
-    navigation.navigate("OtherPage", {
+    navigation.navigate("CircularOther", {
       existingEmotions: [...emotions.Positive, ...emotions.Negative],
       additionalEmotions, // List of available items for selection
       onSelect: handleSelectFromOtherPage, // Callback to handle the selected items

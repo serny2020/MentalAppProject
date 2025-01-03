@@ -1,6 +1,5 @@
 import Emotion from "../models/check-in/emotion";
 
-
 export const EMOTIONS = [
     new Emotion(1, 'Angry'),
     new Emotion(2, 'Mad'),

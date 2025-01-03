@@ -1,6 +1,7 @@
 class Emotion {
-    constructor(id, label) {
+    constructor(id, label, color) {
       this.id = id;
+      this.color = color;
       this.label = label;
     }
   }
