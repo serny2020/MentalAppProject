@@ -1,15 +1,24 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, TouchableWithoutFeedback, Keyboard } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  Keyboard,
+  KeyboardAvoidingView,
+  ScrollView,
+} from "react-native";
 import { useCheckInContext } from "../../context/CheckInContext";
 
-const CheckInPage4 = ({ navigation }) => {
+const Details = ({ navigation }) => {
   const { checkInData, updateCheckInData } = useCheckInContext(); // Get data from context
   const { moods, emotions, causes } = checkInData; // Extract data from checkInData
   const [selectedCauses, setSelectedCauses] = useState([]);
   const [selectedEmotions, setSelectedEmotions] = useState([]);
   const [details, setDetails] = useState("");
 
-      
   const toggleSelection = (id, selectedItems, setSelectedItems) => {
     setSelectedItems((prev) =>
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
@@ -22,113 +31,123 @@ const CheckInPage4 = ({ navigation }) => {
 
   const handleNext = () => {
     // Update context with new details
-    updateCheckInData(
-      "details", 
-      details
-    );  
+    updateCheckInData("details", details);
     // Navigate to the next page
     navigation.navigate("Thoughts");
   };
 
-
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-    <View style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Text style={styles.skip}>{"⬅️"}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={styles.skip}>X</Text>
-        </TouchableOpacity>
-      </View>
+      {/* <ScrollView style={styles.screen}>
+        <KeyboardAvoidingView style={styles.screen} behavior="position"> */}
+          <View style={styles.container}>
+            {/* Header */}
+            <View style={styles.header}>
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Text style={styles.skip}>{"⬅️"}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Text style={styles.skip}>X</Text>
+              </TouchableOpacity>
+            </View>
 
-      {/* Question Text */}
-      <Text style={styles.questionText}>Tell us more about what happened:</Text>
-
-      {/* Mood Section */}
-      <Text style={styles.subQuestionText}>I feel</Text>
-      <View style={styles.moodContainer}>
-        {moods && (
-          <TouchableOpacity style={styles.moodButton}>
-            <Text style={styles.moodEmoji}>
-              {moods.emoji} {moods.label}
+            {/* Question Text */}
+            <Text style={styles.questionText}>
+              Tell us more about what happened:
             </Text>
-          </TouchableOpacity>
-        )}
-      </View>
 
-      {/* Causes Section */}
-      <Text style={styles.subQuestionText}>Because of</Text>
-      <View style={styles.moodContainer}>
-        {causes.map((cause) => (
-          <TouchableOpacity
-            key={cause.id}
-            style={[
-              styles.moodButton,
-              selectedCauses.includes(cause.id) && styles.selectedMoodButton,
-            ]}
-            onPress={() => toggleSelection(cause.id, selectedCauses, setSelectedCauses)}
-          >
-            <Text style={styles.moodEmoji}>{cause.label}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
+            {/* Mood Section */}
+            <Text style={styles.subQuestionText}>I feel</Text>
+            <View style={styles.moodContainer}>
+              {moods && (
+                <TouchableOpacity style={styles.moodButton}>
+                  <Text style={styles.moodEmoji}>
+                    {moods.emoji} {moods.label}
+                  </Text>
+                </TouchableOpacity>
+              )}
+            </View>
 
-      {/* Emotions Section */}
-      <Text style={styles.subQuestionText}>My emotions</Text>
-      <View style={styles.moodContainer}>
-        {emotions.map((emotion) => (
-          <TouchableOpacity
-            key={emotion.id}
-            style={[
-              styles.moodButton,
-              selectedEmotions.includes(emotion.id) && styles.selectedMoodButton,
-            ]}
-            onPress={() => toggleSelection(emotion.id, selectedEmotions, setSelectedEmotions)}
-          >
-            <Text style={styles.moodEmoji}>
-              {emotion.emoji} {emotion.label}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
+            {/* Causes Section */}
+            <Text style={styles.subQuestionText}>Because of</Text>
+            <View style={styles.moodContainer}>
+              {causes.map((cause) => (
+                <TouchableOpacity
+                  key={cause.id}
+                  style={[
+                    styles.moodButton,
+                    selectedCauses.includes(cause.id) &&
+                      styles.selectedMoodButton,
+                  ]}
+                  onPress={() =>
+                    toggleSelection(cause.id, selectedCauses, setSelectedCauses)
+                  }
+                >
+                  <Text style={styles.moodEmoji}>{cause.label}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
 
-      {/* Text Input */}
-      <Text style={styles.subQuestionText}>Cause in detail:</Text>
-      <TextInput
-        style={styles.inputBox}
-        placeholder="Write here..."
-        placeholderTextColor="#9b59b6"
-        value={details}
-        onChangeText={(text) => setDetails(text)}
-        multiline
-      />
+            {/* Emotions Section */}
+            <Text style={styles.subQuestionText}>My emotions</Text>
+            <View style={styles.moodContainer}>
+              {emotions.map((emotion) => (
+                <TouchableOpacity
+                  key={emotion.id}
+                  style={[
+                    styles.moodButton,
+                    selectedEmotions.includes(emotion.id) &&
+                      styles.selectedMoodButton,
+                  ]}
+                  onPress={() =>
+                    toggleSelection(
+                      emotion.id,
+                      selectedEmotions,
+                      setSelectedEmotions
+                    )
+                  }
+                >
+                  <Text style={styles.moodEmoji}>
+                    {emotion.emoji} {emotion.label}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
 
+            {/* Text Input */}
+            <Text style={styles.subQuestionText}>Cause in detail:</Text>
+            <TextInput
+              style={styles.inputBox}
+              placeholder="Write here..."
+              placeholderTextColor="#9b59b6"
+              value={details}
+              onChangeText={(text) => setDetails(text)}
+              multiline
+            />
 
-
-      {/* Next Button */}
-      <TouchableOpacity
-        style={[
-          styles.nextButton,
-          styles.nextButtonActive,
-        ]}
-        // disabled={!details}
-        onPress={() => {
-          // Navigate to the next page or handle the next logic
-          console.log("Details:", details);
-          handleNext();
-        }}
-      >
-        <Text style={styles.nextButtonText}>Next</Text>
-      </TouchableOpacity>
-    </View>
+            {/* Next Button */}
+            <TouchableOpacity
+              style={[styles.nextButton, styles.nextButtonActive]}
+              // disabled={!details}
+              onPress={() => {
+                // Navigate to the next page or handle the next logic
+                console.log("Details:", details);
+                handleNext();
+              }}
+            >
+              <Text style={styles.nextButtonText}>Next</Text>
+            </TouchableOpacity>
+          </View>
+        {/* </KeyboardAvoidingView>
+      </ScrollView> */}
     </TouchableWithoutFeedback>
   );
 };
 
 const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     backgroundColor: "#f7ffcc",
@@ -213,4 +232,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CheckInPage4;
+export default Details;
