@@ -123,29 +123,91 @@
 
 
 
+// const COLORS = Array.from({ length: 6 }, (_, index) => `hsl(${(index * 60) % 360}, 70%, 75%)`);
+
+// // Define INNER categories
+// const INNER_CATEGORIES = Array.from({ length: 6 }, (_, index) => ({
+//   id: index + 18, // IDs 18–23
+//   label: `inner ${index + 18}`,
+//   color: COLORS[index], // Assign one of the 6 distinct colors
+// }));
+
+// // Define MIDDLE categories
+// const MIDDLE_CATEGORIES = INNER_CATEGORIES.flatMap((inner, innerIndex) =>
+//   Array.from({ length: 2 }, (_, middleIndex) => ({
+//     id: 24 + innerIndex * 2 + middleIndex, // IDs 24–35
+//     label: `middle ${24 + innerIndex * 2 + middleIndex}`,
+//     color: inner.color, // Inherit color from inner layer
+//   }))
+// );
+
+// // Define OUTER categories
+// const OUTER_CATEGORIES = INNER_CATEGORIES.flatMap((inner, innerIndex) =>
+//   Array.from({ length: 6 }, (_, outerIndex) => ({
+//     id: 36 + innerIndex * 6 + outerIndex, // IDs 36–71
+//     label: `outer ${36 + innerIndex * 6 + outerIndex}`,
+//     color: inner.color, // Inherit color from inner layer
+//   }))
+// );
+
+// // Combine all categories into a single flat list
+// const additionalEmotions = [
+//   ...INNER_CATEGORIES,
+//   ...MIDDLE_CATEGORIES,
+//   ...OUTER_CATEGORIES,
+// ];
+
+// export default additionalEmotions;
+
+
+
+// Define COLORS for categories
 const COLORS = Array.from({ length: 6 }, (_, index) => `hsl(${(index * 60) % 360}, 70%, 75%)`);
 
-// Define INNER categories
-const INNER_CATEGORIES = Array.from({ length: 6 }, (_, index) => ({
+// Pre-defined labels for INNER categories
+const INNER_LABELS = ["Happy", "Sad", "Angry", "Afraid", "Surprised", "Bad"];
+// const INNER_LABELS = ["1", "2", "3", "4", "5", "6"];
+const INNER_CATEGORIES = INNER_LABELS.map((label, index) => ({
   id: index + 18, // IDs 18–23
-  label: `${index + 18}`,
-  color: COLORS[index], // Assign one of the 6 distinct colors
+  label,
+  // label: `inner ${index}`,
+  color: COLORS[index],
 }));
 
-// Define MIDDLE categories
+// Pre-defined labels for MIDDLE categories
+const MIDDLE_LABELS = [
+  ["Content", "Proud"],
+  ["Lonely", "Vulnerable"],
+  ["Mad", "Aggressive"],
+  ["Scared", "Anxious"],
+  ["Startled", "Shocked"],
+  ["Bored", "Indifferent"],
+];
+
 const MIDDLE_CATEGORIES = INNER_CATEGORIES.flatMap((inner, innerIndex) =>
-  Array.from({ length: 2 }, (_, middleIndex) => ({
+  MIDDLE_LABELS[innerIndex].map((label, middleIndex) => ({
     id: 24 + innerIndex * 2 + middleIndex, // IDs 24–35
-    label: `${24 + innerIndex * 2 + middleIndex}`,
+    label,
+    // label: `middle ${24 + innerIndex * 2 + middleIndex}`,
     color: inner.color, // Inherit color from inner layer
   }))
 );
 
-// Define OUTER categories
+// Pre-defined labels for OUTER categories
+const OUTER_LABELS = [
+  ["Peaceful", "Accepted", "Confident", "Accomplished", "Eager", "Energetic"],
+  ["Isolated", "Abandoned", "Victimized", "Fragile", "Ashamed", "Remorseful"],
+  ["Jealous", "Furious", "Provoked", "Hostile", "Annoyed", "Ridiculed"],
+  ["Helpless", "Frightened", "Overwhelmed", "Worried", "Paralyzed", "Dependent"],
+  ["Shaken", "Jittery", "Dismayed", "Upset", "Speechless", "Deflated"],
+  ["Indifferent", "Disconnected", "Uninterested", "Passive", "Disengaged", "Uninvolved"],
+];
+
 const OUTER_CATEGORIES = INNER_CATEGORIES.flatMap((inner, innerIndex) =>
-  Array.from({ length: 6 }, (_, outerIndex) => ({
+  OUTER_LABELS[innerIndex].map((label, outerIndex) => ({
     id: 36 + innerIndex * 6 + outerIndex, // IDs 36–71
-    label: `${36 + innerIndex * 6 + outerIndex}`,
+    label,
+    // label: `outer ${36 + innerIndex * 6 + outerIndex}`,
     color: inner.color, // Inherit color from inner layer
   }))
 );
@@ -158,3 +220,4 @@ const additionalEmotions = [
 ];
 
 export default additionalEmotions;
+

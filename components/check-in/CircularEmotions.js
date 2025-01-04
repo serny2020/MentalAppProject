@@ -73,7 +73,7 @@ const CircularCategories = ({ additionalEmotions = [], setSelectedEmotions, sele
       const labelY = center + labelRadius * Math.sin(midpointAngle);
 
       // Determine if the label is on the left or right side
-      const isLeftSide = midpointAngle > Math.PI / 2 && midpointAngle < (3 * Math.PI) / 2;
+      const isLeftSide = midpointAngle - 0.01 > Math.PI / 2 && midpointAngle - 0.01 < (3 * Math.PI) / 2;
       // Calculate rotation angle for the text
       let rotationAngle = (midpointAngle * 180) / Math.PI; // Convert radians to degrees
 
@@ -86,7 +86,7 @@ const CircularCategories = ({ additionalEmotions = [], setSelectedEmotions, sele
         <G
           key={category.id}
           onPress={() => {
-            setSelectedEmotions(category.label); // Update center text
+            setSelectedEmotions(category.id); // Update center text
           }}
         >
           {/* Render Pie Slice */}
