@@ -30,7 +30,7 @@ const LetGo = ({ navigation }) => {
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => navigation.navigate("UnhelpfulThoughtsScreen")}
+        onPress={() => navigation.navigate("BrainDumpScreen")}
       >
         <Ionicons
           name="information-circle-outline"

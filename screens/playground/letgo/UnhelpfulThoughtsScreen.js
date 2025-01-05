@@ -26,10 +26,10 @@ const UnhelpfulThoughtsScreen = ({navigation}) => {
       />
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={[styles.button, styles.trashButton]} onPress={() => {navigation.navigate("BurnAsAshScreen")}}>
+        <TouchableOpacity style={[styles.button, styles.trashButton]} onPress={() => {navigation.navigate("ThrowAsTrashScreen")}}>
           <Text style={styles.buttonText}>Throw them as trash</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, styles.burnButton]} onPress={() => {navigation.navigate("ThrowAsTrashScreen")}}>
+        <TouchableOpacity style={[styles.button, styles.burnButton]} onPress={() => {navigation.navigate("BurnAsAshScreen")}}>
           <Text style={styles.buttonText}>Burn them as ash</Text>
         </TouchableOpacity>
       </View>

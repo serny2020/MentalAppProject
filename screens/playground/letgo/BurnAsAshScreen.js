@@ -47,10 +47,10 @@ const BurnAsAshScreen = ({navigation}) => {
 
       {/* Burn Button */}
       <TouchableOpacity style={styles.burnButton} onPress={handleBurnThoughts}>
-        {/* <Image 
-          source={require('./assets/fire-icon.png')} 
+        <Image 
+          source={require('../../../assets/image/letgo/BurnAsAshIcon.png')} 
           style={styles.fireIcon}
-        /> */}
+        />
       </TouchableOpacity>
     </View>
   );
