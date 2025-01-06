@@ -9,7 +9,15 @@ import {
   Animated,
 } from "react-native";
 
-const ThrowAsTrashScreen = ({navigation}) => {
+const ThrowAsTrashScreen = ({ navigation, route }) => {
+  const { thoughts } = route.params || ""; // Get the passed thoughts or fallback to empty string
+  const sentences = thoughts
+    ? thoughts
+        .split(".")
+        .filter((sentence) => sentence.trim() !== "") // Filter out empty sentences
+        .map((sentence) => `"${sentence.trim()}."`) // Add quotes and retain period
+    : []; // Split thoughts into individual sentences
+
   const [isDraggedToTrash, setIsDraggedToTrash] = useState(false);
   const [pan, setPan] = useState(new Animated.ValueXY());
 
@@ -44,7 +52,9 @@ const ThrowAsTrashScreen = ({navigation}) => {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.headerText}onPress={() => navigation.goBack()}>Back</Text>
+        <Text style={styles.headerText} onPress={() => navigation.goBack()}>
+          Back
+        </Text>
         <Text style={styles.headerText}>Exit</Text>
       </View>
 
@@ -61,27 +71,17 @@ const ThrowAsTrashScreen = ({navigation}) => {
           {...panResponder.panHandlers}
           style={[styles.thoughtsBox, pan.getLayout()]}
         >
-          <Text style={styles.thoughtText}>
-            "I’m not good enough to succeed at anything."
-          </Text>
-          <Text style={styles.thoughtText}>
-            "Everyone else is more talented than I am."
-          </Text>
-          <Text style={styles.thoughtText}>
-            "I’ll never find someone who truly loves me."
-          </Text>
-          <Text style={styles.thoughtText}>
-            "Everything I do is pointless."
-          </Text>
-          <Text style={styles.thoughtText}>
-            "The world is against me."
-          </Text>
-          <Text style={styles.thoughtText}>
-            "My life will never get better."
-          </Text>
-          <Text style={styles.thoughtText}>
-            "I’m too broken to be fixed."
-          </Text>
+          {sentences.length > 0 ? (
+            sentences.map((sentence, index) => (
+              <Text key={index} style={styles.thoughtText}>
+                {sentence}
+              </Text>
+            ))
+          ) : (
+            <Text style={styles.noThoughtsText}>
+              No thoughts to throw away. Add some!
+            </Text>
+          )}
         </Animated.View>
       ) : (
         <Text style={styles.trashText}>Thoughts are in the trash can!</Text>
@@ -99,7 +99,10 @@ const ThrowAsTrashScreen = ({navigation}) => {
       </TouchableOpacity>
 
       {/* Sound Button */}
-      <TouchableOpacity style={styles.soundButton} onPress={() => console.log("Toggle sound")}>
+      <TouchableOpacity
+        style={styles.soundButton}
+        onPress={() => console.log("Toggle sound")}
+      >
         <Text style={styles.soundText}>🔊</Text>
       </TouchableOpacity>
     </View>
@@ -149,6 +152,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#000",
     marginBottom: 8,
+  },
+  noThoughtsText: {
+    fontSize: 16,
+    color: "#888",
+    textAlign: "center",
   },
   trashText: {
     fontSize: 16,

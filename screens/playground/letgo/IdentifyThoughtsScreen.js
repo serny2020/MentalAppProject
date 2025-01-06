@@ -25,15 +25,20 @@ const IdentifyThoughtsScreen = ({ route, navigation }) => {
   };
 
   const handleCopyToInput = () => {
-    setTextInputValue(selectedSentences.join(". ") + ".");
+    setTextInputValue((prevValue) => prevValue + (prevValue ? " " : "") + selectedSentences.join(". ") + ".");
     setModalVisible(false); // Close the modal
-  };
+};
+
 
   const handleClear = () => setTextInputValue("");
 
   const handleDone = () => {
-    console.log("User's input:", textInputValue);
+    navigation.navigate("UnhelpfulThoughtsScreen", { thoughts: textInputValue });
     // Add functionality to process the input
+  };
+
+  const handleNext = () => {
+    navigation.navigate("UnhelpfulThoughtsScreen", { thoughts: textInputValue });
   };
 
   return (
@@ -43,7 +48,7 @@ const IdentifyThoughtsScreen = ({ route, navigation }) => {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Text style={styles.headerText}>Back</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("UnhelpfulThoughtsScreen")}>
+        <TouchableOpacity onPress={handleNext}>
           <Text style={styles.headerText}>Next</Text>
         </TouchableOpacity>
       </View>
@@ -70,7 +75,7 @@ const IdentifyThoughtsScreen = ({ route, navigation }) => {
             Things you can’t change from the past; things that are out of your
             control, unhelpful thoughts:
           </Text>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity  onPress={() => navigation.navigate('CheckInNavigator', { screen: 'CognitiveDistortionsPage' })}>
           <Ionicons name="help-circle-outline" size={20} color="#A020F0" />
           </TouchableOpacity>
         </View>

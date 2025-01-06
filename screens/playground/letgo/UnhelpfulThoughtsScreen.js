@@ -1,13 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
-const UnhelpfulThoughtsScreen = ({navigation}) => {
+const UnhelpfulThoughtsScreen = ({navigation, route }) => {
+  const { thoughts } = route.params || {}; // Get the passed thoughts
+
   const handleTrash = () => {
-    console.log("Throw as trash");
+    navigation.navigate("ThrowAsTrashScreen", { thoughts }); // Pass to trash screen
   };
 
   const handleBurn = () => {
-    console.log("Burn as ash");
+    navigation.navigate("BurnAsAshScreen", { thoughts }); // Pass to burn screen
   };
 
   return (
@@ -26,10 +28,10 @@ const UnhelpfulThoughtsScreen = ({navigation}) => {
       />
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={[styles.button, styles.trashButton]} onPress={() => {navigation.navigate("ThrowAsTrashScreen")}}>
+        <TouchableOpacity style={[styles.button, styles.trashButton]} onPress={handleTrash}>
           <Text style={styles.buttonText}>Throw them as trash</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, styles.burnButton]} onPress={() => {navigation.navigate("BurnAsAshScreen")}}>
+        <TouchableOpacity style={[styles.button, styles.burnButton]} onPress={handleBurn}>
           <Text style={styles.buttonText}>Burn them as ash</Text>
         </TouchableOpacity>
       </View>

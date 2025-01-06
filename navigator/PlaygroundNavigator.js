@@ -1,5 +1,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
+import CheckInNavigator from "./CheckInNavigator";
 import Playground from "../screens/home/Playground";
 import Arcade from "../screens/playground/Arcade";
 import Dreamboard from "../screens/playground/dreamboard/Dreamboard";
@@ -79,7 +80,6 @@ const PlaygroundNavigator = () => {
         options={{ headerShown: false }}
       />
 
-
       {/* dreamboard part */}
       <Stack.Screen
         name="Dreamboard"
@@ -104,6 +104,8 @@ const PlaygroundNavigator = () => {
         component={PhotoCollageScreen}
         options={{ headerShown: false }}
       />
+
+      <Stack.Screen name="CheckInNavigator" component={CheckInNavigator} options={{ headerShown: false }}/>
     </Stack.Navigator>
   );
 };
