@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image } from 'react-native';
 
-const SOS = () => {
+const SOS = ({navigation}) => {
   return (
     <View style={styles.container}>
       {/* Header Section */}
@@ -44,8 +44,15 @@ const SOS = () => {
 
       {/* Spinner Section */}
       <View style={styles.spinnerSection}>
-        <Text style={styles.spinnerText}>Hard to decide which one to pick? Try our <Text style={styles.link}>spinner!</Text></Text>
-      </View>
+      <Text style={styles.spinnerText}>
+        Hard to decide which one to pick? Try our{" "}
+        <TouchableOpacity 
+        onPress={() => navigation.navigate('SOSNavigator', { screen: 'SpinWheelPage' })}
+        >
+          <Text style={styles.link}>spinner!</Text>
+        </TouchableOpacity>
+      </Text>
+    </View>
     </View>
   );
 };

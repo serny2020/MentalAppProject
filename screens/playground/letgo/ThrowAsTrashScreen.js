@@ -44,7 +44,7 @@ const ThrowAsTrashScreen = ({ navigation, route }) => {
   });
 
   const handleEmptyTrash = () => {
-    console.log("Trash emptied!");
+    console.log("You just gave your mind a fresh start. Let’s fill that space with good vibes!");
     setIsDraggedToTrash(false);
   };
 

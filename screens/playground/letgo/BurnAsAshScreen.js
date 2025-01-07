@@ -91,7 +91,7 @@ const BurnAsAshScreen = ({ navigation, route }) => {
 
           {isBurned && (
             <Text style={styles.ashText}>
-              The thoughts have turned into ash. You’re free now.
+              Well done! You’ve burned those thoughts into oblivion. Ashes to ashes, dust to positivity!
             </Text>
           )}
         </ScrollView>
