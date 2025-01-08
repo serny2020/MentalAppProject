@@ -1,8 +1,11 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import CheckInNavigator from "./CheckInNavigator";
-import SpinWheelPage from "../screens/playground/SOS/SpinWheelPage";
 import SOS from "../screens/home/SOS";
+import SpinWheelPage from "../screens/playground/SOS/SpinWheelPage";
+import EmergencyToolkitScreen from "../screens/playground/SOS/EmergencyToolkitScreen";
+import CustomizeScreen from "../screens/playground/SOS/CustomizeScreen";
+import SelectToolsPage from "../screens/playground/SOS/SelectToolsPage";
 
 const Stack = createStackNavigator();
 
@@ -19,7 +22,26 @@ const SOSNavigator = () => {
         component={SpinWheelPage}
         options={{ headerShown: false }}
       />
-      <Stack.Screen name="CheckInNavigator" component={CheckInNavigator} options={{ headerShown: false }}/>
+      <Stack.Screen
+        name="EmergencyToolkitScreen"
+        component={EmergencyToolkitScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="CustomizeScreen"
+        component={CustomizeScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="SelectToolsPage"
+        component={SelectToolsPage}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="CheckInNavigator"
+        component={CheckInNavigator}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 };

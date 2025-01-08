@@ -14,6 +14,7 @@ const SpinWheel = ({ onSelection }) => {
   const radius = 180; // Radius for the wheel
   const center = 200; // Center point of the wheel
   const rotation = useRef(new Animated.Value(0)).current; // Animated rotation value
+  const [isSpinning, setIsSpinning] = useState(false);
   const [selectedSegment, setSelectedSegment] = useState(null);
 
   const createPieSlicePath = (startAngle, endAngle) => {
@@ -30,59 +31,39 @@ const SpinWheel = ({ onSelection }) => {
 
   let cumulativeAngle = 0;
 
-//   const handleSpin = () => {
-//     const randomAngle = Math.floor(Math.random() * 360) + 720; // At least 2 full spins + random
-//     Animated.timing(rotation, {
-//       toValue: rotation._value + randomAngle, // Ensure rotation value always increases
-//       duration: 3000,
-//       easing: Easing.out(Easing.cubic),
-//       useNativeDriver: true,
-//     }).start(() => {
-//       // Calculate selected segment
-//       const segmentAngle = 360 / segments.length;
-//       const normalizedAngle = (randomAngle % 360) * (Math.PI / 180); // Convert to radians
-//       const selectedIndex = Math.floor(normalizedAngle / (segmentAngle * (Math.PI / 180))); // Adjust for radians
-//       const selected = segments[selectedIndex % segments.length];
-//       setSelectedSegment(selected);
-
-//       if (onSelection) {
-//         onSelection(selected);
-//       }
-//     });
-//   };
-  
-
   const handleSpin = () => {
-    const randomAngle = Math.floor(Math.random() * 360) + 720; // At least 2 full spins + random
-    Animated.timing(rotation, {
-      toValue: rotation._value + randomAngle, // Ensure rotation value always increases
-      duration: 3000,
-      easing: Easing.out(Easing.cubic),
-      useNativeDriver: true,
-    }).start(() => {
-      // Normalize the total rotation angle to [0, 360)
-      const totalRotation = (randomAngle % 360 + 360) % 360;
-  
-      // Adjust for the fixed indicator position at 356 degrees
-      const effectiveAngle = (356 - totalRotation + 360) % 360;
-  
-      // Calculate the size of each segment
-      const segmentAngle = 360 / segments.length;
-  
-      // Determine which segment the indicator falls into
-      const selectedIndex = Math.floor(effectiveAngle / segmentAngle);
-  
-      // Get the corresponding segment
-      const selected = segments[selectedIndex];
-  
-      setSelectedSegment(selected);
-  
-      if (onSelection) {
-        onSelection(selected);
-      }
+    if (isSpinning) return;
+    setIsSpinning(true);
+
+    // 1) Stop any ongoing animation & reset rotation to 0
+    rotation.stopAnimation(() => {
+      rotation.setValue(0);
+
+      // 2) Random segment selection
+      const segmentCount = segments.length;
+      const segmentAngle = 360 / segmentCount;
+      const randomIndex = Math.floor(Math.random() * segmentCount);
+      const chosenSegmentAngle = randomIndex * segmentAngle;
+
+      // 3) Calculate target angle: multiple full spins + the angle to the selected segment
+      const fullRotations = 3;
+      const targetAngle = fullRotations * 360 + (360 - chosenSegmentAngle);
+
+      Animated.timing(rotation, {
+        toValue: targetAngle,
+        duration: 4000,
+        easing: Easing.out(Easing.cubic),
+        useNativeDriver: true,
+      }).start(() => {
+        setIsSpinning(false);
+        setSelectedSegment(segments[randomIndex]);
+
+        if (onSelection) {
+          onSelection(segments[randomIndex])
+        }
+      });
     });
   };
-  
 
   // Interpolating rotation to degrees for the wheel
   const spinStyle = {
@@ -105,6 +86,7 @@ const SpinWheel = ({ onSelection }) => {
           fill="red"
           stroke="black"
           strokeWidth={2}
+          transform=" translate(150, 250) rotate(-45, 200, 60)"
         />
       </Svg>
 
@@ -165,16 +147,20 @@ const SpinWheel = ({ onSelection }) => {
       </Svg>
 
       {/* Spin Button */}
-      <TouchableOpacity style={styles.spinButton} onPress={handleSpin}>
-        <RNText style={styles.spinButtonText}>SPIN</RNText>
+      <TouchableOpacity
+        style={styles.spinButton}
+        onPress={handleSpin}
+        disabled={isSpinning}
+      >
+        <RNText style={styles.spinButtonText}>{isSpinning ? "Spinning..." : "SPIN"}</RNText>
       </TouchableOpacity>
 
       {/* Result Text */}
-      {selectedSegment && (
+      {/* {selectedSegment && (
         <RNText style={styles.resultText}>
           Selected: {selectedSegment.title}
         </RNText>
-      )}
+      )} */}
     </View>
   );
 };
@@ -188,7 +174,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     left: 0,
-  },
+    zIndex: 10, // Ensures it is above other elements
+  },  
   centerCircle: {
     position: "absolute",
     top: 0,
@@ -215,6 +202,3 @@ const styles = StyleSheet.create({
 });
 
 export default SpinWheel;
-
-
-

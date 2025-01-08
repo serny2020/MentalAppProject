@@ -1,13 +1,20 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image } from 'react-native';
+import React from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+  Image,
+} from "react-native";
 
-const SOS = ({navigation}) => {
+const SOS = ({ navigation }) => {
   return (
     <View style={styles.container}>
       {/* Header Section */}
       <View style={styles.headerSection}>
         <Image
-          source={{ uri: 'https://example.com/love-icon.png' }} // Replace with actual image URL or local asset
+          source={{ uri: "https://example.com/love-icon.png" }} // Replace with actual image URL or local asset
           style={styles.iconImage}
         />
         <Text style={styles.headerText}>
@@ -25,34 +32,50 @@ const SOS = ({navigation}) => {
 
       {/* Options Section */}
       <ScrollView style={styles.optionsContainer}>
-        <TouchableOpacity style={styles.optionRow}>
-          <Text style={styles.optionText}>Open Your Personal <Text style={styles.bold}>Emergency Toolkit</Text></Text>
+        <TouchableOpacity
+          style={styles.optionRow}
+          onPress={() => navigation.navigate("SOSNavigator", { screen: "EmergencyToolkitScreen" })}
+        >
+          <Text style={styles.optionText}>
+            Open Your Personal{" "}
+            <Text style={styles.bold}>Emergency Toolkit</Text>
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.optionRow}>
-          <Text style={styles.optionText}>Connect Your <Text style={styles.bold}>Loved Ones</Text></Text>
+          <Text style={styles.optionText}>
+            Connect Your <Text style={styles.bold}>Loved Ones</Text>
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.optionRow}>
-          <Text style={styles.optionText}>Chat in Your <Text style={styles.bold}>Community</Text></Text>
+          <Text style={styles.optionText}>
+            Chat in Your <Text style={styles.bold}>Community</Text>
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.optionRow}>
-          <Text style={styles.optionText}>Find a <Text style={styles.bold}>Professional Therapist</Text></Text>
+          <Text style={styles.optionText}>
+            Find a <Text style={styles.bold}>Professional Therapist</Text>
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.optionRow}>
-          <Text style={styles.optionText}>Call <Text style={styles.bold}>Life Threat Emergency Line</Text></Text>
+          <Text style={styles.optionText}>
+            Call <Text style={styles.bold}>Life Threat Emergency Line</Text>
+          </Text>
         </TouchableOpacity>
       </ScrollView>
 
       {/* Spinner Section */}
       <View style={styles.spinnerSection}>
-      <Text style={styles.spinnerText}>
-        Hard to decide which one to pick? Try our{" "}
-        <TouchableOpacity 
-        onPress={() => navigation.navigate('SOSNavigator', { screen: 'SpinWheelPage' })}
-        >
-          <Text style={styles.link}>spinner!</Text>
-        </TouchableOpacity>
-      </Text>
-    </View>
+        <Text style={styles.spinnerText}>
+          Hard to decide which one to pick? Try our{" "}
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("SOSNavigator", { screen: "SpinWheelPage" })
+            }
+          >
+            <Text style={styles.link}>spinner!</Text>
+          </TouchableOpacity>
+        </Text>
+      </View>
     </View>
   );
 };
