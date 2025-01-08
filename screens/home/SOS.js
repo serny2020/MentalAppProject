@@ -34,16 +34,26 @@ const SOS = ({ navigation }) => {
       <ScrollView style={styles.optionsContainer}>
         <TouchableOpacity
           style={styles.optionRow}
-          onPress={() => navigation.navigate("SOSNavigator", { screen: "EmergencyToolkitScreen" })}
+          onPress={() =>
+            navigation.navigate("SOSNavigator", {
+              screen: "EmergencyToolkitScreen",
+            })
+          }
         >
           <Text style={styles.optionText}>
             Open Your Personal{" "}
             <Text style={styles.bold}>Emergency Toolkit</Text>
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.optionRow}>
+        <TouchableOpacity
+          style={styles.optionRow}
+          onPress={() =>
+            navigation.navigate("SOSNavigator", { screen: "LovedOnesPage" })
+          }
+        >
           <Text style={styles.optionText}>
-            Connect Your <Text style={styles.bold}>Loved Ones</Text>
+            Connect Your{" "}
+            <Text style={styles.bold}>Loved Ones</Text>
           </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.optionRow}>

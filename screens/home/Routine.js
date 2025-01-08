@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; // Use Ionicons for icons
 
-const Routine = () => {
+const Routine = ({navigation}) => {
   const currentDate = new Date().toLocaleDateString('en-US', {
     month: '2-digit',
     day: '2-digit'
@@ -13,7 +13,7 @@ const Routine = () => {
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerText}>My Plan: {currentDate} Community</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => {navigation.navigate("SettingsNavigator", {screen: "Settings"})}}>
           <Ionicons name="person-circle-outline" size={30} color="#9b59b6" />
         </TouchableOpacity>
       </View>

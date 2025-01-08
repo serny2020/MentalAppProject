@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -9,20 +9,61 @@ import {
 } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
-const CustomizeScreen = ({ navigation }) => {
-  const [tools, setTools] = useState([
-    // "Get out of my room",
-    // "Write down my thoughts on a piece of paper",
-    // "Drink some water",
-    ""
-  ]);
-  const [newTool, setNewTool] = useState("");
+const CustomizeScreen = ({ navigation, route }) => {
+  const [tools, setTools] = useState([]);
+  const [selectedTools, setSelectedTools] = useState({}); // Track selected state for each tool
+  const [newTool, setNewTool] = useState(""); // For keyboard input
 
-  const addTool = () => {
-    if (newTool.trim().length > 0) {
-      setTools([...tools, newTool.trim()]);
-      setNewTool("");
+  // Effect to handle tools passed from SelectToolsPage
+  useEffect(() => {
+    if (route.params?.selectedTools) {
+      const newTools = route.params.selectedTools.filter(
+        (tool) => !tools.includes(tool)
+      );
+      setTools((prevTools) => [...prevTools, ...newTools]);
+
+      // Initialize the selected state for new tools
+      const updatedSelectedTools = { ...selectedTools };
+      newTools.forEach((tool) => {
+        updatedSelectedTools[tool] = false;
+      });
+      setSelectedTools(updatedSelectedTools);
     }
+  }, [route.params?.selectedTools]);
+
+  // Toggle checkbox state
+  const toggleCheckbox = (tool) => {
+    setSelectedTools((prev) => ({
+      ...prev,
+      [tool]: !prev[tool],
+    }));
+  };
+
+  // Add new tool from user input
+  const addTool = () => {
+    if (newTool.trim().length > 0 && !tools.includes(newTool.trim())) {
+      setTools((prevTools) => [...prevTools, newTool.trim()]);
+      setSelectedTools((prev) => ({
+        ...prev,
+        [newTool.trim()]: false, // Initialize checkbox state for the new tool
+      }));
+      setNewTool(""); // Clear input
+    }
+  };
+
+  // Add new tools from SelectToolsPage
+  const handleAddTools = (selectedToolsFromPage) => {
+    const newTools = selectedToolsFromPage.filter(
+      (tool) => !tools.includes(tool)
+    );
+    setTools((prevTools) => [...prevTools, ...newTools]);
+
+    // Initialize checkbox state for new tools
+    const updatedSelectedTools = { ...selectedTools };
+    newTools.forEach((tool) => {
+      updatedSelectedTools[tool] = false;
+    });
+    setSelectedTools(updatedSelectedTools);
   };
 
   return (
@@ -55,7 +96,9 @@ const CustomizeScreen = ({ navigation }) => {
         in the past that worked out well for you.
       </Text>
       <TouchableOpacity
-        onPress={() => navigation.navigate("SelectToolsPage")}
+        onPress={() =>
+          navigation.navigate("SelectToolsPage", { onAddTools: handleAddTools })
+        }
         style={styles.suggestionLink}
       >
         <Text style={styles.suggestionText}>
@@ -64,22 +107,8 @@ const CustomizeScreen = ({ navigation }) => {
         <Ionicons name="help-circle-outline" size={18} color="#6A0DAD" />
       </TouchableOpacity>
 
-      {/* Tools List */}
-      <View style={styles.toolsContainer}>
-        <FlatList
-          data={tools}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => (
-            <View style={styles.toolItem}>
-              {/* <Ionicons name="checkbox-outline" size={20} color="#555" /> */}
-              <Text style={styles.toolText}>{item}</Text>
-            </View>
-          )}
-        />
-      </View>
-
       {/* Input Section */}
-      {/* <View style={styles.inputContainer}>
+      <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
           placeholder="Add a new tool"
@@ -90,7 +119,37 @@ const CustomizeScreen = ({ navigation }) => {
         <TouchableOpacity style={styles.addButton} onPress={addTool}>
           <Text style={styles.addButtonText}>Add</Text>
         </TouchableOpacity>
-      </View> */}
+      </View>
+
+      {/* Tools List */}
+      <View style={styles.toolsContainer}>
+        <FlatList
+          data={tools}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
+            <View style={styles.toolItem}>
+              <TouchableOpacity
+                onPress={() => toggleCheckbox(item)}
+                style={styles.checkbox}
+              >
+                <Ionicons
+                  name={selectedTools[item] ? "checkbox" : "square-outline"}
+                  size={24}
+                  color="#6A0DAD"
+                />
+              </TouchableOpacity>
+              <Text
+                style={[
+                  styles.toolText,
+                  selectedTools[item] && styles.strikethroughText,
+                ]}
+              >
+                {item}
+              </Text>
+            </View>
+          )}
+        />
+      </View>
     </View>
   );
 };
@@ -157,28 +216,11 @@ const styles = StyleSheet.create({
     textDecorationLine: "underline",
     marginRight: 4,
   },
-  toolsContainer: {
-    flex: 1,
-    backgroundColor: "#E8E8E8",
-    borderRadius: 8,
-    padding: 12,
-    marginBottom: 16,
-  },
-  toolItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 8,
-  },
-  toolText: {
-    fontSize: 16,
-    color: "#000",
-    marginLeft: 8,
-  },
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginTop: 8,
+    marginBottom: 16,
   },
   input: {
     flex: 1,
@@ -200,6 +242,29 @@ const styles = StyleSheet.create({
     color: "#FFF",
     fontWeight: "bold",
     fontSize: 16,
+  },
+  toolsContainer: {
+    flex: 1,
+    backgroundColor: "#E8E8E8",
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 16,
+  },
+  toolItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 8,
+  },
+  checkbox: {
+    marginRight: 8,
+  },
+  toolText: {
+    fontSize: 16,
+    color: "#000",
+  },
+  strikethroughText: {
+    textDecorationLine: "line-through",
+    color: "#A9A9A9", // Optional: Change color to indicate the item is completed
   },
 });
 

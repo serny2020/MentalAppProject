@@ -8,67 +8,16 @@ import {
   Modal,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import tools from "../../../data/tools-data";
 
-const SelectToolsPage = ({ navigation }) => {
-  const tools = [
-    {
-      name: "Spend time outdoor: rock climbing/hiking/biking/walking/running",
-      info: "",
-    },
-    {
-      name: "Get out of my room",
-      info: "",
-    },
-    {
-      name: "Workout in a gym",
-      info: "",
-    },
-    {
-      name: "Walk on the ground with bare feet",
-      info: "",
-    },
-    {
-      name: "Drink some water",
-      info: "",
-    },
-    {
-      name: "Describe your environment using five senses",
-      info: "what are 5 things you can see? what are 4 things you can touch? what are 3 things you can hear? what are 2 things you can smell? what is 1 thing you can taste?",
-    },
-    {
-      name: "Opposite action",
-      info: "Do the opposite of what your emotion is telling you to do. For example, if you are sad and want to stay in bed, get up instead.",
-    },
-    {
-      name: "Try RAIN",
-      info: "Recognize the feeling. Allow the feeling to be there. Investigate the feeling. e.g.is it from the past or present?- origins, triggers, how they affect you). Nurture yourself (with kindness & understanding)",
-    },
-    {
-      name: "Distraction",
-      info: "Engage in an activity to distract your mind from stress. Try reading, watching a show, or doing a hobby you enjoy.",
-    },
-    {
-      name: "Touch various objects around you",
-      info: "Touching objects can help ground you in the moment. Focus on the texture, temperature, and weight of the objects.",
-    },
-    {
-      name: "Think of favorites: color, animal, season, food, TV show, movie",
-      info: "Thinking of your favorites can uplift your mood. Remind yourself of the things you enjoy.",
-    },
-    {
-      name: "Read something out loud",
-      info: "Reading out loud can help you focus and calm down. Pick something simple, like a book or a poem.",
-    },
-    {
-      name: "Write down my thoughts on a piece of paper",
-      info: "Writing thoughts can help process emotions. Journaling is a great way to organize your feelings.",
-    },
-  ];
-
+const SelectToolsPage = ({ navigation, route }) => {
   const [selectedTools, setSelectedTools] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalInfo, setModalInfo] = useState("");
   const [modalTitle, setModalTitle] = useState("");
+
+  const isSelectAllPressable = selectedTools.length !== tools.length;
+  const isDeselectAllPressable = selectedTools.length > 0;
 
   const toggleSelectTool = (tool) => {
     if (selectedTools.includes(tool)) {
@@ -92,6 +41,14 @@ const SelectToolsPage = ({ navigation }) => {
     setModalVisible(true);
   };
 
+  const handleAddTools = () => {
+    const onAddTools = route.params?.onAddTools;
+    if (onAddTools) {
+      onAddTools(selectedTools); // Call the callback with selected tools
+    }
+    navigation.goBack(); // Navigate back to CustomizeScreen
+  };
+
   return (
     <View style={styles.container}>
       {/* Header */}
@@ -104,9 +61,9 @@ const SelectToolsPage = ({ navigation }) => {
           />
         </TouchableOpacity>
         <Ionicons name="help-circle-outline" size={28} color="#6A0DAD" />
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        {/* <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="close-circle-outline" size={24} color="#6A0DAD" />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
 
       {/* Title */}
@@ -116,19 +73,33 @@ const SelectToolsPage = ({ navigation }) => {
 
       {/* Buttons */}
       <View style={styles.buttonRow}>
-        <TouchableOpacity style={styles.actionButton} onPress={selectAllTools}>
+        <TouchableOpacity
+          style={[
+            styles.actionButton,
+            {
+              backgroundColor: isSelectAllPressable ? "#6A0DAD" : "#B085DA", // Default purple for pressable, lighter purple for disabled
+            },
+          ]}
+          onPress={selectAllTools}
+          disabled={!isSelectAllPressable}
+        >
           <Text style={styles.actionButtonText}>Select All</Text>
         </TouchableOpacity>
+
         <TouchableOpacity
-          style={styles.actionButton}
+          style={[
+            styles.actionButton,
+            {
+              backgroundColor: isDeselectAllPressable ? "#6A0DAD" : "#B085DA", // Default purple for pressable, lighter purple for disabled
+            },
+          ]}
           onPress={deselectAllTools}
+          disabled={!isDeselectAllPressable}
         >
           <Text style={styles.actionButtonText}>Deselect All</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.actionButton}
-          onPress={() => alert("Tools added!")}
-        >
+
+        <TouchableOpacity style={styles.actionButton} onPress={handleAddTools}>
           <Text style={styles.actionButtonText}>Add</Text>
         </TouchableOpacity>
       </View>
@@ -184,19 +155,19 @@ const SelectToolsPage = ({ navigation }) => {
             <Text style={styles.modalHeaderText}>{modalTitle}</Text>
             {/* Dynamic Content */}
             <View style={styles.modalBody}>
-  {modalInfo ? (
-    modalInfo.split(/(?<=[.?\!])\s+/).map((sentence, index) => (
-      <View key={index} style={styles.bulletContainer}>
-        <Text style={styles.bulletText}>{"\u2022"}</Text>
-        <Text style={styles.bulletSentence}>{sentence.trim()}</Text>
-      </View>
-    ))
-  ) : (
-    <Text style={styles.modalFallbackText}>
-      No additional information available.
-    </Text>
-  )}
-</View>
+              {modalInfo ? (
+                modalInfo.split(/(?<=[.?\!])\s+/).map((sentence, index) => (
+                  <View key={index} style={styles.bulletContainer}>
+                    <Text style={styles.bulletText}>{"\u2022"}</Text>
+                    <Text style={styles.bulletSentence}>{sentence.trim()}</Text>
+                  </View>
+                ))
+              ) : (
+                <Text style={styles.modalFallbackText}>
+                  No additional information available.
+                </Text>
+              )}
+            </View>
             <TouchableOpacity
               style={styles.modalCloseButton}
               onPress={() => setModalVisible(false)}

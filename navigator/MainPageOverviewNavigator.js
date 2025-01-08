@@ -3,9 +3,14 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomePageNavigator from './HomePageNavigator'; // Import your bottom tab navigator
 import PlaygroundNavigator from './PlaygroundNavigator'; // Import your stack navigator for Playground
 import SOSNavigator from './SOSNavigator'; // Import your stack navigator for Playground
+import SettingsNavigator from './SettingsNavigator';
+
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import DreamOverview from '../screens/playground/dreamboard/DreamOverview'; // Import your stack navigator for Playground
 
 const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
+
 
 const MainPageOverviewNavigator = () => {
   return (
@@ -30,6 +35,12 @@ const MainPageOverviewNavigator = () => {
         component={SOSNavigator}
         options={{ headerShown: false,
             presentation: 'modal'
+        }} // Hide header for the Playground stack navigator
+      />
+      <Stack.Screen
+        name="SettingsNavigator"
+        component={SettingsNavigator}
+        options={{ headerShown: false,
         }} // Hide header for the Playground stack navigator
       />
       {/* <Stack.Screen

@@ -6,6 +6,7 @@ import SpinWheelPage from "../screens/playground/SOS/SpinWheelPage";
 import EmergencyToolkitScreen from "../screens/playground/SOS/EmergencyToolkitScreen";
 import CustomizeScreen from "../screens/playground/SOS/CustomizeScreen";
 import SelectToolsPage from "../screens/playground/SOS/SelectToolsPage";
+import LovedOnesPage from "../screens/playground/SOS/LovedOnesPage";
 
 const Stack = createStackNavigator();
 
@@ -35,6 +36,11 @@ const SOSNavigator = () => {
       <Stack.Screen
         name="SelectToolsPage"
         component={SelectToolsPage}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="LovedOnesPage"
+        component={LovedOnesPage}
         options={{ headerShown: false }}
       />
       <Stack.Screen

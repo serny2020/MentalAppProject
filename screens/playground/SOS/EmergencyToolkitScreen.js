@@ -17,7 +17,7 @@ const EmergencyToolkitScreen = ({ navigation }) => {
           <Text style={styles.headerText}>Back</Text>
         </TouchableOpacity>
         <MaterialIcons name="settings" size={24} color="#6A0DAD" />
-        <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Text style={styles.headerText}>Cancel</Text>
         </TouchableOpacity>
       </View>
