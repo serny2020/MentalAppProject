@@ -21,7 +21,7 @@ const SettingsScreen = ({ navigation }) => {
     {
       label: "My Affirmation Collection",
       icon: <MaterialIcons name="collections-bookmark" size={24} color="#000" />,
-      route: "AffirmationCollection",
+      route: "AffirmationNavigator",
     },
     {
       label: "Feedback & Suggestions",
