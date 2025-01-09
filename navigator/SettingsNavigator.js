@@ -7,6 +7,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 // Import screens
 import SettingsScreen from "../screens/playground/routine/SettingsScreen";
 import Routine from "../screens/home/Routine";
+import AffirmationPage from "../screens/check-in/Finish";
+import AffirmationCollection from "../screens/affirmation/AffirmationCollection";
 
 // const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -19,6 +21,11 @@ const SettingsDrawerNavigator = () => {
         name="Settings"
         component={SettingsScreen}
         options={{ drawerLabel: "Main Settings" }}
+      />
+      <Stack.Screen
+        name="AffirmationCollection"
+        component={AffirmationCollection}
+        options={{headerShown: false,presentation: 'modal' }}
       />
     </Stack.Navigator>
   );

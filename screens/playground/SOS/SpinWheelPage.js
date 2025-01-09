@@ -35,7 +35,7 @@ const SpinWheelPage = ({ navigation }) => {
         />
         <View style={styles.textBackground}>
           <Text style={styles.spinnerText}>
-            {selectedOption ? `${selectedOption}` : "Your Loved Ones"}
+            {selectedOption ? `${selectedOption}` : "Tap to Spin"}
           </Text>
         </View>
       </View>
