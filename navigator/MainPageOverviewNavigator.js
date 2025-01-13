@@ -7,6 +7,9 @@ import SettingsNavigator from './SettingsNavigator';
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import DreamOverview from '../screens/playground/dreamboard/DreamOverview'; // Import your stack navigator for Playground
+import JournalDrawerNavigator from './JournalDrawerNavigator';
+import JournalDrawerNavigatorWrapper from './JournalDrawerNavigatorWrapper';
+import RoutineNavigator from './RoutineNavigator';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -43,6 +46,20 @@ const MainPageOverviewNavigator = () => {
         options={{ headerShown: false,
         }} // Hide header for the Playground stack navigator
       />
+      <Stack.Screen
+        name="RoutineNavigator"
+        component={RoutineNavigator}
+        options={{ headerShown: false,
+          presentation: 'modal'
+        }} // Hide header for the Playground stack navigator
+      />
+
+      {/* <Stack.Screen
+        name="JournalDrawerNavigatorWrapper"
+        component={JournalDrawerNavigatorWrapper}
+        options={{ headerShown: false,
+        }} // Hide header for the Playground stack navigator
+      /> */}
       {/* <Stack.Screen
         name="DreamOverview"
         component={DreamOverview}

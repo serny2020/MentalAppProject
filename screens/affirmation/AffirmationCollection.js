@@ -51,7 +51,7 @@ const AffirmationCollection = ({navigation}) => {
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>My Affirmation Collection</Text>
-        <TouchableOpacity onPress={handleConfirm}>
+        <TouchableOpacity onPress={() => {navigation.goBack()}}>
           <View style={styles.checkIcon}>
             <Text style={styles.checkIconText}>✔</Text>
           </View>
@@ -119,6 +119,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F8D7DA", // Light pink background
     padding: 16,
+    paddingTop: 60,
   },
   header: {
     flexDirection: "row",

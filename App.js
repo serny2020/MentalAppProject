@@ -46,6 +46,11 @@ export default function App() {
                 component={MainPageOverviewNavigator}
                 options={{ headerShown: false }}
               />
+              {/* <Stack.Screen
+                name="Main"
+                component={JournalDrawerNavigatorWrapper}
+                options={{ headerShown: false }}
+              /> */}
               
             </Stack.Navigator>
           </NavigationContainer>
