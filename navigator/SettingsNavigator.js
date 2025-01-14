@@ -8,7 +8,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import SettingsScreen from "../screens/playground/routine/SettingsScreen";
 import Routine from "../screens/home/Routine";
 import AffirmationPage from "../screens/check-in/Finish";
-import AffirmationCollection from "../screens/affirmation/AffirmationOption2";
+import AffirmationCollection from "../screens/affirmation/AddAffirmationImages";
 import AffirmationNavigator from "./AffirmationNavigator";
 
 // const Drawer = createDrawerNavigator();

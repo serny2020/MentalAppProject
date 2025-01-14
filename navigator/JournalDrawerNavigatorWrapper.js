@@ -17,12 +17,18 @@ const Stack = createStackNavigator();
 // Nested Stack Navigator for Settings
 const SettingsStack = () => {
   return (
-    <Stack.Navigator initialRouteName="Journal">
-      <Stack.Screen
+    <Stack.Navigator initialRouteName="HomePageNavigator">
+      {/* <Stack.Screen
         name="Journal"
         component={Journal}
         options={{ headerShown: true }}
+      /> */}
+      <Stack.Screen
+        name="HomePageNavigator"
+        component={HomePageNavigator}
+        options={{ headerShown: false }}
       />
+
     </Stack.Navigator>
   );
 };
@@ -42,7 +48,7 @@ const JournalDrawerNavigator = () => {
   return (
     <Drawer.Navigator
     drawerContent={(props) => <CustomDrawerContent {...props} />}
-      initialRouteName="HomePageNavigator"
+      initialRouteName="SettingsStack"
       screenOptions={{
         drawerStyle: {
           backgroundColor: "#f7ffcc", // Background color of the drawer
@@ -68,11 +74,11 @@ const JournalDrawerNavigator = () => {
           headerShown: true,
         }}
       />
-            <Drawer.Screen
+            {/* <Drawer.Screen
         name="HomePageNavigator"
         component={HomePageNavigator}
         options={{ headerShown: false }}
-      />
+      /> */}
             {/* <Drawer.Screen
         name="Journal"
         component={Journal}

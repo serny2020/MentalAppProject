@@ -55,6 +55,12 @@ const MainPageOverviewNavigator = () => {
       />
 
       {/* <Stack.Screen
+        name="JournalDrawerNavigator"
+        component={JournalDrawerNavigator}
+        options={{ headerShown: false,
+        }} // Hide header for the Playground stack navigator
+      /> */}
+      {/* <Stack.Screen
         name="JournalDrawerNavigatorWrapper"
         component={JournalDrawerNavigatorWrapper}
         options={{ headerShown: false,

@@ -9,7 +9,7 @@ import {
 } from "react-native";
 // import * as ImagePicker from "expo-image-picker";
 
-const AffirmationCollection = ({navigation}) => {
+const AffirmationCollection = ({ navigation }) => {
   const [images, setImages] = useState([null, null, null, null, null, null]);
   const [selectedImages, setSelectedImages] = useState([]);
 
@@ -20,7 +20,6 @@ const AffirmationCollection = ({navigation}) => {
     //   aspect: [1, 1],
     //   quality: 1,
     // });
-
     // if (!result.canceled) {
     //   const newImages = [...images];
     //   newImages[index] = result.uri;
@@ -42,7 +41,10 @@ const AffirmationCollection = ({navigation}) => {
     if (selectedImages.length === 0) {
       Alert.alert("No Selection", "Please select 1-3 affirmations to confirm.");
     } else {
-      Alert.alert("Affirmations Confirmed", `You selected ${selectedImages.length} affirmations.`);
+      Alert.alert(
+        "Affirmations Confirmed",
+        `You selected ${selectedImages.length} affirmations.`
+      );
     }
   };
 
@@ -51,7 +53,11 @@ const AffirmationCollection = ({navigation}) => {
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>My Affirmation Collection</Text>
-        <TouchableOpacity onPress={() => {navigation.goBack()}}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}
+        >
           <View style={styles.checkIcon}>
             <Text style={styles.checkIconText}>✔</Text>
           </View>
@@ -60,7 +66,8 @@ const AffirmationCollection = ({navigation}) => {
 
       {/* Instruction */}
       <Text style={styles.instruction}>
-        You can add at most <Text style={styles.bold}>SIX</Text> affirmations here:
+        You can add at most <Text style={styles.bold}>SIX</Text> affirmations
+        here:
       </Text>
 
       {/* Image Slots */}
@@ -84,17 +91,18 @@ const AffirmationCollection = ({navigation}) => {
       <Text style={styles.footerInstruction}>
         Ready to build your own affirmations?{" "}
         <TouchableOpacity
-      style={styles.button}
-      onPress={() => navigation.navigate('AffirmationOption2')}
-    >
-      <Text style={styles.highlight}>Let’s go!</Text>
-    </TouchableOpacity>      </Text>
-      <Text style={styles.footerInstruction}>
+          style={styles.button}
+          onPress={() => navigation.navigate("AddAffirmationImages")}
+        >
+          <Text style={styles.highlight}>Let’s go!</Text>
+        </TouchableOpacity>{" "}
+      </Text>
+      {/* <Text style={styles.footerInstruction}>
         Pick <Text style={styles.bold}>1-3</Text> as your daily affirmations:{" "}
         <Text style={styles.highlight} onPress={handleConfirm}>
           Confirm
         </Text>
-      </Text>
+      </Text> */}
 
       {/* Selected Images */}
       <View style={styles.selectedContainer}>

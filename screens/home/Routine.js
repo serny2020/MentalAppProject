@@ -18,7 +18,7 @@ const Routine = ({ navigation }) => {
   });
 
   const handleSettingsPress = (section) => {
-    console.log(`Settings for ${section}`);
+    console.log(`a setting for ${section}`);
   };
 
   const handleCollapsePress = () => {
@@ -52,7 +52,7 @@ const Routine = ({ navigation }) => {
       <View style={styles.ritualSectionBox}>
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Every-day Ritual</Text>
-          <TouchableOpacity onPress={handleSettingsPress('Everyday Ritual')}>
+          <TouchableOpacity onPress={() => {handleSettingsPress('Everyday Ritual')}}>
             <Ionicons name="ellipsis-horizontal" size={24} color="#555" />
           </TouchableOpacity>
         </View>

@@ -10,10 +10,12 @@ import Routine from "../screens/home/Routine";
 import AffirmationPage from "../screens/check-in/Finish";
 import AffirmationCollection from "../screens/affirmation/AffirmationCollection";
 import GuidedAffirmation from "../screens/affirmation/GuidedAffirmation";
-import AffirmationOption2 from "../screens/affirmation/AffirmationOption2";
+import AffirmationOption2 from "../screens/affirmation/AddAffirmationImages";
 import AffirmationOption1 from "../screens/affirmation/AffirmationOption1";
 import UniqueAffirmation from "../screens/affirmation/UniqueAffirmation";
 import WriteAffirmation from "../screens/affirmation/WriteAffirmation";
+import AffirmationSwipePage from "../screens/affirmation/AffirmationSwipePage";
+import AddAffirmationImages from "../screens/affirmation/AddAffirmationImages";
 
 // const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -38,8 +40,8 @@ const SettingsDrawerNavigator = () => {
 
       {/* Customized Affirmation option 2 */}
       <Stack.Screen
-        name="AffirmationOption2"
-        component={AffirmationOption2}
+        name="AddAffirmationImages"
+        component={AddAffirmationImages}
         options={{headerShown: false}}
       />
       <Stack.Screen
@@ -55,6 +57,11 @@ const SettingsDrawerNavigator = () => {
       <Stack.Screen
         name="WriteAffirmation"
         component={WriteAffirmation}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="AffirmationSwipePage"
+        component={AffirmationSwipePage}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
