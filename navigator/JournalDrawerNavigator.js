@@ -54,7 +54,7 @@ const JournalDrawerNavigator = () => {
   return (
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawerContent {...props} />}
-      initialRouteName="Journal"
+      initialRouteName="SettingsStack"
       screenOptions={{
         drawerType: 'front', // Ensures the drawer slides over the screen
         drawerStyle: {

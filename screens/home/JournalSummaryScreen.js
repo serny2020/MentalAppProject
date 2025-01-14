@@ -29,15 +29,15 @@ const JournalSummaryScreen = () => {
     setShowDatePicker(false); // Close the picker after a date is selected
   };
   const handleDateSelection = (date) => {
-    console.log('Selected Date:', date);
+    console.log("Selected Date:", date);
   };
 
   const happinessJournal = [
     { year: 2025, month: 1, date: 10, content: "I helped my roommate..." },
-    { year: 2025, month: 1, date: 10, content: "I helped my roommate..." },
-    { year: 2025, month: 1, date: 10, content: "I helped my roommate..." },
-    { year: 2025, month: 1, date: 10, content: "I helped my roommate..." },
-    { year: 2025, month: 1, date: 10, content: "I helped my roommate..." },
+    { year: 2025, month: 1, date: 10, content: "hellothisifsfs" },
+    { year: 2025, month: 1, date: 10, content: "a" },
+    { year: 2025, month: 1, date: 10, content: "hello." },
+    { year: 2025, month: 1, date: 10, content: "this is a test" },
     {
       year: 2025,
       month: 1,
@@ -98,30 +98,28 @@ const JournalSummaryScreen = () => {
 
   const renderJournal = ({ item }) => (
     <View style={styles.journalEntry}>
-      {/* Headers */}
-      <View style={styles.headerRow}>
-        <Text style={styles.journalHeader}>YEAR</Text>
-        <Text style={styles.journalHeader}>MONTH</Text>
-        <Text style={styles.journalHeader}>DATE</Text>
-        <Text style={styles.journalHeader}>CONTENT</Text>
-      </View>
-      {/* Data */}
       <View style={styles.dataRow}>
         <Text style={styles.journalData}>{item.year}</Text>
         <Text style={styles.journalData}>{item.month}</Text>
         <Text style={styles.journalData}>{item.date}</Text>
         <TouchableOpacity
           onPress={() => {
-            setSelectedEntry(item); // Set the selected entry
-            setModalVisible(true); // Show the modal
+            setSelectedEntry(item);
+            setModalVisible(true);
           }}
+          style={styles.journalContentButton}
         >
-          <Text style={styles.journalContentLink}>View</Text>
+          <Text numberOfLines={1} style={styles.journalContentText}>
+            {item.content.length > 5
+              ? `${item.content.slice(0, 5)}...`
+              : item.content}
+          </Text>
+          <Ionicons name="chevron-forward" size={20} color="#007BFF" />
         </TouchableOpacity>
       </View>
     </View>
   );
-
+      
   return (
     <View style={styles.container}>
       {/* Header Section */}
@@ -184,41 +182,30 @@ const JournalSummaryScreen = () => {
         </TouchableOpacity>
       </View>
 
-      {/* Journal Entries */}
-      <FlatList
-        data={filteredJournal}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={renderJournal}
-        contentContainerStyle={styles.contentContainer}
-        ListEmptyComponent={
-          <View style={styles.emptyContainer}>
-            <Text style={styles.noEntriesText}>No entries for this date.</Text>
-            <Ionicons name="sad-outline" size={50} color="#ccc" />
-          </View>
-        }
-      />
-
-      {/* Modal for Viewing Content */}
-      {/* {selectedEntry && (
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => setModalVisible(false)}
-        >
-          <View style={styles.modalContainer}>
-            <View style={styles.modalContent}>
-              <Text style={styles.modalTitle}>
-                {activeJournal === "happiness"
-                  ? "Happiness Journal Entry"
-                  : "Mood Journal Entry"}
+      {/* Journal List Box */}
+      <View style={styles.journalBox}>
+        {/* Journal List Header */}
+        <View style={styles.listHeader}>
+          <Text style={styles.listHeaderText}>
+            {`YEAR   MONTH   DATE   CONTENT`}
+          </Text>
+        </View>
+        {/* Journal Entries */}
+        <FlatList
+          data={filteredJournal}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={renderJournal}
+          contentContainerStyle={styles.contentContainer}
+          ListEmptyComponent={
+            <View style={styles.emptyContainer}>
+              <Text style={styles.noEntriesText}>
+                No entries for this date.
               </Text>
-              <Text style={styles.modalText}>{selectedEntry.content}</Text>
-              <Button title="Close" onPress={() => setModalVisible(false)} />
+              <Ionicons name="sad-outline" size={50} color="#ccc" />
             </View>
-          </View>
-        </Modal>
-      )} */}
+          }
+        />
+      </View>
       {selectedEntry && (
         <Modal
           animationType="slide"
@@ -235,11 +222,6 @@ const JournalSummaryScreen = () => {
                   "0"
                 )}-${String(selectedEntry.date).padStart(2, "0")}`}
               </Text>
-              {/* <Text style={styles.modalSubtitle}>
-          {activeJournal === "happiness"
-            ? "Happiness Journal Entry"
-            : "Mood Journal Entry"}
-        </Text> */}
               <Text style={styles.modalText}>{selectedEntry.content}</Text>
               <Button title="Close" onPress={() => setModalVisible(false)} />
             </View>
@@ -310,7 +292,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
-    padding: 16,
+    padding: 12,
   },
   headerRow: {
     flexDirection: "row", // Arrange items in a row
@@ -318,8 +300,9 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   dataRow: {
-    flexDirection: "row", // Arrange items in a row
-    justifyContent: "flex-start", // Align items to the start (left)
+    flexDirection: "row", // Align items in a row
+    justifyContent: "space-between", // Distribute columns equally
+    alignItems: "center", // Vertically center all items
   },
   journalHeader: {
     fontSize: 13,
@@ -329,16 +312,28 @@ const styles = StyleSheet.create({
     flex: 1, // Allow headers to take up equal space
   },
   journalData: {
-    fontSize: 13,
-    color: "#000",
-    textAlign: "left", // Align text to the left
-    flex: 1, // Allow data to take up equal space
+    fontSize: 14,
+    color: "#333",
+    textAlign: "center",
+    width: 50, // Fixed width for year, month, and date columns
   },
   journalContentLink: {
     fontSize: 14,
     color: "#007BFF",
     textDecorationLine: "underline",
     textAlign: "left", // Align text to the left
+  },
+  journalContentButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between", // Ensure proper spacing
+    width: 80, // Fixed width for the content and icon
+  },
+  journalContentText: {
+    fontSize: 12,
+    flexShrink: 1, // Ensure the text does not overflow
+    textAlign: "left",
+    marginRight: 8, // Space between text and the icon
   },
   emptyContainer: {
     alignItems: "center",
@@ -376,6 +371,31 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 20,
   },
-});
+  journalBox: {
+    backgroundColor: "#EFEFEF", // Light gray background
+    borderRadius: 8,
+    paddingVertical: 5,
+    padding: 16,
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    marginVertical: 1, // Reduced vertical margin
+    height: 300, // Set a fixed height
+  },
+listHeader: {
+  flexDirection: "row",
+  justifyContent: "space-between", // Space between items
+  alignItems: "center",
+  paddingVertical: 10, // Add overall padding
+},
+listHeaderText: {
+  fontSize: 14,
+  fontWeight: "bold",
+  color: "#333",
+  textAlign: "center",
+  flex: 1, // Dynamically adjust width of each column
+  marginHorizontal: 8, // Add spacing between items
+},
+  });
 
 export default JournalSummaryScreen;
