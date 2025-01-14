@@ -16,6 +16,7 @@ import UniqueAffirmation from "../screens/affirmation/UniqueAffirmation";
 import WriteAffirmation from "../screens/affirmation/WriteAffirmation";
 import AffirmationSwipePage from "../screens/affirmation/AffirmationSwipePage";
 import AddAffirmationImages from "../screens/affirmation/AddAffirmationImages";
+import ChangeBackgroundScreen from "../screens/affirmation/ChangeBackgroundScreen";
 
 // const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -62,6 +63,11 @@ const SettingsDrawerNavigator = () => {
       <Stack.Screen
         name="AffirmationSwipePage"
         component={AffirmationSwipePage}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ChangeBackgroundScreen"
+        component={ChangeBackgroundScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

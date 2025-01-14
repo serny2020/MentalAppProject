@@ -5,18 +5,22 @@ import {
   TouchableOpacity,
   StyleSheet,
   ImageBackground,
+  Image,
   Alert,
 } from "react-native";
+import quotes from "../../data/quote-data";
 
 const AffirmationSwipePage = ({ navigation }) => {
   const [selectedCount, setSelectedCount] = useState(0);
-  const [currentQuote, setCurrentQuote] = useState(
-    "I am imperfect, but I love and accept all that I am."
-  );
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [backgroundImage, setBackgroundImage] = useState(require("../../assets/image/affirmation/affirmation1.png"));
 
   const handleNext = () => {
-    // Placeholder logic to update the quote
-    setCurrentQuote("New quote goes here...");
+    if (currentIndex < quotes.length - 1) {
+      setCurrentIndex(currentIndex + 1);
+    } else {
+      setCurrentIndex(0);
+    }
   };
 
   const handleLove = () => {
@@ -26,6 +30,10 @@ const AffirmationSwipePage = ({ navigation }) => {
     } else {
       Alert.alert("Limit Reached", "You can only add up to 6 affirmations.");
     }
+  };
+
+  const updateBackgroundImage = (newImage) => {
+    setBackgroundImage(newImage);
   };
 
   return (
@@ -48,31 +56,48 @@ const AffirmationSwipePage = ({ navigation }) => {
         Swipe down: add it to your affirmation collection
       </Text>
 
-      {/* Affirmation Card with Image Background */}
-      <View style={styles.card}>
-        <ImageBackground
-          source={require("../../assets/image/affirmation/affirmation1.png")} // Replace with your actual image file path
-          style={styles.card} // Ensures the image fills the entire card container
-          imageStyle={{ resizeMode: "cover", borderRadius: 12 }} // Makes the image cover the card area and adds rounded corners
-        >
-          <Text style={styles.quote}>{currentQuote}</Text>
-        </ImageBackground>
-      </View>
-
       {/* Next Button */}
       <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
         <Text style={styles.nextButtonText}>Next</Text>
       </TouchableOpacity>
 
-      {/* Actions */}
-      <View style={styles.actions}>
-        <Text style={styles.selectedText}>{selectedCount} selected</Text>
-        <View style={styles.actionButtons}>
-          <TouchableOpacity onPress={handleLove} style={styles.loveButton}>
-            <Text style={styles.loveText}>❤️ Love</Text>
-          </TouchableOpacity>
-        </View>
+      {/* Affirmation Card with Image Background */}
+      <View style={styles.card}>
+        <ImageBackground
+          source={backgroundImage}
+          style={styles.imageBackground}
+          imageStyle={{ resizeMode: "cover", borderRadius: 12 }}
+        >
+          <Text style={styles.quote}>{quotes[currentIndex]}</Text>
+        </ImageBackground>
       </View>
+
+      {/* Love Button */}
+      <View style={styles.centeredAction}>
+        <TouchableOpacity onPress={handleLove} style={styles.loveButton}>
+          <Text style={styles.loveText}>❤️ Love</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Counter for Selected Items */}
+      <View style={styles.counterContainer}>
+        <Text style={styles.selectedText}>Selected: {selectedCount}</Text>
+      </View>
+
+      {/* Bottom Right Button */}
+      <TouchableOpacity
+        style={styles.bottomRightButton}
+        onPress={() =>
+          navigation.navigate("ChangeBackgroundScreen", {
+            updateBackgroundImage,
+          })
+        }
+      >
+        <Image
+          source={require("../../assets/affirmation/ImageIcon.png")}
+          style={styles.bottomRightImage}
+        />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -80,7 +105,7 @@ const AffirmationSwipePage = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F8D7DA", // Light pink background
+    backgroundColor: "#F8D7DA",
     paddingHorizontal: 16,
   },
   header: {
@@ -104,18 +129,16 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    marginVertical: 16,
+    marginVertical: 6,
   },
   imageBackground: {
+    flex: 1,
     width: "100%",
-    height: "70%",
-    justifyContent: "center", // Centers the quote text vertically
-    alignItems: "center", // Centers the quote text horizontally
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
     borderRadius: 12,
-    overflow: "hidden", // Ensures rounded corners work with the background image
-  },
-  imageStyle: {
-    borderRadius: 12,
+    overflow: "hidden",
   },
   quote: {
     fontSize: 18,
@@ -133,26 +156,17 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 8,
-    marginBottom: 16,
+    // marginBottom: 16,
   },
   nextButtonText: {
     fontSize: 16,
     fontWeight: "bold",
     color: "#000",
   },
-  actions: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+  centeredAction: {
+    flex: 0,
     alignItems: "center",
-    marginBottom: 16,
-  },
-  selectedText: {
-    fontSize: 16,
-    color: "#000",
-  },
-  actionButtons: {
-    flexDirection: "row",
-    alignItems: "center",
+    marginVertical: 16,
   },
   loveButton: {
     backgroundColor: "#FFF",
@@ -161,12 +175,38 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
     borderColor: "#D3D3D3",
-    marginLeft: 16,
   },
   loveText: {
+    // position: "absolute",
     fontSize: 16,
     fontWeight: "bold",
     color: "#000",
+  },
+  bottomRightButton: {
+    position: "absolute",
+    bottom: 16,
+    right: 16,
+    borderRadius: 24,
+    width: 48,
+    height: 48,
+    justifyContent: "center",
+    alignItems: "center",
+    elevation: 4,
+    marginBottom: 15, // Adds space from the bottom
+  },
+  bottomRightImage: {
+    width: 32,
+    height: 32,
+  },
+  counterContainer: {
+    alignItems: "left",
+    marginBottom: 36,
+  },
+  selectedText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#000",
+    marginBottom: 6,
   },
 });
 
