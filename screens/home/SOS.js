@@ -52,8 +52,7 @@ const SOS = ({ navigation }) => {
           }
         >
           <Text style={styles.optionText}>
-            Connect Your{" "}
-            <Text style={styles.bold}>Loved Ones</Text>
+            Connect Your <Text style={styles.bold}>Loved Ones</Text>
           </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.optionRow}>
@@ -66,7 +65,12 @@ const SOS = ({ navigation }) => {
             Find a <Text style={styles.bold}>Professional Therapist</Text>
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.optionRow}>
+        <TouchableOpacity
+          style={styles.optionRow}
+          onPress={() =>
+            navigation.navigate("SOSNavigator", { screen: "CrisisHelpPage" })
+          }
+        >
           <Text style={styles.optionText}>
             Call <Text style={styles.bold}>Life Threat Emergency Line</Text>
           </Text>

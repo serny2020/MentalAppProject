@@ -7,6 +7,8 @@ import EmergencyToolkitScreen from "../screens/playground/SOS/EmergencyToolkitSc
 import CustomizeScreen from "../screens/playground/SOS/CustomizeScreen";
 import SelectToolsPage from "../screens/playground/SOS/SelectToolsPage";
 import LovedOnesPage from "../screens/playground/SOS/LovedOnesPage";
+import CrisisHelpPage from "../screens/playground/SOS/CrisisHelpPage";
+import CallPage from "../screens/playground/SOS/CallPage";
 
 const Stack = createStackNavigator();
 
@@ -41,6 +43,16 @@ const SOSNavigator = () => {
       <Stack.Screen
         name="LovedOnesPage"
         component={LovedOnesPage}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="CrisisHelpPage"
+        component={CrisisHelpPage}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="CallPage"
+        component={CallPage}
         options={{ headerShown: false }}
       />
       <Stack.Screen

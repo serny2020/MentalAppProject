@@ -104,7 +104,7 @@ const CustomizeScreen = ({ navigation, route }) => {
         <Text style={styles.suggestionText}>
           Not sure what to add? Click here →
         </Text>
-        <Ionicons name="help-circle-outline" size={18} color="#6A0DAD" />
+        <Ionicons name="help-circle-outline" size={18} color="#6a9b3e" />
       </TouchableOpacity>
 
       {/* Input Section */}
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
   },
   suggestionText: {
     fontSize: 14,
-    color: "#6A0DAD",
+    color: "#6a9b3e",
     textDecorationLine: "underline",
     marginRight: 4,
   },
@@ -233,6 +233,7 @@ const styles = StyleSheet.create({
     color: "#000",
   },
   addButton: {
+    // backgroundColor: "#6a9b3e",
     backgroundColor: "#6A0DAD",
     borderRadius: 8,
     paddingVertical: 10,
