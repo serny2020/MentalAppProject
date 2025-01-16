@@ -8,6 +8,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import SettingsScreen from "../screens/playground/routine/SettingsScreen";
 import AffirmationNavigator from "./AffirmationNavigator";
 import Routine from "../screens/home/Routine";
+// import ReorderSettings from "../components/routine/ReorderSettings";
 
 // const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -21,6 +22,11 @@ const RoutineNavigator = () => {
         component={Routine}
         // options={{ drawerLabel: "Main Settings" }}
       />
+      {/* <Stack.Screen
+        name="ReorderSettings"
+        component={ReorderSettings}
+        // options={{ drawerLabel: "Main Settings" }}
+      /> */}
       {/* <Stack.Screen
         name="AffirmationCollection"
         component={AffirmationCollection}

@@ -1,16 +1,90 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
-  Modal,
-  Image,
+  ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import EverydayRitualSection from "../../components/routine/EverydayRitualSection";
+import AffirmationSection from "../../components/routine/AffirmationSection";
+import SuccessJournalReview from "../../components/routine/SuccessJournalReview";
+import TipOfTheDay from "../../components/routine/TipOfTheDay";
+import RoutineSettingsModal from "../../components/routine/RoutineSettingsModal";
 
-const Routine = ({ navigation }) => {
+const Routine = ({ navigation, route }) => {
+  const initialOrder = [
+    { id: "1", component: <EverydayRitualSection />, name: "Everyday Ritual" },
+    {
+      id: "2",
+      component: <AffirmationSection />,
+      name: "Affirmation Practice",
+    },
+    {
+      id: "3",
+      component: <SuccessJournalReview />,
+      name: "Success Journal Review",
+    },
+    { id: "4", component: <TipOfTheDay />, name: "Tip of the Day" },
+  ];
+
+  const [sections, setSections] = useState(initialOrder);
+
+  // Lookup table for components
+  const componentLookup = {
+    "1": <EverydayRitualSection />,
+    "2": <AffirmationSection />,
+    "3": <SuccessJournalReview />,
+    "4": <TipOfTheDay />,
+  };
+
+  // Update sections when newOrder is passed
+  useEffect(() => {
+    if (route.params?.newOrder) {
+      const reorderedSections = route.params.newOrder.map((section) => ({
+        ...section,
+        component: componentLookup[section.id], // Reattach the component
+      }));
+      setSections(reorderedSections);
+    }
+  }, [route.params?.newOrder]);
+
+  // const handleReorderPress = () => {
+  //   // Pass only the id and name
+  //   const currentOrder = sections.map(({ id, name }) => ({ id, name }));
+  //   navigation.navigate("ReorderSettings", { currentOrder });
+  // };
+
+  const handleReorderPress = () => {
+    navigation.navigate("ReorderSettings", {
+      currentOrder: sections.map(({ id, name }) => ({ id, name })), // Pass only serializable data
+      updateOrder: (newOrder) => {
+        // Callback function to update sections
+        const componentLookup = {
+          "1": <EverydayRitualSection />,
+          "2": <AffirmationSection />,
+          "3": <SuccessJournalReview />,
+          "4": <TipOfTheDay />,
+        };
+
+        const reorderedSections = newOrder.map((section) => ({
+          ...section,
+          component: componentLookup[section.id],
+        }));
+        setSections(reorderedSections);
+      },
+    });
+  };
+
+
+
+
+
   const [isModalVisible, setModalVisible] = useState(false);
+
+
+
 
   const currentDate = new Date().toLocaleDateString("en-US", {
     month: "2-digit",
@@ -18,7 +92,7 @@ const Routine = ({ navigation }) => {
   });
 
   const handleSettingsPress = (section) => {
-    console.log(`a setting for ${section}`);
+    console.log("a setting for ${section}");
   };
 
   const handleCollapsePress = () => {
@@ -48,115 +122,26 @@ const Routine = ({ navigation }) => {
         <Text style={styles.moodCheckInText}>Daily Mood Check-in</Text>
       </TouchableOpacity>
 
-      {/* Everyday Ritual Section */}
-      <View style={styles.ritualSectionBox}>
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Every-day Ritual</Text>
-          <TouchableOpacity onPress={() => {handleSettingsPress('Everyday Ritual')}}>
-            <Ionicons name="ellipsis-horizontal" size={24} color="#555" />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.timelineContainer}>
-          <View style={styles.timelineItem}>
-            <View style={styles.timeBox}>
-              <Text style={styles.timeText}>8:00</Text>
-            </View>
-            <View style={styles.taskBox}>
-              <Text style={styles.taskText}>CBT</Text>
-            </View>
-          </View>
-          <View style={styles.timelineItem}>
-            <View style={styles.timeBox}>
-              <Text style={styles.timeText}>14:00</Text>
-            </View>
-            <View style={styles.taskBox}>
-              <Text style={styles.taskText}>Meditation</Text>
-            </View>
-          </View>
-          <View style={styles.timelineItem}>
-            <View style={styles.timeBox}>
-              <Text style={styles.timeText}>20:00</Text>
-            </View>
-            <View style={styles.taskBox}>
-              <Text style={styles.taskText}>Journaling</Text>
-            </View>
-          </View>
-        </View>
-      </View>
-
-      {/* Affirmations Section */}
-      <View style={styles.affirmationSectionBox}>
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Practice Affirmation</Text>
-          <TouchableOpacity onPress={handleCollapsePress}>
-            <Ionicons name="ellipsis-horizontal" size={24} color="#555" />
-          </TouchableOpacity>
-        </View>
-        <Text style={styles.instructions}>
-          {`Step 1: Pick one affirmation from your Affirmation Collection
-Step 2: Read it out loud for at least 3 times!`}
-        </Text>
-        <View style={styles.affirmationGrid}>
-          <Image
-            source={{ uri: "https://example.com/affirmation1.png" }}
-            style={styles.affirmationImage}
-          />
-          <Image
-            source={{ uri: "https://example.com/affirmation2.png" }}
-            style={styles.affirmationImage}
-          />
-          <Image
-            source={{ uri: "https://example.com/affirmation3.png" }}
-            style={styles.affirmationImage}
-          />
-          <Image
-            source={{ uri: "https://example.com/affirmation4.png" }}
-            style={styles.affirmationImage}
-          />
-        </View>
-      </View>
-
-      {/* Modal */}
-      <Modal
-        visible={isModalVisible}
-        transparent={true}
-        animationType="slide"
-        onRequestClose={closeModal}
+      <ScrollView
+        style={styles.scrollableContainer}
+        contentContainerStyle={styles.contentContainer}
       >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Affirmation Collection</Text>
-            <TouchableOpacity
-              style={styles.modalOption}
-              onPress={() => {
-                closeModal();
-                navigation.navigate("RoutineNavigator", {
-                  screen: "AffirmationNavigator",
-                });
-              }}
-                          >
-              <Ionicons name="settings-outline" size={24} color="#555" />
-              <Text style={styles.modalOptionText}>
-                Manage My Affirmation Collection
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.modalOption}>
-              <Ionicons name="reorder-four-outline" size={24} color="#555" />
-              <Text style={styles.modalOptionText}>Reorder this section</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.modalOption}>
-              <Ionicons name="close-circle-outline" size={24} color="#555" />
-              <Text style={styles.modalOptionText}>Remove this section</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={closeModal}
-              style={styles.modalCloseButton}
-            >
-              <Text style={styles.modalCloseText}>Close</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+        {sections.map((section) => (
+          <View key={section.id}>{section.component}</View>
+        ))}
+      </ScrollView>
+
+      <TouchableOpacity onPress={handleReorderPress} style={styles.settingsButton}>
+        <Text style={styles.settingsButtonText}>Reorder Routine</Text>
+      </TouchableOpacity>
+
+      
+      {/* Routine Settings Modal */}
+      <RoutineSettingsModal
+        isVisible={isModalVisible}
+        onClose={closeModal}
+        navigation={navigation}
+      />
     </View>
   );
 };
@@ -178,6 +163,14 @@ const styles = StyleSheet.create({
     color: "#9b59b6",
     fontWeight: "bold",
   },
+  scrollableContainer: {
+    flex: 1,
+    width: "100%",
+  },
+  contentContainer: {
+    paddingHorizontal: 2, // Add horizontal padding
+    paddingVertical: 5,
+  },
   moodCheckInButton: {
     marginVertical: 20,
     alignSelf: "center",
@@ -189,132 +182,6 @@ const styles = StyleSheet.create({
   moodCheckInText: {
     fontSize: 16,
     color: "#800080",
-    fontWeight: "bold",
-  },
-  ritualSectionBox: {
-    backgroundColor: "#ffffff",
-    borderRadius: 10,
-    padding: 15,
-    marginBottom: 20,
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  affirmationSectionBox: {
-    backgroundColor: "#f9f9f9",
-    borderRadius: 15,
-    padding: 20,
-    marginBottom: 20,
-    shadowColor: "#000",
-    shadowOpacity: 0.2,
-    shadowOffset: { width: 0, height: 3 },
-    shadowRadius: 5,
-    elevation: 4,
-    height: 300,
-  },
-  sectionHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 10,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#800080",
-  },
-  timelineContainer: {
-    marginTop: 10,
-  },
-  timelineItem: {
-    marginBottom: 20,
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  timeBox: {
-    width: 60,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  timeText: {
-    fontSize: 16,
-    color: "#9b59b6",
-  },
-  taskBox: {
-    padding: 10,
-    backgroundColor: "#e5e5e5",
-    borderRadius: 8,
-    flex: 1,
-    marginLeft: 10,
-  },
-  taskText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#9b59b6",
-  },
-  instructions: {
-    fontSize: 14,
-    marginBottom: 10,
-    color: "#555",
-  },
-  affirmationGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-  },
-  affirmationImage: {
-    width: 100,
-    height: 100,
-    marginBottom: 10,
-  },
-  modalOverlay: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  modalContent: {
-    backgroundColor: "#fff",
-    width: "80%",
-    borderRadius: 10,
-    padding: 20,
-    alignItems: "flex-start", // Align other content to the left
-    shadowColor: "#000",
-    shadowOpacity: 0.3,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 20,
-    textAlign: "center", // Ensure the title is left-aligned
-    width: "100%",
-  },
-  modalOption: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 15,
-    width: "100%", // Ensure full width for alignment
-  },
-  modalOptionText: {
-    marginLeft: 10,
-    fontSize: 16,
-    color: "#555",
-    textAlign: "left", // Left align text
-  },
-  modalCloseButton: {
-    marginTop: 20,
-    backgroundColor: "#800080",
-    padding: 10,
-    borderRadius: 8,
-    alignSelf: "center", // Center the button
-  },
-  modalCloseText: {
-    color: "#fff",
     fontWeight: "bold",
   },
 });
