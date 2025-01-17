@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons"; // Updated import from Expo
 
-const SuccessJournalReview = ({ handleSettingsPress }) => {
+const HappinessJournalReview = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const reviews = [
@@ -19,6 +19,18 @@ const SuccessJournalReview = ({ handleSettingsPress }) => {
     ],
     // Add more reviews as needed
   ];
+  const [isModalVisible, setModalVisible] = useState(false);
+  const handleSettingsPress = (section) => {
+    console.log("a setting for happiness journal");
+  };
+
+  const handleCollapsePress = () => {
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % reviews.length);
@@ -33,9 +45,9 @@ const SuccessJournalReview = ({ handleSettingsPress }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>Success Journal Daily Review</Text>
+        <Text style={styles.title}>Happniess Journal Daily Review</Text>
         <TouchableOpacity
-          onPress={() => handleSettingsPress("SuccessJournalReview")}
+          onPress={() => handleSettingsPress("HappinessJournalReview")}
         >
           <Ionicons name="ellipsis-horizontal" size={24} color="#555" />
         </TouchableOpacity>
@@ -125,4 +137,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SuccessJournalReview;
+export default HappinessJournalReview;

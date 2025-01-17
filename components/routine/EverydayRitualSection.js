@@ -1,8 +1,21 @@
-import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; // Updated import from Expo
+import { useState } from 'react';
 
-const EverydayRitualSection = ({ handleSettingsPress }) => {
+const EverydayRitualSection = () => {
+    const [isModalVisible, setModalVisible] = useState(false);
+    const handleSettingsPress = () => {
+      console.log("a setting for ritual");
+    };
+  
+    const handleCollapsePress = () => {
+      setModalVisible(true);
+    };
+  
+    const closeModal = () => {
+      setModalVisible(false);
+    };
+  
   return (
     <View style={styles.ritualSectionBox}>
       <View style={styles.sectionHeader}>

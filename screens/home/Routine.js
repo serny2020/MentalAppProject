@@ -9,7 +9,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import EverydayRitualSection from "../../components/routine/EverydayRitualSection";
 import AffirmationSection from "../../components/routine/AffirmationSection";
-import SuccessJournalReview from "../../components/routine/SuccessJournalReview";
+import HappinessJournalReview from "../../components/routine/HappinessJournalReview";
 import TipOfTheDay from "../../components/routine/TipOfTheDay";
 import RoutineSettingsModal from "../../components/routine/RoutineSettingsModal";
 
@@ -23,8 +23,8 @@ const Routine = ({ navigation, route }) => {
     },
     {
       id: "3",
-      component: <SuccessJournalReview />,
-      name: "Success Journal Review",
+      component: <HappinessJournalReview />,
+      name: "Happiness Journal Review",
     },
     { id: "4", component: <TipOfTheDay />, name: "Tip of the Day" },
   ];
@@ -35,7 +35,7 @@ const Routine = ({ navigation, route }) => {
   const componentLookup = {
     "1": <EverydayRitualSection />,
     "2": <AffirmationSection />,
-    "3": <SuccessJournalReview />,
+    "3": <HappinessJournalReview />,
     "4": <TipOfTheDay />,
   };
 
@@ -50,12 +50,6 @@ const Routine = ({ navigation, route }) => {
     }
   }, [route.params?.newOrder]);
 
-  // const handleReorderPress = () => {
-  //   // Pass only the id and name
-  //   const currentOrder = sections.map(({ id, name }) => ({ id, name }));
-  //   navigation.navigate("ReorderSettings", { currentOrder });
-  // };
-
   const handleReorderPress = () => {
     navigation.navigate("ReorderSettings", {
       currentOrder: sections.map(({ id, name }) => ({ id, name })), // Pass only serializable data
@@ -64,7 +58,7 @@ const Routine = ({ navigation, route }) => {
         const componentLookup = {
           "1": <EverydayRitualSection />,
           "2": <AffirmationSection />,
-          "3": <SuccessJournalReview />,
+          "3": <HappinessJournalReview />,
           "4": <TipOfTheDay />,
         };
 
@@ -80,17 +74,16 @@ const Routine = ({ navigation, route }) => {
 
 
 
-
-  const [isModalVisible, setModalVisible] = useState(false);
-
-
-
-
+  
+  
+  
+  
   const currentDate = new Date().toLocaleDateString("en-US", {
     month: "2-digit",
     day: "2-digit",
   });
-
+  
+  const [isModalVisible, setModalVisible] = useState(false);
   const handleSettingsPress = (section) => {
     console.log("a setting for ${section}");
   };

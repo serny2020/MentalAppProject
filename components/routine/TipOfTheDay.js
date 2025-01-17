@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons"; // Importing from Expo
 
-const TipOfTheDay = ({ handleSettingsPress }) => {
+const TipOfTheDay = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const tips = [
@@ -21,6 +21,20 @@ const TipOfTheDay = ({ handleSettingsPress }) => {
     },
     // Add more tips here if needed
   ];
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  const handleSettingsPress = (section) => {
+    console.log("a setting for tip of the day");
+  };
+
+  const handleCollapsePress = () => {
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
+
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % tips.length);

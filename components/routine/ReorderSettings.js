@@ -12,14 +12,6 @@ const ReorderSettings = ({ navigation, route }) => {
   const { currentOrder, updateOrder } = route.params;
   const [sections, setSections] = useState(currentOrder);
 
-  
-  // const handleDone = () => {
-  //   // Go back to the parent navigator and update the parameters
-  //   navigation.navigate("RoutineNavigator", {
-  //     screen: "Routine",
-  //     params: { newOrder: sections },
-  //   });
-  // };
 
   const handleDone = () => {
     // Call the updateOrder callback to update the Routine page's state

@@ -1,8 +1,28 @@
-import React from 'react';
+import {useState} from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; // Updated import from Expo
+import RoutineSettingsModal from './RoutineSettingsModal';
+import { useNavigation } from "@react-navigation/native";
 
-const AffirmationSection = ({ handleCollapsePress }) => {
+const AffirmationSection = () => {
+  const navigation = useNavigation();
+    const [isModalVisible, setModalVisible] = useState(false);
+    
+  
+  const handleSettingsPress = (section) => {
+    console.log("a setting for affirmation");
+  };
+
+  const handleCollapsePress = () => {
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
+
+  
+
   return (
     <View style={styles.affirmationSectionBox}>
       <View style={styles.sectionHeader}>
@@ -33,6 +53,12 @@ Step 2: Read it out loud for at least 3 times!`}
           style={styles.affirmationImage}
         />
       </View>
+            {/* Routine Settings Modal */}
+            <RoutineSettingsModal
+        isVisible={isModalVisible}
+        onClose={closeModal}
+        navigation={navigation}
+      />
     </View>
   );
 };
