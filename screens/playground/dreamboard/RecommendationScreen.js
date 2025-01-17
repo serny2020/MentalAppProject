@@ -9,118 +9,12 @@ import {
 } from "react-native";
 import dreamboard from "../../../data/dreamboard-data";
 
-// const RecommendationScreen = ({ navigation }) => {
-//   const [selectedPhotos, setSelectedPhotos] = useState([]);
-
-//   const albumCategories = [
-//     { id: "1", title: "House", photos: ["House1", "House2", "House3"] },
-//     { id: "2", title: "Cars", photos: ["Car1", "Car2", "Car3"] },
-//     { id: "3", title: "Pets", photos: ["Pet1", "Pet2", "Pet3"] },
-//     { id: "4", title: "Sports", photos: ["Pet1", "Pet2", "Pet3"] },
-//     { id: "5", title: "Travel", photos: ["Travel1", "Travel2", "Travel3"] },
-//   ];
-
-//   const handleSelectPhoto = (photoId) => {
-//     if (selectedPhotos.includes(photoId)) {
-//       setSelectedPhotos(selectedPhotos.filter((id) => id !== photoId));
-//     } else if (selectedPhotos.length < 4) {
-//       setSelectedPhotos([...selectedPhotos, photoId]);
-//     }
-//   };
-
-//   const handleAddPhoto = () => {
-//     console.log("Add button pressed");
-//     navigation.navigate("CommonTopicsScreen");
-//     // Logic to add a new photo can be implemented here
-//   };
-
-//   const renderAlbumCategory = ({ item }) => (
-//     <View style={styles.albumCategory}>
-//       <Text style={styles.albumTitle}>{item.title}</Text>
-//       <FlatList
-//         data={item.photos}
-//         horizontal
-//         renderItem={({ item: photoId }) => (
-//           <TouchableOpacity
-//             style={[
-//               styles.photoBox,
-//               selectedPhotos.includes(photoId) && styles.photoBoxSelected,
-//             ]}
-//             onPress={() => handleSelectPhoto(photoId)}
-//           >
-//             <Text style={styles.photoText}>{photoId}</Text>
-//           </TouchableOpacity>
-//         )}
-//         keyExtractor={(photoId) => photoId}
-//       />
-//     </View>
-//   );
-
-//   return (
-//     <View style={styles.container}>
-//       {/* Header */}
-//       <View style={styles.header}>
-//         {/* Back and Next buttons in the same row */}
-//         <TouchableOpacity onPress={() => navigation.goBack()}>
-//           <Text style={styles.headerText}>Back</Text>
-//         </TouchableOpacity>
-//         <TouchableOpacity onPress={() => console.log("Next pressed")}>
-//           <Text style={styles.headerText}>Next</Text>
-//         </TouchableOpacity>
-//       </View>
-
-//       {/* Title on a new line */}
-//       <View style={styles.headerTitleContainer}>
-//         <Text style={styles.headerTitle}>Select from recommendations</Text>
-//       </View>
-
-//       {/* Album Categories */}
-//       <FlatList
-//         data={albumCategories}
-//         renderItem={renderAlbumCategory}
-//         keyExtractor={(item) => item.id}
-//         contentContainerStyle={styles.albumList}
-//       />
-//       {/* Add Button */}
-//       {/* <TouchableOpacity style={styles.addButton} onPress={handleAddPhoto}>
-//         <Text style={styles.addButtonText}>Add Photo</Text>
-//       </TouchableOpacity> */}
-
-//       {/* Selected Photos */}
-//       <View style={styles.selectedPhotosContainer}>
-//         <Text style={styles.selectedPhotosTitle}>
-//           Selected Photos ({selectedPhotos.length}/4)
-//         </Text>
-//         <FlatList
-//           data={selectedPhotos}
-//           horizontal
-//           renderItem={({ item }) => (
-//             <View style={styles.selectedPhotoContainer}>
-//               <View style={styles.photoWrapper}>
-//                 <Text style={styles.photoText}>{item}</Text>
-//               </View>
-//               <TouchableOpacity
-//                 style={styles.removeButton}
-//                 onPress={() => handleSelectPhoto(item)}
-//               >
-//                 <Text style={styles.removeButtonText}>X</Text>
-//               </TouchableOpacity>
-//             </View>
-//           )}
-//           keyExtractor={(item) => item}
-//           contentContainerStyle={styles.selectedPhotosList}
-//         />
-//       </View>
-//     </View>
-//   );
-// };
 
 const RecommendationScreen = ({ navigation }) => {
   const [selectedPhotos, setSelectedPhotos] = useState([]);
 
-  // Transform dreamboard data to match the expected structure
   const albumCategories = dreamboard.map((item, index) => ({
-    id: String(index + 1), // Generate a unique ID for each category
+    id: String(index + 1),
     title: item.category,
     photos: item.images,
   }));
@@ -162,7 +56,9 @@ const RecommendationScreen = ({ navigation }) => {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Text style={styles.headerText}>Back</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => console.log("Next pressed")}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("SelectTemplateScreen", { selectedPhotos })}
+        >
           <Text style={styles.headerText}>Next</Text>
         </TouchableOpacity>
       </View>
@@ -209,7 +105,7 @@ const RecommendationScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#EBDCFD", // Light purple
+    backgroundColor: "#e1bee7", // Light purple
     padding: 16,
   },
   headerTitle: {
@@ -222,13 +118,23 @@ const styles = StyleSheet.create({
     flexDirection: "row", // Ensures Back and Next are in the same row
     justifyContent: "space-between", // Places Back on the left, Next on the right
     alignItems: "center", // Centers items vertically within the row
-    marginBottom: 8, // Space below the header row
+    marginBottom: 20, // Space below the header row
   },
   headerText: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: "bold",
     color: "#000",
   },
+  // header: {
+  //   flexDirection: 'row',
+  //   justifyContent: 'space-between',
+  //   marginBottom: 20,
+  // },
+  // headerText: {
+  //   fontSize: 18,
+  //   fontWeight: 'bold',
+  //   color: '#000',
+  // },
   headerTitleContainer: {
     alignItems: "center", // Center-aligns the title horizontally
     marginBottom: 16, // Space below the title
@@ -248,12 +154,12 @@ const styles = StyleSheet.create({
   },
   photoBox: {
     width: 100, // Increase width
-    height: 100, // Increase height
+    height: 70, // Increase height
     backgroundColor: "#D3D3D3",
     borderRadius: 8,
     justifyContent: "center",
     alignItems: "center",
-    marginRight: 16,
+    marginRight: 30,
   },
   
   photoBoxSelected: {
@@ -294,8 +200,8 @@ const styles = StyleSheet.create({
   selectedPhotosContainer: {
     marginTop: 10,
     height: 100,
-    marginBottom: 10,
     // alignItems: "center"
+    marginBottom: 10,
   },
   removeButton: {
     position: "absolute",
@@ -331,7 +237,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: "50%",
+    height: "100%",
     borderRadius: 8,
   },
 });
