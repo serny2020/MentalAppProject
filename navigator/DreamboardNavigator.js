@@ -9,6 +9,7 @@ import AlbumSelectionScreen from "../screens/playground/dreamboard/AlbumSelectio
 import CommonTopicsScreen from "../screens/playground/dreamboard/CommonTopicsScreen";
 import RecommendationScreen from "../screens/playground/dreamboard/RecommendationScreen"
 import SelectTemplateScreen from "../screens/playground/dreamboard/SelectTemplateScreen";
+import DreamLifeCraftedScreen from "../screens/playground/dreamboard/DreamLifeCraftedScreen";
 
 const Stack = createStackNavigator();
 
@@ -58,6 +59,11 @@ const DreamboardNavigator = () => {
       <Stack.Screen
         name="SelectTemplateScreen"
         component={SelectTemplateScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="DreamLifeCraftedScreen"
+        component={DreamLifeCraftedScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

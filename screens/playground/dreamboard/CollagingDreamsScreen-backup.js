@@ -7,7 +7,6 @@ import {
   StyleSheet,
   Image,
 } from "react-native";
-import SelectionModal from '../../../components/dreamboard/SelectionModal';
 
 const CollagingDreamsScreen = ({ route, navigation }) => {
   const [templates, setTemplates] = useState({
@@ -110,14 +109,38 @@ const CollagingDreamsScreen = ({ route, navigation }) => {
       ))}
 
       {/* Modal */}
-            {/* Modal */}
-            <SelectionModal
+      <Modal
+        transparent={true}
+        animationType="slide"
         visible={modalVisible}
-        onClose={handleCloseModal}
-        section={currentSection}
-        onSelectFromAlbum={handleSelectFromAlbum}
-        onSelectFromRecommendation={handleSelectFromRecommendation}
-      />
+        onRequestClose={handleCloseModal}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>
+              {`Select for ${currentSection}`}
+            </Text>
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={handleSelectFromAlbum}
+            >
+              <Text style={styles.modalButtonText}>Select from your album</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={handleSelectFromRecommendation}
+            >
+              <Text style={styles.modalButtonText}>Select from recommendation</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.modalCloseButton}
+              onPress={handleCloseModal}
+            >
+              <Text style={styles.modalCloseButtonText}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -177,5 +200,46 @@ const styles = StyleSheet.create({
     position: "relative",
     width: "100%",
     height: "100%",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
+  },
+  modalContent: {
+    width: "80%",
+    padding: 20,
+    backgroundColor: "white",
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 16,
+  },
+  modalButton: {
+    width: "100%",
+    padding: 10,
+    backgroundColor: "#007BFF",
+    borderRadius: 5,
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  modalButtonText: {
+    color: "white",
+    fontSize: 16,
+  },
+  modalCloseButton: {
+    marginTop: 10,
+    padding: 10,
+    backgroundColor: "#FF4444",
+    borderRadius: 5,
+    alignItems: "center",
+  },
+  modalCloseButtonText: {
+    color: "white",
+    fontSize: 16,
   },
 });

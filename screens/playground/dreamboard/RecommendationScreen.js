@@ -10,7 +10,8 @@ import {
 import dreamboard from "../../../data/dreamboard-data";
 
 
-const RecommendationScreen = ({ navigation }) => {
+const RecommendationScreen = ({ route, navigation }) => {
+  const { section } = route.params || {};
   const [selectedPhotos, setSelectedPhotos] = useState([]);
 
   const albumCategories = dreamboard.map((item, index) => ({
@@ -57,7 +58,9 @@ const RecommendationScreen = ({ navigation }) => {
           <Text style={styles.headerText}>Back</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigation.navigate("SelectTemplateScreen", { selectedPhotos })}
+          onPress={() =>
+            navigation.navigate("SelectTemplateScreen", { selectedPhotos, section })
+          }
         >
           <Text style={styles.headerText}>Next</Text>
         </TouchableOpacity>
@@ -125,16 +128,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#000",
   },
-  // header: {
-  //   flexDirection: 'row',
-  //   justifyContent: 'space-between',
-  //   marginBottom: 20,
-  // },
-  // headerText: {
-  //   fontSize: 18,
-  //   fontWeight: 'bold',
-  //   color: '#000',
-  // },
   headerTitleContainer: {
     alignItems: "center", // Center-aligns the title horizontally
     marginBottom: 16, // Space below the title
