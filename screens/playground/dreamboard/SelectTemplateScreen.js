@@ -10,8 +10,7 @@ import {
 import templates from "../../../data/collage-template";
 
 const SelectTemplateScreen = ({ route, navigation }) => {
-  const { section, selectedPhotos } = route.params || {};
-
+  const { section, selectedPhotos, updateTemplate } = route.params || {};
   // const { selectedPhotos } = route.params; // Retrieve selected photos from navigation
   const [selectedTemplate, setSelectedTemplate] = useState(null);
 
@@ -24,6 +23,20 @@ const SelectTemplateScreen = ({ route, navigation }) => {
     setSelectedTemplate(updatedTemplate);
   };
 
+  const handleNext = () => {
+    console.log("What is selected Template in selected template: " + selectedTemplate);
+
+    if (selectedTemplate) {
+      navigation.navigate("DreamLifeCraftedScreen", {
+        updateTemplate,
+        selectedTemplate,
+        section,
+      });
+    } else {
+      alert("Please select a template before proceeding.");
+    }
+  };
+
   return (
     <View style={styles.container}>
       {/* Header */}
@@ -32,9 +45,10 @@ const SelectTemplateScreen = ({ route, navigation }) => {
           <Text style={styles.headerText}>Back</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() =>
-            navigation.navigate("DreamLifeCraftedScreen", { selectedTemplate, section })
-          }
+          // onPress={() =>
+          //   navigation.navigate("DreamLifeCraftedScreen", { selectedTemplate, section })
+          // }
+          onPress={handleNext}
         >
           <Text style={styles.headerText}>Next</Text>
         </TouchableOpacity>

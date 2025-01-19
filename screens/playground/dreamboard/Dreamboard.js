@@ -24,7 +24,7 @@ const Dreamboard = ({ navigation }) => {
         <TouchableOpacity>
           <Text
             style={styles.backText}
-            onPress={() => navigation.navigate("CollagingDreamsScreen")}
+            onPress={() => navigation.navigate("CollagingNavigator")}
           >
             {/* <Ionicons name="settings-outline" size={30} color="#6a1b9a" /> */}
             Next

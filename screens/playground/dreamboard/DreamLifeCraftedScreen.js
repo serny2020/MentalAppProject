@@ -5,95 +5,112 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
-  ScrollView,
 } from "react-native";
 
 const DreamLifeCraftedScreen = ({ route, navigation }) => {
-    const { selectedTemplate, section } = route.params || {}; // Retrieve the passed template data and section
-    // const { selectedTemplate } = route.params || {}; // Retrieve the passed template data
-    const handleExit = () => {
-      navigation.navigate("HomeScreen");
-    };
-  
-    // const handleAddToDreamHouse = (isAdded) => {
-    //   console.log(isAdded ? "Added to Dream House" : "Not Added");
-    //   navigation.navigate("CollagingDreamsScreen")
-    // };
+  const { selectedTemplate, section, updateTemplate } = route.params || {}; // Retrieve the passed template data and section  
 
-    const handleAddToDreamHouse = (isAdded) => {
-        console.log("what is section here: "+ section)
-        console.log(isAdded ? "Added" : "Not Added");
-        if (isAdded && selectedTemplate && section) {
-            console.log("section in the confirm page: " + section)
-          navigation.navigate("CollagingDreamsScreen", {
-            selectedTemplate,
-            section,
-          });
-        } else {
-          navigation.navigate("CollagingDreamsScreen");
-        }
-      };
+  const handleAddToDreamHouse = (isAdded) => {
+    console.log("What is section here: " + section);
+    console.log("What is selected Template: " + selectedTemplate);
+    console.log(isAdded ? "Added" : "Not Added");
   
-    return (
-      <View style={styles.container}>
-        {/* Header */}
-        <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Text style={styles.headerText}>Back</Text>
-          </TouchableOpacity>
-          <Text style={styles.headerText}>Exit</Text>
-        </View>
+    if (isAdded && selectedTemplate && section) {
+      console.log("Section in the confirm page: " + section);
   
-        {/* Title */}
-        <Text style={styles.title}>Congratulations! Your Dream Life has been crafted!</Text>
+      // Call updateTemplate to update the centralized state
+      if (updateTemplate) {
+        updateTemplate(selectedTemplate, section);
+      }
   
-        {/* Content */}
-        <View style={styles.content}>
-          {selectedTemplate ? (
-            selectedTemplate.map((block, index) => (
-              <View
-                key={index}
-                style={[
-                  {
-                    position: "absolute",
-                    width: `${block.width}%`,
-                    height: `${block.height}%`,
-                    left: `${block.x}%`,
-                    top: `${block.y}%`,
-                  },
-                ]}
-              >
-                {block.image ? (
-                  <Image source={block.image} style={{ width: "100%", height: "100%" }} />
-                ) : (
-                  <Text>No Image</Text>
-                )}
-              </View>
-            ))
-          ) : (
-            <Text>No template selected</Text>
-          )}
-        </View>
-  
-        {/* Footer */}
-        <Text style={styles.footerText}>
-          Add it to your <Text style={styles.boldText}>Dream House?</Text>
-        </Text>
-        <View style={styles.buttonRow}>
-          <TouchableOpacity style={styles.noButton} onPress={() => handleAddToDreamHouse(false)}>
-            <Text style={styles.buttonText}>NO</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.yesButton} onPress={() => handleAddToDreamHouse(true)}>
-            <Text style={styles.buttonText}>YES</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
+      // Reset the navigation stack and go back to CollagingDreamsScreen
+      navigation.reset({
+        index: 0,
+        routes: [
+          {
+            name: "CollagingDreamsScreen", // Target screen
+            params: { selectedTemplate, section }, 
+          },
+        ],
+      });
+    } else {
+      // Reset navigation stack without updating templates
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "CollagingDreamsScreen" }],
+      });
+    }
   };
-
-
   
-  
+
+  return (
+    <View style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Text style={styles.headerText}>Back</Text>
+        </TouchableOpacity>
+        <Text style={styles.headerText}>Exit</Text>
+      </View>
+
+      {/* Title */}
+      <Text style={styles.title}>
+        Congratulations! Your Dream Life has been crafted!
+      </Text>
+
+      {/* Content */}
+      <View style={styles.content}>
+        {selectedTemplate ? (
+          selectedTemplate.map((block, index) => (
+            <View
+              key={index}
+              style={[
+                {
+                  position: "absolute",
+                  width: `${block.width}%`,
+                  height: `${block.height}%`,
+                  left: `${block.x}%`,
+                  top: `${block.y}%`,
+                },
+              ]}
+            >
+              {block.image ? (
+                <Image
+                  source={block.image}
+                  style={{ width: "100%", height: "100%" }}
+                />
+              ) : (
+                <Text>No Image</Text>
+              )}
+            </View>
+          ))
+        ) : (
+          <Text>No template selected</Text>
+        )}
+      </View>
+
+      {/* Footer */}
+      <Text style={styles.footerText}>
+        Add it to your <Text style={styles.boldText}>Dream House?</Text>
+      </Text>
+      <View style={styles.buttonRow}>
+        <TouchableOpacity
+          style={styles.noButton}
+          onPress={() => handleAddToDreamHouse(false)}
+        >
+          <Text style={styles.buttonText}>NO</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.yesButton}
+          onPress={() => handleAddToDreamHouse(true)}
+        >
+          <Text style={styles.buttonText}>YES</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+};
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -120,8 +137,8 @@ const styles = StyleSheet.create({
   },
   content: {
     alignItems: "center",
-    width:350,
-    height:500,
+    width: 350,
+    height: 500,
   },
   image: {
     width: "100%",

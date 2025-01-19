@@ -3,29 +3,53 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Modal,
   StyleSheet,
   Image,
 } from "react-native";
+import SelectionModal from '../../../../components/dreamboard/SelectionModal';
+import dreamboard from "../../../../data/dreamboard-data";
+import templates from "../../../../data/collage-template";
 
 const CollagingDreamsScreen = ({ route, navigation }) => {
-  const [templates, setTemplates] = useState({
-    "Dream House": null,
-    "Dream Life": null,
-    "Dream Social Circle": null,
-    "Wishlist": null,
+  // Initialize state with default templates as empty arrays
+  const [templates, setTemplates] = useState(() => {
+    const initialTemplates = {
+      "Dream House": [],
+      "Dream Life": [],
+      "Dream Social Circle": [],
+      "Wishlist": [],
+    };
+
+    // If selectedTemplate exists in route.params, assign it to the specific section
+    if (route.params?.selectedTemplate && route.params?.section) {
+      const { selectedTemplate, section } = route.params;
+      initialTemplates[section] = Array.isArray(selectedTemplate)
+        ? selectedTemplate
+        : [];
+    }
+
+    return initialTemplates;
   });
 
   const [modalVisible, setModalVisible] = useState(false);
   const [currentSection, setCurrentSection] = useState("");
 
   useEffect(() => {
+    // Update templates dynamically when navigating back with new data
     if (route.params?.selectedTemplate && route.params?.section) {
       const { selectedTemplate, section } = route.params;
-      setTemplates((prevTemplates) => ({
-        ...prevTemplates,
-        [section]: selectedTemplate,
-      }));
+
+      // Ensure selectedTemplate is an array before updating state
+      if (Array.isArray(selectedTemplate)) {
+        setTemplates((prevTemplates) => ({
+          ...prevTemplates,
+          [section]: selectedTemplate,
+        }));
+
+        console.log(`Updated template for ${section}:`, selectedTemplate);
+      } else {
+        console.warn(`Invalid template for ${section}:`, selectedTemplate);
+      }
     }
   }, [route.params]);
 
@@ -39,14 +63,32 @@ const CollagingDreamsScreen = ({ route, navigation }) => {
     setCurrentSection("");
   };
 
+  const updateTemplate = (section, template) => {
+    if (Array.isArray(template)) {
+      setTemplates((prevTemplates) => ({
+        ...prevTemplates,
+        [section]: template,
+      }));
+      console.log(`Directly updated template for ${section}:`, template);
+    } else {
+      console.warn(`Invalid template passed for ${section}:`, template);
+    }
+  };
+
   const handleSelectFromAlbum = () => {
     setModalVisible(false);
-    navigation.navigate("AlbumSelectionScreen", { section: currentSection });
+    navigation.navigate("AlbumSelectionScreen", {
+      section: currentSection,
+      updateTemplate, // Pass the updateTemplate function
+    });
   };
 
   const handleSelectFromRecommendation = () => {
     setModalVisible(false);
-    navigation.navigate("RecommendationScreen", { section: currentSection });
+    navigation.navigate("RecommendationScreen", {
+      section: currentSection,
+      updateTemplate, // Pass the updateTemplate function
+    });
   };
 
   return (
@@ -54,7 +96,7 @@ const CollagingDreamsScreen = ({ route, navigation }) => {
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Text style={styles.headerText}>Back</Text>
+          <Text style={styles.headerText}>Exit</Text>
         </TouchableOpacity>
         <Text style={styles.title}>Have fun with collaging your dreams!</Text>
         <TouchableOpacity>
@@ -64,7 +106,6 @@ const CollagingDreamsScreen = ({ route, navigation }) => {
 
       {/* Sections */}
       {Object.keys(templates).map((section) => (
-        console.log(templates),
         <TouchableOpacity
           key={section}
           style={styles.section}
@@ -72,7 +113,7 @@ const CollagingDreamsScreen = ({ route, navigation }) => {
         >
           <Text style={styles.sectionTitle}>{`${section}:`}</Text>
           <View style={styles.placeholder}>
-            {templates[section] ? (
+            {Array.isArray(templates[section]) && templates[section].length > 0 ? (
               <View style={styles.templatePreview}>
                 {templates[section].map((block, index) => (
                   <View
@@ -109,43 +150,20 @@ const CollagingDreamsScreen = ({ route, navigation }) => {
       ))}
 
       {/* Modal */}
-      <Modal
-        transparent={true}
-        animationType="slide"
+      <SelectionModal
         visible={modalVisible}
-        onRequestClose={handleCloseModal}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>
-              {`Select for ${currentSection}`}
-            </Text>
-            <TouchableOpacity
-              style={styles.modalButton}
-              onPress={handleSelectFromAlbum}
-            >
-              <Text style={styles.modalButtonText}>Select from your album</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.modalButton}
-              onPress={handleSelectFromRecommendation}
-            >
-              <Text style={styles.modalButtonText}>Select from recommendation</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.modalCloseButton}
-              onPress={handleCloseModal}
-            >
-              <Text style={styles.modalCloseButtonText}>Cancel</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+        onClose={handleCloseModal}
+        section={currentSection}
+        onSelectFromAlbum={handleSelectFromAlbum}
+        onSelectFromRecommendation={handleSelectFromRecommendation}
+      />
     </View>
   );
 };
 
 export default CollagingDreamsScreen;
+
+
 
 const styles = StyleSheet.create({
   container: {
@@ -200,46 +218,5 @@ const styles = StyleSheet.create({
     position: "relative",
     width: "100%",
     height: "100%",
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.5)",
-  },
-  modalContent: {
-    width: "80%",
-    padding: 20,
-    backgroundColor: "white",
-    borderRadius: 10,
-    alignItems: "center",
-  },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 16,
-  },
-  modalButton: {
-    width: "100%",
-    padding: 10,
-    backgroundColor: "#007BFF",
-    borderRadius: 5,
-    alignItems: "center",
-    marginBottom: 10,
-  },
-  modalButtonText: {
-    color: "white",
-    fontSize: 16,
-  },
-  modalCloseButton: {
-    marginTop: 10,
-    padding: 10,
-    backgroundColor: "#FF4444",
-    borderRadius: 5,
-    alignItems: "center",
-  },
-  modalCloseButtonText: {
-    color: "white",
-    fontSize: 16,
   },
 });

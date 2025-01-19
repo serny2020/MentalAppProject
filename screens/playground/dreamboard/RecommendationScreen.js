@@ -11,7 +11,7 @@ import dreamboard from "../../../data/dreamboard-data";
 
 
 const RecommendationScreen = ({ route, navigation }) => {
-  const { section } = route.params || {};
+  const { section, updateTemplate } = route.params || {};
   const [selectedPhotos, setSelectedPhotos] = useState([]);
 
   const albumCategories = dreamboard.map((item, index) => ({
@@ -25,7 +25,22 @@ const RecommendationScreen = ({ route, navigation }) => {
       setSelectedPhotos(selectedPhotos.filter((item) => item !== photo));
     } else if (selectedPhotos.length < 4) {
       setSelectedPhotos([...selectedPhotos, photo]);
+    } else {
+      alert("You can select up to 4 photos only.");
     }
+  };
+
+  const handleSubmit = () => {
+    if (selectedPhotos.length === 0) {
+      alert("Please select at least one photo before proceeding.");
+      return;
+    }
+    console.log("Passing data from recommendation: ", { section, selectedPhotos, updateTemplate });
+    navigation.navigate("SelectTemplateScreen", {
+      selectedPhotos,
+      section,
+      updateTemplate,
+    });
   };
 
   const renderAlbumCategory = ({ item }) => (
@@ -57,11 +72,7 @@ const RecommendationScreen = ({ route, navigation }) => {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Text style={styles.headerText}>Back</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate("SelectTemplateScreen", { selectedPhotos, section })
-          }
-        >
+        <TouchableOpacity onPress={handleSubmit}>
           <Text style={styles.headerText}>Next</Text>
         </TouchableOpacity>
       </View>
@@ -104,7 +115,6 @@ const RecommendationScreen = ({ route, navigation }) => {
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

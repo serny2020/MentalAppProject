@@ -7,7 +7,7 @@ import {
   StyleSheet,
   Image,
 } from "react-native";
-import SelectionModal from '../../../components/dreamboard/SelectionModal';
+import SelectionModal from '../../../../components/dreamboard/SelectionModal';
 
 const CollagingDreamsScreen = ({ route, navigation }) => {
   const [templates, setTemplates] = useState({
@@ -55,7 +55,7 @@ const CollagingDreamsScreen = ({ route, navigation }) => {
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Text style={styles.headerText}>Back</Text>
+          <Text style={styles.headerText}>Exit</Text>
         </TouchableOpacity>
         <Text style={styles.title}>Have fun with collaging your dreams!</Text>
         <TouchableOpacity>
