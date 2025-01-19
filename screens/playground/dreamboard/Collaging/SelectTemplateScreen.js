@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   View,
   Text,
@@ -7,31 +7,33 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import templates from "../../../data/collage-template";
+import { useCollagingContext } from "../../../../context/CollagingContext";
+import templates from "../../../../data/collage-template";
 
-const SelectTemplateScreen = ({ route, navigation }) => {
-  const { section, selectedPhotos, updateTemplate } = route.params || {};
-  // const { selectedPhotos } = route.params; // Retrieve selected photos from navigation
-  const [selectedTemplate, setSelectedTemplate] = useState(null);
+const SelectTemplateScreen = ({ navigation, route }) => {
+  const { selectedPhotos, selectedTemplate, chooseTemplate } = useCollagingContext();
+  const { section } = route.params || {}; // Get the section from the route params
+
+  // Filter photos for the current section
+  const sectionPhotos = selectedPhotos[section] || [];
 
   const handleTemplateSelection = (template) => {
-    // Populate template blocks with selected photos
+    if (sectionPhotos.length === 0) {
+      alert("No photos selected for this section. Please go back and select photos.");
+      return;
+    }
+
+    // Populate template blocks with selected photos from the current section
     const updatedTemplate = template.map((block, index) => ({
       ...block,
-      image: selectedPhotos[index % selectedPhotos.length], // Cycle through selected photos
+      image: sectionPhotos[index % sectionPhotos.length], // Cycle through section-specific photos
     }));
-    setSelectedTemplate(updatedTemplate);
+    chooseTemplate({ section, template: updatedTemplate }); // Save the selected template in the context with the section
   };
 
   const handleNext = () => {
-    console.log("What is selected Template in selected template: " + selectedTemplate);
-
-    if (selectedTemplate) {
-      navigation.navigate("DreamLifeCraftedScreen", {
-        updateTemplate,
-        selectedTemplate,
-        section,
-      });
+    if (selectedTemplate?.section === section) {
+      navigation.navigate("DreamLifeCraftedScreen", { section });
     } else {
       alert("Please select a template before proceeding.");
     }
@@ -44,21 +46,16 @@ const SelectTemplateScreen = ({ route, navigation }) => {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Text style={styles.headerText}>Back</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          // onPress={() =>
-          //   navigation.navigate("DreamLifeCraftedScreen", { selectedTemplate, section })
-          // }
-          onPress={handleNext}
-        >
+        <TouchableOpacity onPress={handleNext}>
           <Text style={styles.headerText}>Next</Text>
         </TouchableOpacity>
       </View>
 
       {/* Main Display */}
       <View style={styles.templatePreview}>
-        {selectedTemplate ? (
+        {selectedTemplate?.section === section ? (
           <View style={styles.templatePreview}>
-            {selectedTemplate.map((block, i) => (
+            {selectedTemplate.template.map((block, i) => (
               <View
                 key={i}
                 style={[
@@ -122,6 +119,7 @@ const SelectTemplateScreen = ({ route, navigation }) => {
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {

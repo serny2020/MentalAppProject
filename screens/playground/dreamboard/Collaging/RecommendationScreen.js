@@ -1,18 +1,18 @@
-import React, { useState } from "react";
+import React from 'react';
 import {
   View,
   Text,
   TouchableOpacity,
-  StyleSheet,
-  FlatList,
   Image,
-} from "react-native";
-import dreamboard from "../../../data/dreamboard-data";
+  FlatList,
+  StyleSheet,
+} from 'react-native';
+import dreamboard from "../../../../data/dreamboard-data";
+import { useCollagingContext } from "../../../../context/CollagingContext";
 
-
-const RecommendationScreen = ({ route, navigation }) => {
-  const { section, updateTemplate } = route.params || {};
-  const [selectedPhotos, setSelectedPhotos] = useState([]);
+const RecommendationScreen = ({ navigation, route }) => {
+  const { selectPhotos, selectedPhotos } = useCollagingContext();
+  const { section } = route.params || {}; // Get the section from the route params
 
   const albumCategories = dreamboard.map((item, index) => ({
     id: String(index + 1),
@@ -20,27 +20,46 @@ const RecommendationScreen = ({ route, navigation }) => {
     photos: item.images,
   }));
 
+  // State to track selected photos by section
+  const [sectionPhotos, setSectionPhotos] = React.useState([]);
+
+  // Reset sectionPhotos when the screen is rendered
+  React.useEffect(() => {
+    // Clear previously selected photos for the current section
+    setSectionPhotos([]);
+    selectPhotos((prev) => ({
+      ...prev,
+      [section]: [], // Reset the section in the context
+    }));
+    // This effect should only run once when the component mounts
+  }, [section]);
+
   const handleSelectPhoto = (photo) => {
-    if (selectedPhotos.includes(photo)) {
-      setSelectedPhotos(selectedPhotos.filter((item) => item !== photo));
-    } else if (selectedPhotos.length < 4) {
-      setSelectedPhotos([...selectedPhotos, photo]);
+    const currentSectionPhotos = [...sectionPhotos];
+    if (currentSectionPhotos.includes(photo)) {
+      // Remove the photo from the selected list
+      const updatedPhotos = currentSectionPhotos.filter(
+        (item) => item !== photo
+      );
+      setSectionPhotos(updatedPhotos);
+      selectPhotos({ ...selectedPhotos, [section]: updatedPhotos });
+    } else if (currentSectionPhotos.length < 4) {
+      // Add the photo to the selected list
+      const updatedPhotos = [...currentSectionPhotos, photo];
+      setSectionPhotos(updatedPhotos);
+      selectPhotos({ ...selectedPhotos, [section]: updatedPhotos });
     } else {
       alert("You can select up to 4 photos only.");
     }
   };
 
   const handleSubmit = () => {
-    if (selectedPhotos.length === 0) {
+    if (sectionPhotos.length === 0) {
       alert("Please select at least one photo before proceeding.");
       return;
     }
-    console.log("Passing data from recommendation: ", { section, selectedPhotos, updateTemplate });
-    navigation.navigate("SelectTemplateScreen", {
-      selectedPhotos,
-      section,
-      updateTemplate,
-    });
+    // Navigate to the next screen
+    navigation.navigate("SelectTemplateScreen", { section });
   };
 
   const renderAlbumCategory = ({ item }) => (
@@ -53,7 +72,7 @@ const RecommendationScreen = ({ route, navigation }) => {
           <TouchableOpacity
             style={[
               styles.photoBox,
-              selectedPhotos.includes(photo) && styles.photoBoxSelected,
+              sectionPhotos.includes(photo) && styles.photoBoxSelected,
             ]}
             onPress={() => handleSelectPhoto(photo)}
           >
@@ -93,10 +112,10 @@ const RecommendationScreen = ({ route, navigation }) => {
       {/* Selected Photos */}
       <View style={styles.selectedPhotosContainer}>
         <Text style={styles.selectedPhotosTitle}>
-          Selected Photos ({selectedPhotos.length}/4)
+          Selected Photos ({sectionPhotos.length}/4)
         </Text>
         <FlatList
-          data={selectedPhotos}
+          data={sectionPhotos}
           horizontal
           renderItem={({ item }) => (
             <View style={styles.selectedPhotoContainer}>
@@ -115,6 +134,8 @@ const RecommendationScreen = ({ route, navigation }) => {
     </View>
   );
 };
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

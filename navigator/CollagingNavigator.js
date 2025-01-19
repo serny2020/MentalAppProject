@@ -3,10 +3,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { CollagingContextProvider } from '../context/CollagingContext'; // Adjust the path as needed
 import CollagingDreamsScreen from '../screens/playground/dreamboard/Collaging/CollagingDreamsScreen';
 import AlbumSelectionScreen from '../screens/playground/dreamboard/Collaging/AlbumSelectionScreen';
-import RecommendationScreen from '../screens/playground/dreamboard/RecommendationScreen';
-import SelectTemplateScreen from '../screens/playground/dreamboard/SelectTemplateScreen';
-import DreamLifeCraftedScreen from '../screens/playground/dreamboard/DreamLifeCraftedScreen';
-
+import RecommendationScreen from '../screens/playground/dreamboard/Collaging/RecommendationScreen';
+import SelectTemplateScreen from '../screens/playground/dreamboard/Collaging/SelectTemplateScreen';
+import DreamLifeCraftedScreen from '../screens/playground/dreamboard/Collaging/DreamLifeCraftedScreen';
 
 const Stack = createStackNavigator();
 

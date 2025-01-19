@@ -5,18 +5,28 @@ const CollagingContext = createContext();
 
 // Create the provider component
 export const CollagingContextProvider = ({ children }) => {
-  // Shared state
-  const [selectedAlbum, setSelectedAlbum] = useState(null);
-  const [recommendedDream, setRecommendedDream] = useState(null);
+  // Shared states
+  const [templates, setTemplates] = useState({
+    "Dream House": [],
+    "Dream Life": [],
+    "Dream Social Circle": [],
+    "Wishlist": [],
+  });
+  const [selectedPhotos, setSelectedPhotos] = useState([]);
   const [selectedTemplate, setSelectedTemplate] = useState(null);
 
   // Shared actions
-  const selectAlbum = (album) => {
-    setSelectedAlbum(album);
+  const updateTemplates = (section, updatedTemplates) => {
+    console.log("Updating section:", section);
+
+    setTemplates((prev) => ({
+      ...prev,
+      [section]: updatedTemplates,
+    }));
   };
 
-  const recommendDream = (dream) => {
-    setRecommendedDream(dream);
+  const selectPhotos = (photos) => {
+    setSelectedPhotos(photos);
   };
 
   const chooseTemplate = (template) => {
@@ -26,10 +36,10 @@ export const CollagingContextProvider = ({ children }) => {
   return (
     <CollagingContext.Provider
       value={{
-        selectedAlbum,
-        selectAlbum,
-        recommendedDream,
-        recommendDream,
+        templates,
+        updateTemplates,
+        selectedPhotos,
+        selectPhotos,
         selectedTemplate,
         chooseTemplate,
       }}

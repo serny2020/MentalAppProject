@@ -7,51 +7,14 @@ import {
   Image,
 } from "react-native";
 import SelectionModal from '../../../../components/dreamboard/SelectionModal';
-import dreamboard from "../../../../data/dreamboard-data";
-import templates from "../../../../data/collage-template";
+import { useCollagingContext } from '../../../../context/CollagingContext';
 
-const CollagingDreamsScreen = ({ route, navigation }) => {
-  // Initialize state with default templates as empty arrays
-  const [templates, setTemplates] = useState(() => {
-    const initialTemplates = {
-      "Dream House": [],
-      "Dream Life": [],
-      "Dream Social Circle": [],
-      "Wishlist": [],
-    };
-
-    // If selectedTemplate exists in route.params, assign it to the specific section
-    if (route.params?.selectedTemplate && route.params?.section) {
-      const { selectedTemplate, section } = route.params;
-      initialTemplates[section] = Array.isArray(selectedTemplate)
-        ? selectedTemplate
-        : [];
-    }
-
-    return initialTemplates;
-  });
-
+const CollagingDreamsScreen = ({ navigation }) => {
+  const { templates, updateTemplates } = useCollagingContext(); // Access templates and update function
   const [modalVisible, setModalVisible] = useState(false);
   const [currentSection, setCurrentSection] = useState("");
 
-  useEffect(() => {
-    // Update templates dynamically when navigating back with new data
-    if (route.params?.selectedTemplate && route.params?.section) {
-      const { selectedTemplate, section } = route.params;
-
-      // Ensure selectedTemplate is an array before updating state
-      if (Array.isArray(selectedTemplate)) {
-        setTemplates((prevTemplates) => ({
-          ...prevTemplates,
-          [section]: selectedTemplate,
-        }));
-
-        console.log(`Updated template for ${section}:`, selectedTemplate);
-      } else {
-        console.warn(`Invalid template for ${section}:`, selectedTemplate);
-      }
-    }
-  }, [route.params]);
+  console.log("Templates:", templates); // Debugging log
 
   const handleOpenModal = (section) => {
     setCurrentSection(section);
@@ -63,32 +26,67 @@ const CollagingDreamsScreen = ({ route, navigation }) => {
     setCurrentSection("");
   };
 
-  const updateTemplate = (section, template) => {
-    if (Array.isArray(template)) {
-      setTemplates((prevTemplates) => ({
-        ...prevTemplates,
-        [section]: template,
-      }));
-      console.log(`Directly updated template for ${section}:`, template);
-    } else {
-      console.warn(`Invalid template passed for ${section}:`, template);
-    }
-  };
-
   const handleSelectFromAlbum = () => {
     setModalVisible(false);
-    navigation.navigate("AlbumSelectionScreen", {
-      section: currentSection,
-      updateTemplate, // Pass the updateTemplate function
-    });
+    navigation.navigate("AlbumSelectionScreen", { section: currentSection });
   };
 
   const handleSelectFromRecommendation = () => {
     setModalVisible(false);
-    navigation.navigate("RecommendationScreen", {
-      section: currentSection,
-      updateTemplate, // Pass the updateTemplate function
-    });
+    navigation.navigate("RecommendationScreen", { section: currentSection });
+  };
+
+  const renderSection = (section) => {
+    const flattenedTemplates =
+      Array.isArray(templates[section]) && templates[section].length > 0
+        ? templates[section].flat()
+        : [];
+
+    console.log("Flattened templates for section:", section, flattenedTemplates);
+
+    return (
+      <TouchableOpacity
+        key={section}
+        style={styles.section}
+        onPress={() => handleOpenModal(section)}
+      >
+        <Text style={styles.sectionTitle}>{`${section}:`}</Text>
+        <View style={styles.placeholder}>
+          {flattenedTemplates.length > 0 ? (
+            <View style={styles.templatePreview}>
+              {flattenedTemplates.map((block, index) => (
+                <View
+                  key={index}
+                  style={[
+                    {
+                      position: "absolute",
+                      width: `${block.width}%`,
+                      height: `${block.height}%`,
+                      left: `${block.x}%`,
+                      top: `${block.y}%`,
+                    },
+                  ]}
+                >
+                  {block.image ? (
+                    <Image
+                      source={block.image}
+                      style={{ width: "100%", height: "100%" }}
+                      resizeMode="cover"
+                    />
+                  ) : (
+                    <Text>No Image</Text>
+                  )}
+                </View>
+              ))}
+            </View>
+          ) : (
+            <Text style={styles.placeholderText}>
+              {`Select up to 4 pictures included in your ${section.toLowerCase()}`}
+            </Text>
+          )}
+        </View>
+      </TouchableOpacity>
+    );
   };
 
   return (
@@ -105,49 +103,7 @@ const CollagingDreamsScreen = ({ route, navigation }) => {
       </View>
 
       {/* Sections */}
-      {Object.keys(templates).map((section) => (
-        <TouchableOpacity
-          key={section}
-          style={styles.section}
-          onPress={() => handleOpenModal(section)}
-        >
-          <Text style={styles.sectionTitle}>{`${section}:`}</Text>
-          <View style={styles.placeholder}>
-            {Array.isArray(templates[section]) && templates[section].length > 0 ? (
-              <View style={styles.templatePreview}>
-                {templates[section].map((block, index) => (
-                  <View
-                    key={index}
-                    style={[
-                      {
-                        position: "absolute",
-                        width: `${block.width}%`,
-                        height: `${block.height}%`,
-                        left: `${block.x}%`,
-                        top: `${block.y}%`,
-                      },
-                    ]}
-                  >
-                    {block.image ? (
-                      <Image
-                        source={block.image}
-                        style={{ width: "100%", height: "100%" }}
-                        resizeMode="cover"
-                      />
-                    ) : (
-                      <Text>No Image</Text>
-                    )}
-                  </View>
-                ))}
-              </View>
-            ) : (
-              <Text style={styles.placeholderText}>
-                {`Select up to 4 pictures included in your ${section.toLowerCase()}`}
-              </Text>
-            )}
-          </View>
-        </TouchableOpacity>
-      ))}
+      {Object.keys(templates).map((section) => renderSection(section))}
 
       {/* Modal */}
       <SelectionModal
