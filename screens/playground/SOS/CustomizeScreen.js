@@ -22,6 +22,7 @@ const CustomizeScreen = ({ navigation, route }) => {
       );
       setTools((prevTools) => [...prevTools, ...newTools]);
 
+      
       // Initialize the selected state for new tools
       const updatedSelectedTools = { ...selectedTools };
       newTools.forEach((tool) => {
