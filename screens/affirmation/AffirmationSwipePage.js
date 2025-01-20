@@ -44,7 +44,7 @@ const AffirmationSwipePage = ({ navigation }) => {
           <Text style={styles.headerText}>Cancel</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => Alert.alert("Done", "Your affirmations are saved!")}
+          onPress={() => navigation.navigate("ConfirmAffirmationScreen")}
         >
           <Text style={styles.headerText}>Done</Text>
         </TouchableOpacity>

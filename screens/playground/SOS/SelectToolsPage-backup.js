@@ -35,6 +35,15 @@ const SelectToolsPage = ({ navigation, route }) => {
     }
   };
 
+  // const toggleSelectTool = (tool) => {
+  //   if (selectedTools.some((item) => item.name === tool.name)) {
+  //     setSelectedTools(selectedTools.filter((item) => item.name !== tool.name));
+  //   } else {
+  //     setSelectedTools([...selectedTools, tool]);
+  //   }
+  // };
+  
+
   const selectAllTools = () => {
     const tabTools = selectedTab === "General" ? generalTools : multimediaTools;
     setSelectedTools([
@@ -55,7 +64,22 @@ const SelectToolsPage = ({ navigation, route }) => {
     setModalTitle(title);
     setModalInfo(info);
     setModalVisible(true);
-  };  
+  };
+
+  // const handleAddTools = () => {
+  //   const onAddTools = route.params?.onAddTools;
+  //   if (onAddTools) {
+  //     onAddTools(
+  //       selectedTools.map((tool) => ({
+  //         name: tool.name,
+  //         image: tool.image || null, // Include image if it exists
+  //         pressable: selectedTab === "Multimedia", // Add pressable flag for multimedia tools
+  //       }))
+  //     );
+  //   }
+  //   navigation.goBack();
+  // };
+  
   
 
   const handleAddTools = () => {
