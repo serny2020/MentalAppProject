@@ -1,22 +1,31 @@
 import React, { createContext, useState, useContext } from "react";
+import toolsData from "../data/tools-data";
 
 // Create Context
 const ToolsContext = createContext();
 
 // Provider Component
 export const ToolsProvider = ({ children }) => {
-  const [tools, setTools] = useState([]);
+  const [contextTools, setTools] = useState([]); // Initialize with toolsData
+  const [selectedTools, setSelectedTools] = useState([]); // Ensure selectedTools is an array
 
-  const addTools = (newTools) => {
-    setTools((prevTools) => {
-      const toolNames = prevTools.map((tool) => tool.name);
-      const uniqueTools = newTools.filter((tool) => !toolNames.includes(tool.name));
-      return [...prevTools, ...uniqueTools];
+  const addTools = (selectedToolsFromPage) => {
+    const newTools = selectedToolsFromPage.filter(
+      (tool) => !contextTools.includes(tool)
+    );
+    setTools((prevTools) => [...prevTools, ...newTools]);
+
+    // Initialize checkbox state for new tools
+    const updatedSelectedTools = { ...selectedTools };
+    newTools.forEach((tool) => {
+      updatedSelectedTools[tool] = false;
     });
+    console.log("added new tool: ", newTools)
+    setSelectedTools(updatedSelectedTools);
   };
-
+  
   return (
-    <ToolsContext.Provider value={{ tools, addTools }}>
+    <ToolsContext.Provider value={{ contextTools, selectedTools, addTools, setSelectedTools }}>
       {children}
     </ToolsContext.Provider>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   View,
   Text,
@@ -10,92 +10,107 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import tools from "../../../data/tools-data";
+import SelectToolsModal from "../../../components/SOS/SelectToolsModal";
+import { useTools } from "../../../context/ToolsContext";
+import CheckBoxBotton from "../../../components/SOS/CheckBoxBotton";
+import Tabs from "../../../components/SOS/Tabs";
 
-const SelectToolsPage = ({ navigation, route }) => {
+const SelectToolsPage = ({ navigation }) => {
   const [selectedTab, setSelectedTab] = useState("General");
   const [selectedTools, setSelectedTools] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalInfo, setModalInfo] = useState("");
   const [modalTitle, setModalTitle] = useState("");
+  const { contextTools, addTools } = useTools();
 
   const generalTools = tools.filter((tool) => tool.category === "General");
   const multimediaTools = tools.filter(
     (tool) => tool.category === "Multimedia"
   );
 
-  const isSelectAllPressable = (tabTools) =>
-    selectedTools.length !== tabTools.length;
-  const isDeselectAllPressable = (tabTools) => selectedTools.length > 0;
-
   const toggleSelectTool = (tool) => {
-    if (selectedTools.includes(tool)) {
-      setSelectedTools(selectedTools.filter((item) => item !== tool));
+    console.log("check the type of added tool: ", tool);
+    // Check if the tool is already selected by comparing its unique property
+    if (selectedTools.some((item) => item.name === tool.name)) {
+      // Deselect the tool
+      setSelectedTools(selectedTools.filter((item) => item.name !== tool.name));
     } else {
+      // Select the tool
       setSelectedTools([...selectedTools, tool]);
     }
   };
 
   const selectAllTools = () => {
     const tabTools = selectedTab === "General" ? generalTools : multimediaTools;
-    setSelectedTools([
-      ...new Set([...selectedTools, ...tabTools.map((tool) => tool.name)]),
-    ]);
+
+    // Combine selectedTools and tabTools, ensuring no duplicates
+    const combinedTools = [
+      ...selectedTools,
+      ...tabTools.filter(
+        (tool) => !selectedTools.some((selected) => selected.name === tool.name)
+      ),
+    ];
+
+    setSelectedTools(combinedTools);
   };
 
   const deselectAllTools = () => {
     const tabTools = selectedTab === "General" ? generalTools : multimediaTools;
-    setSelectedTools(
-      selectedTools.filter(
-        (tool) => !tabTools.map((t) => t.name).includes(tool)
-      )
+
+    // Remove tools from selectedTools that are in the current tab
+    const updatedTools = selectedTools.filter(
+      (tool) => !tabTools.some((tabTool) => tabTool.name === tool.name)
     );
+
+    setSelectedTools(updatedTools);
   };
 
   const openInfoModal = (title, info) => {
     setModalTitle(title);
     setModalInfo(info);
     setModalVisible(true);
-  };  
-  
+  };
 
   const handleAddTools = () => {
-    const onAddTools = route.params?.onAddTools;
-    if (onAddTools) {
-      onAddTools(selectedTools); // Call the callback with selected tools
-    }
-    navigation.goBack(); // Navigate back to CustomizeScreen
+    console.log("add to context:", selectedTools);
+    addTools(selectedTools); // Use the context method to add full objects
+    navigation.goBack(); // Navigate back
   };
 
   const renderTabContent = () => {
-    const toolsData = selectedTab === "General" ? generalTools : multimediaTools;
-  
+    const toolsData =
+      selectedTab === "General" ? generalTools : multimediaTools;
+
     return (
       <FlatList
         data={toolsData}
         keyExtractor={(item) => item.name}
         renderItem={({ item }) => (
           <View style={styles.toolItem}>
-  
             {/* Checkbox */}
             <TouchableOpacity
               style={styles.checkbox}
-              onPress={() => toggleSelectTool(item.name)}
-              >
+              onPress={() => toggleSelectTool(item)} // Pass the entire object
+            >
               <Ionicons
-                name={selectedTools.includes(item.name) ? "checkbox" : "square-outline"}
+                name={
+                  selectedTools.some((tool) => tool.name === item.name) // Check by unique property
+                    ? "checkbox"
+                    : "square-outline"
+                }
                 size={24}
                 color="#6A0DAD"
-                />
+              />
             </TouchableOpacity>
-                {/* Render icon for Multimedia tools */}
-                {selectedTab === "Multimedia" && item.icon && (
-                  <Image
-                    source={item.icon}
-                    style={styles.icon}
-                    resizeMode="contain"
-                  />
-                )}
-  
+            {/* Render icon for Multimedia tools */}
+            {selectedTab === "Multimedia" && item.icon && (
+              <Image
+                source={item.icon}
+                style={styles.icon}
+                resizeMode="contain"
+              />
+            )}
+
             {/* Tool name with pressable behavior for Multimedia */}
             {selectedTab === "Multimedia" ? (
               <TouchableOpacity
@@ -107,14 +122,18 @@ const SelectToolsPage = ({ navigation, route }) => {
             ) : (
               <Text style={styles.toolText}>{item.name}</Text>
             )}
-  
+
             {/* Info button for General tools */}
             {selectedTab === "General" && item.info && (
               <TouchableOpacity
                 style={styles.infoIcon}
                 onPress={() => openInfoModal(item.name, item.info)}
               >
-                <Ionicons name="help-circle-outline" size={20} color="#6A0DAD" />
+                <Ionicons
+                  name="help-circle-outline"
+                  size={20}
+                  color="#6A0DAD"
+                />
               </TouchableOpacity>
             )}
           </View>
@@ -122,7 +141,6 @@ const SelectToolsPage = ({ navigation, route }) => {
       />
     );
   };
-    
 
   return (
     <View style={styles.container}>
@@ -136,9 +154,6 @@ const SelectToolsPage = ({ navigation, route }) => {
           />
         </TouchableOpacity>
         <Ionicons name="help-circle-outline" size={28} color="#6A0DAD" />
-        {/* <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Ionicons name="close-circle-outline" size={24} color="#6A0DAD" />
-        </TouchableOpacity> */}
       </View>
 
       {/* Title */}
@@ -148,109 +163,42 @@ const SelectToolsPage = ({ navigation, route }) => {
 
       {/* Tabs */}
       <View style={styles.tabsContainer}>
-        <TouchableOpacity
-          style={[styles.tab, selectedTab === "General" && styles.activeTab]}
-          onPress={() => setSelectedTab("General")}
-        >
-          <Text
-            style={[
-              styles.tabText,
-              selectedTab === "General" && styles.activeTabText,
-            ]}
-          >
-            General Tips
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.tab, selectedTab === "Multimedia" && styles.activeTab]}
-          onPress={() => setSelectedTab("Multimedia")}
-        >
-          <Text
-            style={[
-              styles.tabText,
-              selectedTab === "Multimedia" && styles.activeTabText,
-            ]}
-          >
-            Multimedia Toolbox
-          </Text>
-        </TouchableOpacity>
+        <Tabs
+          selectedTab={selectedTab}
+          setSelectedTab={setSelectedTab}
+          styles={styles}
+        />
       </View>
 
       {/* Buttons */}
       <View style={styles.buttonRow}>
         {/* Select All Button */}
-        <TouchableOpacity
-          style={[
-            styles.actionButton,
-            {
-              backgroundColor:
-                selectedTab === "General"
-                  ? selectedTools.filter((tool) =>
-                      generalTools.map((t) => t.name).includes(tool)
-                    ).length < generalTools.length
-                    ? "#6A0DAD"
-                    : "#B085DA"
-                  : selectedTools.filter((tool) =>
-                      multimediaTools.map((t) => t.name).includes(tool)
-                    ).length < multimediaTools.length
-                  ? "#6A0DAD"
-                  : "#B085DA",
-            },
-          ]}
+        <CheckBoxBotton
+          selectedTab={selectedTab}
+          selectedTools={selectedTools}
+          tools={selectedTab === "General" ? generalTools : multimediaTools}
           onPress={() =>
             selectAllTools(
               selectedTab === "General" ? generalTools : multimediaTools
             )
           }
-          disabled={
-            selectedTab === "General"
-              ? selectedTools.filter((tool) =>
-                  generalTools.map((t) => t.name).includes(tool)
-                ).length === generalTools.length
-              : selectedTools.filter((tool) =>
-                  multimediaTools.map((t) => t.name).includes(tool)
-                ).length === multimediaTools.length
-          }
-        >
-          <Text style={styles.actionButtonText}>Select All</Text>
-        </TouchableOpacity>
+          isSelectAll={true} // Indicates this is the Select All button
+          styles={styles} // Pass styles
+        />
 
         {/* Deselect All Button */}
-        <TouchableOpacity
-          style={[
-            styles.actionButton,
-            {
-              backgroundColor:
-                selectedTab === "General"
-                  ? selectedTools.some((tool) =>
-                      generalTools.map((t) => t.name).includes(tool)
-                    )
-                    ? "#6A0DAD"
-                    : "#B085DA"
-                  : selectedTools.some((tool) =>
-                      multimediaTools.map((t) => t.name).includes(tool)
-                    )
-                  ? "#6A0DAD"
-                  : "#B085DA",
-            },
-          ]}
+        <CheckBoxBotton
+          selectedTab={selectedTab}
+          selectedTools={selectedTools}
+          tools={selectedTab === "General" ? generalTools : multimediaTools}
           onPress={() =>
             deselectAllTools(
               selectedTab === "General" ? generalTools : multimediaTools
             )
           }
-          disabled={
-            selectedTab === "General"
-              ? !selectedTools.some((tool) =>
-                  generalTools.map((t) => t.name).includes(tool)
-                )
-              : !selectedTools.some((tool) =>
-                  multimediaTools.map((t) => t.name).includes(tool)
-                )
-          }
-        >
-          <Text style={styles.actionButtonText}>Deselect All</Text>
-        </TouchableOpacity>
+          isSelectAll={false} // Indicates this is the Deselect All button
+          styles={styles} // Pass styles
+        />
 
         {/* Add Button */}
         <TouchableOpacity style={styles.actionButton} onPress={handleAddTools}>
@@ -262,40 +210,12 @@ const SelectToolsPage = ({ navigation, route }) => {
       {renderTabContent()}
 
       {/* Info Modal */}
-      <Modal
+      <SelectToolsModal
         visible={modalVisible}
-        transparent={true}
-        animationType="slide"
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            {/* Dynamic Title */}
-            <Text style={styles.modalHeaderText}>{modalTitle}</Text>
-            {/* Dynamic Content */}
-            <View style={styles.modalBody}>
-              {modalInfo ? (
-                modalInfo.split(/(?<=[.?\!])\s+/).map((sentence, index) => (
-                  <View key={index} style={styles.bulletContainer}>
-                    <Text style={styles.bulletText}>{"\u2022"}</Text>
-                    <Text style={styles.bulletSentence}>{sentence.trim()}</Text>
-                  </View>
-                ))
-              ) : (
-                <Text style={styles.modalFallbackText}>
-                  No additional information available.
-                </Text>
-              )}
-            </View>
-            <TouchableOpacity
-              style={styles.modalCloseButton}
-              onPress={() => setModalVisible(false)}
-            >
-              <Text style={styles.modalCloseText}>Close</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+        title={modalTitle}
+        info={modalInfo}
+        onClose={() => setModalVisible(false)}
+      />
     </View>
   );
 };
@@ -372,66 +292,7 @@ const styles = StyleSheet.create({
   infoIcon: {
     marginLeft: 8,
   },
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  modalContent: {
-    width: "80%",
-    backgroundColor: "#FFF",
-    borderRadius: 8,
-    padding: 16,
-    alignItems: "center",
-  },
-  modalHeaderText: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 8,
-    textAlign: "center",
-    color: "#6A0DAD",
-  },
-  modalBody: {
-    width: "100%",
-    paddingHorizontal: 8,
-  },
-  modalBulletText: {
-    fontSize: 16,
-    lineHeight: 24,
-    textAlign: "left",
-    marginLeft: 16,
-    color: "#333",
-  },
-  modalCloseButton: {
-    backgroundColor: "#6A0DAD",
-    borderRadius: 8,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    marginTop: 16,
-  },
-  modalCloseText: {
-    color: "#FFF",
-    fontWeight: "bold",
-  },
-  bulletContainer: {
-    flexDirection: "row", // Align bullet and text horizontally
-    alignItems: "flex-start", // Align bullet with the first line of text
-    marginBottom: 8, // Space between bullets
-  },
-  bulletText: {
-    fontSize: 16,
-    lineHeight: 24,
-    marginRight: 8, // Space between bullet and text
-    color: "#333",
-  },
-  bulletSentence: {
-    flex: 1, // Ensures text wraps properly within the available space
-    fontSize: 16,
-    lineHeight: 24, // Proper spacing for multi-line text
-    color: "#333",
-  },
-    toolItem: {
+  toolItem: {
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 2,

@@ -6,11 +6,9 @@ import {
   StyleSheet,
   FlatList,
   TextInput,
-  Image,
 } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useTools } from "../../../context/ToolsContext";
-import ToolsList from "../../../components/SOS/ToolsList";
 
 const CustomizeScreen = ({ navigation, route }) => {
   const [tools, setTools] = useState([]);
@@ -35,47 +33,33 @@ const CustomizeScreen = ({ navigation, route }) => {
     }
   }, [route.params?.selectedTools]);
 
+  // Toggle checkbox state
+  // const toggleCheckbox = (tool) => {
+  //   setSelectedTools((prev) => ({
+  //     ...prev,
+  //     [tool]: !prev[tool],
+  //   }));
+  // };
+
   const toggleCheckbox = (tool) => {
-    setSelectedTools((prevSelectedTools) => {
-      // Ensure prevSelectedTools is an array
-      if (!Array.isArray(prevSelectedTools)) {
-        prevSelectedTools = [];
-      }
-
-      // Check if the tool is already in the array
-      const isSelected = prevSelectedTools.some(
-        (item) => item.name === tool.name
-      );
-
-      if (isSelected) {
-        // Remove the tool from the array
-        return prevSelectedTools.filter((item) => item.name !== tool.name);
-      } else {
-        // Add the tool to the array
-        return [...prevSelectedTools, tool];
-      }
-    });
+    if (selectedTools.some((item) => item.name === tool.name)) {
+      // Deselect tool
+      setSelectedTools(selectedTools.filter((item) => item.name !== tool.name));
+    } else {
+      // Select tool
+      setSelectedTools([...selectedTools, tool]);
+    }
   };
+  
 
   // Add new tool from user input
   const addTool = () => {
-    if (
-      newTool.trim().length > 0 &&
-      !contextTools.some((tool) => tool.name === newTool.trim())
-    ) {
-      const newToolObject = {
-        name: newTool.trim(),
-        info: "",
-        category: "Custom", // Default category
-        icon: null, // Default icon
-      };
-
-      // Convert newToolObject into an array of objects
-      const newToolArray = [newToolObject];
-
-      // Add the new tool array to the context
-      addTools(newToolArray); // Pass as an array
-
+    if (newTool.trim().length > 0 && !tools.includes(newTool.trim())) {
+      setTools((prevTools) => [...prevTools, newTool.trim()]);
+      setSelectedTools((prev) => ({
+        ...prev,
+        [newTool.trim()]: false, // Initialize checkbox state for the new tool
+      }));
       setNewTool(""); // Clear input
     }
   };
@@ -151,12 +135,65 @@ const CustomizeScreen = ({ navigation, route }) => {
       </View>
 
       {/* Tools List */}
-      <ToolsList
-        toolsData={contextTools}
-        selectedTools={selectedTools}
-        toggleCheckbox={toggleCheckbox}
-        styles={styles} // Pass styles
-      />
+      {/* <View style={styles.toolsContainer}>
+        <FlatList
+          // data={tools}
+          data={contextTools}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
+            <View style={styles.toolItem}>
+              <TouchableOpacity
+                onPress={() => toggleCheckbox(item)}
+                style={styles.checkbox}
+              >
+                <Ionicons
+                  name={selectedTools[item] ? "checkbox" : "square-outline"}
+                  size={24}
+                  color="#6A0DAD"
+                />
+              </TouchableOpacity>
+              <Text
+                style={[
+                  styles.toolText,
+                  selectedTools[item] && styles.strikethroughText,
+                ]}
+              >
+                {item}
+              </Text>
+            </View>
+          )}
+        />
+      </View> */}
+
+<View style={styles.toolsContainer}>
+  <FlatList
+    data={contextTools}
+    keyExtractor={(item, index) => index.toString()} // Ensure unique keys
+    renderItem={({ item }) => (
+      <View style={styles.toolItem}>
+        {/* Checkbox */}
+        <TouchableOpacity
+          onPress={() => toggleCheckbox(item)} // Pass the entire object
+          style={styles.checkbox}
+        >
+          <Ionicons
+            name={
+              Array.isArray(selectedTools) && selectedTools.some((tool) => tool.name === item.name)
+                ? "checkbox"
+                : "square-outline"
+            }
+            size={24}
+            color="#6A0DAD"
+          />
+        </TouchableOpacity>
+        {/* Tool Name */}
+        <Text style={styles.toolText}>{item.name}</Text>
+      </View>
+    )}
+  />
+</View>
+
+
     </View>
   );
 };
@@ -250,6 +287,29 @@ const styles = StyleSheet.create({
     color: "#FFF",
     fontWeight: "bold",
     fontSize: 16,
+  },
+  toolsContainer: {
+    flex: 1,
+    backgroundColor: "#E8E8E8",
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 16,
+  },
+  toolItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 8,
+  },
+  checkbox: {
+    marginRight: 8,
+  },
+  toolText: {
+    fontSize: 16,
+    color: "#000",
+  },
+  strikethroughText: {
+    textDecorationLine: "line-through",
+    color: "#A9A9A9", // Optional: Change color to indicate the item is completed
   },
 });
 
