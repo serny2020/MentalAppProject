@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -10,10 +10,12 @@ import {
 } from "react-native";
 import quotes from "../../data/quote-data";
 
+
 const AffirmationSwipePage = ({ navigation }) => {
   const [selectedCount, setSelectedCount] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [backgroundImage, setBackgroundImage] = useState(require("../../assets/image/affirmation/affirmation1.png"));
+  const [temporarySelections, setTemporarySelections] = useState([]);
 
   const handleNext = () => {
     if (currentIndex < quotes.length - 1) {
@@ -26,7 +28,12 @@ const AffirmationSwipePage = ({ navigation }) => {
   const handleLove = () => {
     if (selectedCount < 6) {
       setSelectedCount(selectedCount + 1);
-      Alert.alert("Added to Collection", "This affirmation was added.");
+      const selectedAffirmation = {
+        quote: quotes[currentIndex],
+        backgroundImage, // Current background image
+      };
+
+      setTemporarySelections((prev) => [...prev, selectedAffirmation]);
     } else {
       Alert.alert("Limit Reached", "You can only add up to 6 affirmations.");
     }
@@ -36,6 +43,16 @@ const AffirmationSwipePage = ({ navigation }) => {
     setBackgroundImage(newImage);
   };
 
+  const handleDone = () => {
+    // if (temporarySelections.length === 6) {
+      navigation.navigate("ConfirmAffirmationScreen", {
+        selections: temporarySelections,
+      });
+    // } else {
+    //   Alert.alert("Incomplete Selection", "Please select 6 affirmations before proceeding.");
+    // }
+  };
+
   return (
     <View style={styles.container}>
       {/* Header */}
@@ -43,9 +60,7 @@ const AffirmationSwipePage = ({ navigation }) => {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Text style={styles.headerText}>Cancel</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate("ConfirmAffirmationScreen")}
-        >
+        <TouchableOpacity onPress={handleDone}>
           <Text style={styles.headerText}>Done</Text>
         </TouchableOpacity>
       </View>
@@ -101,7 +116,6 @@ const AffirmationSwipePage = ({ navigation }) => {
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

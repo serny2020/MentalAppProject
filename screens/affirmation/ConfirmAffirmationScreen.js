@@ -1,19 +1,34 @@
-import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { AffirmationContext } from "../../context/AffirmationContext";
+import { useContext } from "react";
 
-const ConfirmAffirmationScreen = ({ navigation }) => {
+const ConfirmAffirmationScreen = ({ route, navigation }) => {
+  const { selections } = route.params; // Get the passed data
+  const { addAffirmation, selectedAffirmations } = useContext(AffirmationContext);
+  console.log("Context data:", selectedAffirmations);
   const handleNoPress = () => {
     // Handle the "NO" button press
-    console.log("User selected NO");
-    navigation.goBack();
+    // console.log("User selected NO");
+    // navigation.goBack();
+    navigation.reset({
+      index: 0, // Sets the position of the new screen in the stack
+      routes: [{ name: "AffirmationCollection" }], // Replace stack with this route
+    });
+
   };
 
   const handleYesPress = () => {
-    // Handle the "YES" button press
+    // Store all selections into context
+    selections.forEach((selection) => addAffirmation(selection));
     console.log("User selected YES");
-    // Navigate to the Affirmation Collection or any next screen
-    navigation.navigate("AffirmationCollection");
+  
+    // Reset navigation and navigate to AffirmationCollection
+    navigation.reset({
+      index: 0, // Sets the position of the new screen in the stack
+      routes: [{ name: "AffirmationCollection" }], // Replace stack with this route
+    });
   };
+  
 
   return (
     <View style={styles.container}>
@@ -29,7 +44,7 @@ const ConfirmAffirmationScreen = ({ navigation }) => {
 
       {/* Confirmation Text */}
       <Text style={styles.confirmationText}>
-        Would you like to add the 6 selected Affirmation Images to your{" "}
+        Would you like to add the <Text style={styles.boldText}>{selections.length}</Text> selected Affirmation Images to your{" "}
         <Text style={styles.boldText}>Affirmation Collection</Text>?
       </Text>
 

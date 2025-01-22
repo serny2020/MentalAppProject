@@ -12,64 +12,9 @@ import AffirmationProvider from "../context/AffirmationContext";
 import DeleteOrReplaceImagesScreen from "../screens/affirmation/DeleteOrReplaceImagesScreen";
 import ConfirmAffirmationScreen from "../screens/affirmation/ConfirmAffirmationScreen";
 
-// const Stack = createStackNavigator();
-
-
-// const SettingsDrawerNavigator = () => {
-//   return (
-//     <Stack.Navigator initialRouteName="AffirmationCollection">
-//       <Stack.Screen
-//         name="AffirmationCollection"
-//         component={AffirmationCollection}
-//         options={{headerShown: false}}
-//       />
-
-//       <Stack.Screen
-//         name="AffirmationOption1"
-//         component={AffirmationOption1}
-//         options={{headerShown: false}}
-//       />
-
-//       <Stack.Screen
-//         name="AddAffirmationImages"
-//         component={AddAffirmationImages}
-//         options={{headerShown: false}}
-//       />
-//       <Stack.Screen
-//         name="GuidedAffirmation"
-//         component={GuidedAffirmation}
-//         options={{headerShown: false}}
-//       />
-//       <Stack.Screen
-//         name="UniqueAffirmation"
-//         component={UniqueAffirmation}
-//         options={{headerShown: false}}
-//       />
-//       <Stack.Screen
-//         name="WriteAffirmation"
-//         component={WriteAffirmation}
-//         options={{headerShown: false}}
-//       />
-//       <Stack.Screen
-//         name="AffirmationSwipePage"
-//         component={AffirmationSwipePage}
-//         options={{headerShown: false}}
-//       />
-//       <Stack.Screen
-//         name="ChangeBackgroundScreen"
-//         component={ChangeBackgroundScreen}
-//         options={{headerShown: false}}
-//       />
-//     </Stack.Navigator>
-//   );
-// };
-
-// export default SettingsDrawerNavigator; 
-
-
 const Stack = createStackNavigator();
 
-const SettingsDrawerNavigator = () => {
+const AffirmationNavigator = () => {
   return (
     <AffirmationProvider>
       <Stack.Navigator initialRouteName="AffirmationCollection">
@@ -128,4 +73,4 @@ const SettingsDrawerNavigator = () => {
   );
 };
 
-export default SettingsDrawerNavigator;
+export default AffirmationNavigator;
