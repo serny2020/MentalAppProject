@@ -9,7 +9,46 @@ import {
 } from "react-native";
 
 const SOS = ({ navigation }) => {
-  const options = [
+  // const options = [
+  //   {
+  //     id: "1",
+  //     text: "Open Your Personal ",
+  //     boldText: "Emergency Toolkit",
+  //     action: () =>
+  //       navigation.navigate("SOSNavigator", {
+  //         screen: "EmergencyToolkitScreen",
+  //       }),
+  //   },
+  //   {
+  //     id: "2",
+  //     text: "Connect Your ",
+  //     boldText: "Loved Ones",
+  //     action: () =>
+  //       navigation.navigate("SOSNavigator", { screen: "LovedOnesPage" }),
+  //   },
+  //   {
+  //     id: "3",
+  //     text: "Chat in Your ",
+  //     boldText: "Community",
+  //     action: () => alert("Chat in Your Community!"),
+  //   },
+  //   {
+  //     id: "4",
+  //     text: "Find a ",
+  //     boldText: "Professional Therapist",
+  //     action: () =>
+  //       navigation.navigate("SOSNavigator", { screen: "CrisisHelpPage" }),
+  //   },
+  //   {
+  //     id: "5",
+  //     text: "Call ",
+  //     boldText: "Life Threat Emergency Line",
+  //     action: () =>
+  //       navigation.navigate("SOSNavigator", { screen: "CrisisHelpPage" }),
+  //   },
+  // ];
+
+  const [reorderableOptions, setReorderableOptions] = useState([
     {
       id: "1",
       text: "Open Your Personal ",
@@ -46,29 +85,6 @@ const SOS = ({ navigation }) => {
       action: () =>
         navigation.navigate("SOSNavigator", { screen: "CrisisHelpPage" }),
     },
-  ];
-
-  const [reorderableOptions, setReorderableOptions] = useState([
-    {
-      id: "2",
-      text: "Connect Your ",
-      boldText: "Loved Ones",
-      action: () =>
-        navigation.navigate("SOSNavigator", { screen: "LovedOnesPage" }),
-    },
-    {
-      id: "3",
-      text: "Chat in Your ",
-      boldText: "Community",
-      action: () => alert("Chat in Your Community!"),
-    },
-    {
-      id: "4",
-      text: "Find a ",
-      boldText: "Professional Therapist",
-      action: () =>
-        navigation.navigate("SOSNavigator", { screen: "CrisisHelpPage" }),
-    },
   ]);
 
   const handleReorderPress = () => {
@@ -98,7 +114,7 @@ const SOS = ({ navigation }) => {
     },
   });
 
-  const highlightIndex = Math.floor(sliderPosition / (410 / options.length)); //NOTE: corresponding item
+  const highlightIndex = Math.floor(sliderPosition / (410 / reorderableOptions.length)); //NOTE: corresponding item
 
   return (
     <View style={styles.container}>
@@ -149,7 +165,7 @@ const SOS = ({ navigation }) => {
           ))} */}
 
                   {/* Fixed First Option */}
-                  <TouchableOpacity
+                  {/* <TouchableOpacity
                     style={styles.optionRow}
                     onPress={() =>
                       navigation.navigate("SOSNavigator", {
@@ -161,14 +177,17 @@ const SOS = ({ navigation }) => {
                       Open Your Personal{" "}
                       <Text style={styles.bold}>Emergency Toolkit</Text>
                     </Text>
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
           
                   {/* Reorderable Options */}
-                  {reorderableOptions.map((item) => (
+                  {reorderableOptions.map((item, index) => (
                     <TouchableOpacity
                       key={item.id}
-                      style={styles.optionRow}
-                      onPress={item.action}
+                      style={[
+                        styles.optionRow,
+                        highlightIndex === index && styles.highlightedOption, // Highlight if matches index
+                      ]}
+                              onPress={item.action}
                     >
                       <Text style={styles.optionText}>
                         {item.text}
@@ -178,7 +197,7 @@ const SOS = ({ navigation }) => {
                   ))}
           
                   {/* Fixed Last Option */}
-                  <TouchableOpacity
+                  {/* <TouchableOpacity
                     style={styles.optionRow}
                     onPress={() =>
                       navigation.navigate("SOSNavigator", { screen: "CrisisHelpPage" })
@@ -187,7 +206,7 @@ const SOS = ({ navigation }) => {
                     <Text style={styles.optionText}>
                       Call <Text style={styles.bold}>Life Threat Emergency Line</Text>
                     </Text>
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
           
         </View>
 
