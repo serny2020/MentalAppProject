@@ -48,41 +48,8 @@ const SOS = ({ navigation }) => {
     },
   ];
 
-  const [reorderableOptions, setReorderableOptions] = useState([
-    {
-      id: "2",
-      text: "Connect Your ",
-      boldText: "Loved Ones",
-      action: () =>
-        navigation.navigate("SOSNavigator", { screen: "LovedOnesPage" }),
-    },
-    {
-      id: "3",
-      text: "Chat in Your ",
-      boldText: "Community",
-      action: () => alert("Chat in Your Community!"),
-    },
-    {
-      id: "4",
-      text: "Find a ",
-      boldText: "Professional Therapist",
-      action: () =>
-        navigation.navigate("SOSNavigator", { screen: "CrisisHelpPage" }),
-    },
-  ]);
-
-  const handleReorderPress = () => {
-    navigation.navigate("SOSNavigator", {
-      screen: "ReorderSOS",
-      params: {
-        reorderableOptions,
-        updateOptions: (newOrder) => setReorderableOptions(newOrder),
-      },
-    });
-  };
-
   const sliderTop = 200; // The vertical offset of the slider
-  const sliderHeight = 400; // NOTE: The height of the slider
+  const sliderHeight = 298; // The height of the slider
 
   const [sliderPosition, setSliderPosition] = useState(0);
 
@@ -98,16 +65,27 @@ const SOS = ({ navigation }) => {
     },
   });
 
-  const highlightIndex = Math.floor(sliderPosition / (410 / options.length)); //NOTE: corresponding item
+  const highlightIndex = Math.floor(sliderPosition / (300 / options.length));
 
   return (
     <View style={styles.container}>
       {/* Header Section */}
+      {/* <View style={styles.headerSection}>
+        <Image
+          source={require("../../assets/SOS/SOSIcon.png")}
+          style={styles.localIcon}
+        />
+        <Text style={styles.headerText}>
+          Dear <Text style={styles.highlight}>Larry</Text>,{"\n"}
+          Don’t worry, we’ll help you. {"\n"}You are not alone.{"\n"}
+          <Text style={styles.highlight}>We love you. ❤️</Text>
+        </Text>
+      </View> */}
       <View style={styles.headerSection}>
         {/* Top-Left Button */}
         <TouchableOpacity
           style={styles.topLeftButton}
-          onPress={handleReorderPress}
+          onPress={() => alert("Button Pressed!")}
         >
           <Image
             source={require("../../assets/SOS/SOSreorder.png")} // Replace with your local image path
@@ -129,10 +107,9 @@ const SOS = ({ navigation }) => {
 
       {/* Content Section */}
       <View style={styles.content}>
-
         {/* Options Section */}
         <View style={styles.optionsContainer}>
-          {/* {options.map((item, index) => (
+          {options.map((item, index) => (
             <TouchableOpacity
               key={item.id}
               style={[
@@ -146,52 +123,8 @@ const SOS = ({ navigation }) => {
                 <Text style={styles.bold}>{item.boldText}</Text>
               </Text>
             </TouchableOpacity>
-          ))} */}
-
-                  {/* Fixed First Option */}
-                  <TouchableOpacity
-                    style={styles.optionRow}
-                    onPress={() =>
-                      navigation.navigate("SOSNavigator", {
-                        screen: "EmergencyToolkitScreen",
-                      })
-                    }
-                  >
-                    <Text style={styles.optionText}>
-                      Open Your Personal{" "}
-                      <Text style={styles.bold}>Emergency Toolkit</Text>
-                    </Text>
-                  </TouchableOpacity>
-          
-                  {/* Reorderable Options */}
-                  {reorderableOptions.map((item) => (
-                    <TouchableOpacity
-                      key={item.id}
-                      style={styles.optionRow}
-                      onPress={item.action}
-                    >
-                      <Text style={styles.optionText}>
-                        {item.text}
-                        <Text style={styles.bold}>{item.boldText}</Text>
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-          
-                  {/* Fixed Last Option */}
-                  <TouchableOpacity
-                    style={styles.optionRow}
-                    onPress={() =>
-                      navigation.navigate("SOSNavigator", { screen: "CrisisHelpPage" })
-                    }
-                  >
-                    <Text style={styles.optionText}>
-                      Call <Text style={styles.bold}>Life Threat Emergency Line</Text>
-                    </Text>
-                  </TouchableOpacity>
-          
+          ))}
         </View>
-
-
         {/* Right Slider */}
         <View style={styles.leftColumn} {...panResponder.panHandlers}>
           <Text style={styles.sliderTopText}>1</Text>
@@ -262,12 +195,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-start",
   },
-  //NOTE: length of left slider
   leftColumn: {
     marginTop: 50,
     width: 40, // Dedicated space for the slider
-    height: 420, //height of slider
-    marginRight: -5, // Space between the slider and options
+    height: 310, //height of slider
+    marginRight: 10, // Space between the slider and options
     position: "relative",
   },
   sliderLine: {
@@ -301,10 +233,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 5,
     elevation: 3,
-    marginBottom: 45, // Add space between items
+    marginBottom: 20, // Add space between items
   },
   optionText: {
-    fontSize: 15,
+    fontSize: 14,
     color: "#000",
   },
   bold: {
@@ -322,7 +254,7 @@ const styles = StyleSheet.create({
     marginLeft: 30,
   },
   sliderBottomText: {
-    paddingTop: 400, //NOTE: distance to the top
+    paddingTop: 290,
     fontSize: 14,
     fontWeight: "bold",
     color: "#404040",
