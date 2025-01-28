@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "space-between",
     marginTop: 10,
-    marginBottom: 20,
+    marginBottom: 25,
   },
 });
 

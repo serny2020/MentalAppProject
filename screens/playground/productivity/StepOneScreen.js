@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from "react-native";
 
 const StepOneScreen = ({ navigation }) => {
   const [priorities, setPriorities] = useState(["", "", ""]);
@@ -68,7 +68,10 @@ const StepOneScreen = ({ navigation }) => {
       <TouchableOpacity style={styles.footer} onPress={() => navigation.navigate("EisenhowerMatrixInteractive")}>
         <Text style={styles.footerText}>
           Didn’t like this method? No problem. We have another option for you!{" "}
-          <Text style={styles.arrow}>→</Text>
+          <Image 
+          source={require('../../../assets/image/icon/rightArrow.png')} // Update with your image path
+          style={styles.arrowImage} 
+        />
         </Text>
       </TouchableOpacity>
     </View>
@@ -142,9 +145,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#000",
   },
-  arrow: {
-    fontWeight: "bold",
-    fontSize: 16,
+  arrowImage: {
+    width: 16,  // Adjust the width of your image
+    height: 16, // Adjust the height of your image
+    marginLeft: 5, // Optional: Add spacing between the text and the image
   },
 });
 
