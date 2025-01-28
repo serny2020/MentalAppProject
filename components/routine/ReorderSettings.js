@@ -31,16 +31,6 @@ const ReorderSettings = ({ navigation, route }) => {
       <Ionicons name="reorder-three-outline" size={24} color="#000" />
     </TouchableOpacity>
   );
-  // const handleDone = () => {
-  //   // Pass the new order back to the parent
-  //   navigation.navigate("Routine", { newOrder: sections });
-  // };
-  
-  // const handleDone = () => {
-  //   navigation.setParams({ newOrder: sections });
-  //   navigation.goBack();
-  // };
-
 
   return (
     <View style={styles.container}>

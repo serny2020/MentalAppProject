@@ -12,19 +12,43 @@ const ReorderSOS = ({ route, navigation }) => {
     navigation.goBack();
   };
 
-  const renderItem = ({ item, drag, isActive }) => (
-    <TouchableOpacity
-      style={[styles.item, isActive && { backgroundColor: "#e7e7d1" }]}
-      onLongPress={drag}
-      onPress={item.action}
-    >
-      <Text style={styles.itemText}>
-        {item.text}
-        <Text style={styles.boldText}>{item.boldText}</Text>
-      </Text>
-      <Ionicons name="reorder-three-outline" size={24} color="#000" />
-    </TouchableOpacity>
-  );
+  const renderItem = ({ item, drag, isActive }) => {
+    const index = localOptions.findIndex((opt) => opt.id === item.id); // Calculate the index manually
+    console.log("Item:", item, "Index:", index); // Debug: Log index
+    const isLastItem = index === localOptions.length - 1; // Check if it's the last item
+  
+    return (
+      <TouchableOpacity
+        style={[
+          styles.item,
+          isActive && { backgroundColor: "#e7e7d1" },
+          isLastItem && styles.disabledItem, // Apply gray-out style for the last item
+        ]}
+        onLongPress={!isLastItem ? drag : null} // Disable dragging for the last item
+        onPress={!isLastItem ? item.action : null} // Disable interaction for the last item
+        disabled={isLastItem} // Prevent press interaction for the last item
+      >
+        <Text
+          style={[
+            styles.itemText,
+            isLastItem && styles.disabledText, // Dimmed text for the last item
+          ]}
+        >
+          {item.text}
+          <Text
+            style={[
+              styles.boldText,
+              isLastItem && styles.disabledText, // Dimmed bold text for the last item
+            ]}
+          >
+            {item.boldText}
+          </Text>
+        </Text>
+        {!isLastItem && <Ionicons name="reorder-three-outline" size={24} color="#000" />}
+      </TouchableOpacity>
+    );
+  };
+  
 
   return (
     <View style={styles.container}>
@@ -39,12 +63,12 @@ const ReorderSOS = ({ route, navigation }) => {
         </TouchableOpacity>
       </View>
       <Text style={styles.subHeader}>
-        You can rearrange the 5 solutions based on your preferences
+        You can rearrange the first 4 solutions based on your preferences
       </Text>
       {/* Draggable List */}
       <DraggableFlatList
         data={localOptions}
-        onDragEnd={({ data }) => setLocalOptions(data)}
+        onDragEnd={({ data }) => {setLocalOptions(data)}}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
       />
@@ -104,6 +128,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#000",
   },
+  disabledItem: {
+    backgroundColor: "#d3d3d3", // Gray background for disabled item
+    borderColor: "#c0c0c0", // Lighter border for disabled item
+  },
+  disabledText: {
+    color: "#a9a9a9", // Dimmed text color for disabled item
+  },
+  
 });
 
 export default ReorderSOS;

@@ -110,7 +110,7 @@ const LetGo = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ccffcc",
+    backgroundColor: "#B9FBC0",
     paddingHorizontal: 20,
     paddingTop: 40,
   },

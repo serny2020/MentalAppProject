@@ -12,7 +12,7 @@ import IdentifyWithModal from "../screens/playground/letgo/IdentifyWithModal"
 
 const Stack = createStackNavigator();
 
-const SOSNavigator = () => {
+const LetgoNavigator = () => {
   return (
     <Stack.Navigator initialRouteName="LetGo">
       <Stack.Screen
@@ -59,4 +59,4 @@ const SOSNavigator = () => {
   );
 };
 
-export default SOSNavigator;
+export default LetgoNavigator;

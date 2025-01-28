@@ -6,6 +6,7 @@ import Arcade from "../screens/playground/Arcade";
 import Laughs from "../screens/playground/Laughs";
 import DreamboardNavigator from "./DreamboardNavigator";
 import LetGoNavigator from "./LetgoNavigator"
+import ProductivityNavigator from "./ProductivityNavigator";
 
 const Stack = createStackNavigator();
 
@@ -38,6 +39,14 @@ const PlaygroundNavigator = () => {
       <Stack.Screen
         name="Dreamboard"
         component={DreamboardNavigator}
+        options={{
+          headerShown: false, // Hide header
+          // presentation: "modal", // Set modal presentation
+        }}
+      />
+      <Stack.Screen
+        name="Productivity"
+        component={ProductivityNavigator}
         options={{
           headerShown: false, // Hide header
           // presentation: "modal", // Set modal presentation

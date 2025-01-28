@@ -17,27 +17,34 @@ const BrainDumpScreen = ({ navigation }) => {
   };
 
   const handleDone = () => {
-    const sentences = text.split(".").map((sentence) => sentence.trim()).filter(Boolean);
+    const sentences = text
+      .split(".")
+      .map((sentence) => sentence.trim())
+      .filter(Boolean);
     navigation.navigate("IdentifyThoughtsScreen", { sentences });
   };
-
 
   return (
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <Ionicons name="musical-notes-outline" size={24} color="#A020F0" />
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          {/* <TouchableOpacity onPress={() => navigation.navigate("IdentifyWithModal")}> */}
+          <Text style={styles.headerText}>Back</Text>
+        </TouchableOpacity>
         <Text style={styles.headerTitle}>LetGo: brain dump</Text>
-        <TouchableOpacity onPress={() => navigation.navigate("IdentifyThoughtsScreen")}>
-        {/* <TouchableOpacity onPress={() => navigation.navigate("IdentifyWithModal")}> */}
+        <TouchableOpacity
+          onPress={() => navigation.navigate("IdentifyThoughtsScreen")}
+        >
+          {/* <TouchableOpacity onPress={() => navigation.navigate("IdentifyWithModal")}> */}
           <Text style={styles.headerText}>Next</Text>
         </TouchableOpacity>
       </View>
 
       {/* Subtitle */}
       <Text style={styles.subtitle}>
-        Here is your private space to release your racing thoughts. Feel free
-        to set your background music!
+        Here is your private space to release your racing thoughts. Feel free to
+        set your background music!
       </Text>
 
       {/* Input Box */}
@@ -70,6 +77,12 @@ const BrainDumpScreen = ({ navigation }) => {
         Once you are done, come back to click on{" "}
         <Text style={styles.boldText}>Next</Text>.
       </Text>
+      <View style={styles.iconCircle}>
+        <Image
+          source={require("../../../assets/image/music.png")} // Adjust the path to your PNG file
+          style={styles.iconImage}
+        />
+      </View>
     </View>
   );
 };
@@ -105,7 +118,7 @@ const styles = StyleSheet.create({
   textBox: {
     backgroundColor: "#F5F5F5",
     borderRadius: 8,
-    height: 200,
+    height: 410,
     marginBottom: 16,
     justifyContent: "center",
     padding: 12,
@@ -145,6 +158,17 @@ const styles = StyleSheet.create({
   },
   boldText: {
     fontWeight: "bold",
+  },
+  iconCircle: {
+    position: "absolute", // Absolute positioning
+    bottom: 20, // Distance from the bottom of the screen
+    right: 20, // Distance from the right edge of the screen
+    width: 50, // Diameter of the circle
+    height: 50, // Diameter of the circle
+    borderRadius: 25, // Half of width/height to make it a circle
+    backgroundColor: "#E6E6FA", // Light lavender background
+    justifyContent: "center", // Center the icon horizontally
+    alignItems: "center", // Center the icon vertically
   },
 });
 

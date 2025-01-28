@@ -7,6 +7,7 @@ import {
   StyleSheet,
   PanResponder,
 } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 
 const SOS = ({ navigation }) => {
   // const options = [
@@ -67,16 +68,19 @@ const SOS = ({ navigation }) => {
     },
     {
       id: "3",
-      text: "Chat in Your ",
-      boldText: "Community",
-      action: () => alert("Chat in Your Community!"),
+      text: "Connect Your ",
+      boldText: "Loved Ones",
+      action: () =>
+        navigation.navigate("SOSNavigator", { screen: "LovedOnesPage" }),
     },
     {
       id: "4",
-      text: "Find a ",
-      boldText: "Professional Therapist",
+      text: "Open Your Personal ",
+      boldText: "Emergency Toolkit",
       action: () =>
-        navigation.navigate("SOSNavigator", { screen: "CrisisHelpPage" }),
+        navigation.navigate("SOSNavigator", {
+          screen: "EmergencyToolkitScreen",
+        }),
     },
     {
       id: "5",
@@ -97,7 +101,7 @@ const SOS = ({ navigation }) => {
     });
   };
 
-  const sliderTop = 200; // The vertical offset of the slider
+  const sliderTop = 230; // The vertical offset of the slider
   const sliderHeight = 400; // NOTE: The height of the slider
 
   const [sliderPosition, setSliderPosition] = useState(0);
@@ -114,7 +118,18 @@ const SOS = ({ navigation }) => {
     },
   });
 
-  const highlightIndex = Math.floor(sliderPosition / (410 / reorderableOptions.length)); //NOTE: corresponding item
+  const highlightIndex = Math.floor(
+    sliderPosition / (410 / reorderableOptions.length)
+  ); //NOTE: corresponding item
+
+  const totalItems = 5; // Number of items
+  const minValue = 1; // Start of the range
+  const maxValue = 10; // End of the range
+
+  // Calculate the contiguous number based on slider position
+  const scaledNumber = Math.round(
+    minValue + (highlightIndex / (totalItems - 1)) * (maxValue - minValue)
+  );
 
   return (
     <View style={styles.container}>
@@ -145,10 +160,10 @@ const SOS = ({ navigation }) => {
 
       {/* Content Section */}
       <View style={styles.content}>
-
         {/* Options Section */}
         <View style={styles.optionsContainer}>
-          {/* {options.map((item, index) => (
+          {/* Reorderable Options */}
+          {reorderableOptions.map((item, index) => (
             <TouchableOpacity
               key={item.id}
               style={[
@@ -162,68 +177,52 @@ const SOS = ({ navigation }) => {
                 <Text style={styles.bold}>{item.boldText}</Text>
               </Text>
             </TouchableOpacity>
-          ))} */}
-
-                  {/* Fixed First Option */}
-                  {/* <TouchableOpacity
-                    style={styles.optionRow}
-                    onPress={() =>
-                      navigation.navigate("SOSNavigator", {
-                        screen: "EmergencyToolkitScreen",
-                      })
-                    }
-                  >
-                    <Text style={styles.optionText}>
-                      Open Your Personal{" "}
-                      <Text style={styles.bold}>Emergency Toolkit</Text>
-                    </Text>
-                  </TouchableOpacity> */}
-          
-                  {/* Reorderable Options */}
-                  {reorderableOptions.map((item, index) => (
-                    <TouchableOpacity
-                      key={item.id}
-                      style={[
-                        styles.optionRow,
-                        highlightIndex === index && styles.highlightedOption, // Highlight if matches index
-                      ]}
-                              onPress={item.action}
-                    >
-                      <Text style={styles.optionText}>
-                        {item.text}
-                        <Text style={styles.bold}>{item.boldText}</Text>
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-          
-                  {/* Fixed Last Option */}
-                  {/* <TouchableOpacity
-                    style={styles.optionRow}
-                    onPress={() =>
-                      navigation.navigate("SOSNavigator", { screen: "CrisisHelpPage" })
-                    }
-                  >
-                    <Text style={styles.optionText}>
-                      Call <Text style={styles.bold}>Life Threat Emergency Line</Text>
-                    </Text>
-                  </TouchableOpacity> */}
-          
+          ))}
         </View>
 
-
         {/* Right Slider */}
+        {/* <View style={styles.leftColumn} {...panResponder.panHandlers}> */}
+        {/* <Text style={styles.sliderTopText}>1</Text> */}
+        {/* <View style={styles.sliderLine}></View> */}
+        {/* <LinearGradient
+            colors={["rgba(231, 76, 60, 0.1)", "rgba(231, 76, 60, 1)"]} // Start transparent, end deep
+            start={{ x: 0, y: 0 }} // Gradient starts from the top
+            end={{ x: 0, y: 1 }} // Gradient ends at the bottom
+            style={styles.sliderLine}
+          /> */}
+        {/* <View
+            style={[
+              styles.sliderCircle,
+              { top: sliderPosition }, // Dynamic positioning of the circle
+            ]}
+          ></View> */}
+        {/* <Text style={styles.sliderBottomText}>10</Text> */}
+        {/* </View> */}
+
         <View style={styles.leftColumn} {...panResponder.panHandlers}>
           <Text style={styles.sliderTopText}>1</Text>
-          <View style={styles.sliderLine}></View>
+          <LinearGradient
+            colors={["rgba(231, 76, 60, 0.1)", "rgba(231, 76, 60, 1)"]} // Start transparent, end deep
+            start={{ x: 0, y: 0 }} // Gradient starts from the top
+            end={{ x: 0, y: 1 }} // Gradient ends at the bottom
+            style={styles.sliderLine}
+          />
           <View
             style={[
               styles.sliderCircle,
               { top: sliderPosition }, // Dynamic positioning of the circle
             ]}
-          ></View>
+          >
+            {/* Add the number next to the circle */}
+            {/* <Text style={styles.circleNumber}>{1 + highlightIndex * 2}</Text> */}
+            <Text style={styles.circleNumber}>
+              {scaledNumber} {/* Render the mapped number */}
+            </Text>
+          </View>
           <Text style={styles.sliderBottomText}>10</Text>
         </View>
       </View>
+
       {/* Spinner Section */}
       <View style={styles.spinnerSection}>
         <Text style={styles.spinnerText}>
@@ -285,17 +284,18 @@ const styles = StyleSheet.create({
   leftColumn: {
     marginTop: 50,
     width: 40, // Dedicated space for the slider
-    height: 420, //height of slider
+    height: 440, //height of slider
     marginRight: -5, // Space between the slider and options
     position: "relative",
   },
   sliderLine: {
     width: 4,
-    height: "100%",
-    backgroundColor: "#e74c3c",
+    height: "95%", // Full height of the container
     position: "absolute",
-    left: 18,
+    left: 18, // Align to match the circle
+    borderRadius: 2, // Optional: Round the edges of the line
   },
+
   sliderCircle: {
     width: 20,
     height: 20,
@@ -338,6 +338,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#404040",
     marginBottom: 5,
+    marginTop: -15,
     marginLeft: 30,
   },
   sliderBottomText: {
@@ -345,7 +346,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "bold",
     color: "#404040",
-    marginTop: 5,
+    marginTop: 18,
     marginLeft: 20,
   },
 
@@ -360,6 +361,13 @@ const styles = StyleSheet.create({
   link: {
     fontWeight: "bold",
     color: "#9b59b6",
+  },
+  circleNumber: {
+    position: "absolute",
+    right: -20, // Adjust as needed to position the number beside the circle
+    color: "black",
+    fontSize: 14,
+    fontWeight: "bold",
   },
 });
 
