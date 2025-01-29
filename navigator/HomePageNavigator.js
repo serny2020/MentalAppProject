@@ -9,6 +9,7 @@ import SOS from '../screens/home/SOS';
 import PlaygroundNavigator from './PlaygroundNavigator';
 import JournalDrawerNavigator from './JournalDrawerNavigator';
 import JournalSideMenu from './JournalSideMenu';
+import DiscoveryNavigator from './DiscoverNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -47,7 +48,8 @@ const HomePageNavigator = () => {
       <Tab.Screen name="Journal" component={JournalDrawerNavigator} />
       {/* <Tab.Screen name="Journal" component={JournalSideMenu} /> */}
       <Tab.Screen name="Playground" component={Playground} />
-      <Tab.Screen name="Discover" component={Discover} />
+      {/* <Tab.Screen name="Discover" component={Discover} /> */}
+      <Tab.Screen name="Discover" component={DiscoveryNavigator} />
       <Tab.Screen name="SOS" component={SOS} />
     </Tab.Navigator>
   );
