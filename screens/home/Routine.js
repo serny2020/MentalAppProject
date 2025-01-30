@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  Image,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import EverydayRitualSection from "../../components/routine/EverydayRitualSection";
@@ -33,10 +34,10 @@ const Routine = ({ navigation, route }) => {
 
   // Lookup table for components
   const componentLookup = {
-    "1": <EverydayRitualSection />,
-    "2": <AffirmationSection />,
-    "3": <HappinessJournalReview />,
-    "4": <TipOfTheDay />,
+    1: <EverydayRitualSection />,
+    2: <AffirmationSection />,
+    3: <HappinessJournalReview />,
+    4: <TipOfTheDay />,
   };
 
   // Update sections when newOrder is passed
@@ -56,10 +57,10 @@ const Routine = ({ navigation, route }) => {
       updateOrder: (newOrder) => {
         // Callback function to update sections
         const componentLookup = {
-          "1": <EverydayRitualSection />,
-          "2": <AffirmationSection />,
-          "3": <HappinessJournalReview />,
-          "4": <TipOfTheDay />,
+          1: <EverydayRitualSection />,
+          2: <AffirmationSection />,
+          3: <HappinessJournalReview />,
+          4: <TipOfTheDay />,
         };
 
         const reorderedSections = newOrder.map((section) => ({
@@ -71,26 +72,19 @@ const Routine = ({ navigation, route }) => {
     });
   };
 
-
-
-
-  
-  
-  
-  
   const currentDate = new Date().toLocaleDateString("en-US", {
     month: "2-digit",
     day: "2-digit",
   });
-  
-  const [isModalVisible, setModalVisible] = useState(false);
-  const handleSettingsPress = (section) => {
-    console.log("a setting for ${section}");
-  };
 
-  const handleCollapsePress = () => {
-    setModalVisible(true);
-  };
+  const [isModalVisible, setModalVisible] = useState(false);
+  // const handleSettingsPress = (section) => {
+  //   console.log("a setting for ${section}");
+  // };
+
+  // const handleCollapsePress = () => {
+  //   setModalVisible(true);
+  // };
 
   const closeModal = () => {
     setModalVisible(false);
@@ -124,11 +118,22 @@ const Routine = ({ navigation, route }) => {
         ))}
       </ScrollView>
 
-      <TouchableOpacity onPress={handleReorderPress} style={styles.settingsButton}>
-        <Text style={styles.settingsButtonText}>Reorder Routine</Text>
+      <TouchableOpacity
+        onPress={handleReorderPress}
+        style={styles.settingsButton}
+      >
+        <Text style={styles.text}>
+          Want to change the sections? Feel free to{" "}
+          <Text style={styles.boldText}>reorder your routine</Text> here!
+          <Image
+            source={require("../../assets/image/icon/rightArrow.png")}
+            style={styles.icon}
+          />
+        </Text>
+
+        {/* <Text style={styles.settingsButtonText}>Reorder Routine</Text> */}
       </TouchableOpacity>
 
-      
       {/* Routine Settings Modal */}
       <RoutineSettingsModal
         isVisible={isModalVisible}
@@ -176,6 +181,33 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#800080",
     fontWeight: "bold",
+  },
+  bottomMessageContainer: {
+    position: "absolute",
+    bottom: 20, // Moves it closer to the bottom
+    left: 20,
+    right: 20,
+    backgroundColor: "#f7ffcc", // Light yellow background
+    padding: 12,
+    borderRadius: 8,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  text: {
+    fontSize: 10,
+    color: "#000",
+    fontWeight: "400",
+  },
+  boldText: {
+    fontWeight: "bold",
+    color: "#000",
+  },
+  button: {
+    marginLeft: 5, // Adds spacing between text and button
+  },
+  icon: {
+    width: 10,
+    height: 10,
   },
 });
 

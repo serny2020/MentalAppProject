@@ -13,7 +13,7 @@ const Discover = () => {
           <TouchableOpacity style={styles.filterButton}><Text style={styles.filterText}>Breath</Text></TouchableOpacity>
           <TouchableOpacity style={styles.filterButton}><Text style={styles.filterText}>Program</Text></TouchableOpacity>
         </View>
-        <Ionicons name="search-outline" size={30} color="#000" />
+        {/* <Ionicons name="search-outline" size={30} color="#000" /> */}
       </View>
 
       <ScrollView>
