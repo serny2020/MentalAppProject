@@ -81,10 +81,6 @@ const HomePageNavigator = () => {
       },
       tabBarActiveTintColor: "#9b59b6",
       tabBarInactiveTintColor: "#9b59b6",
-      tabBarStyle: {
-        backgroundColor: "#f7ffcc",
-        borderTopColor: "#e5e5e5",
-      },
       tabBarStyle: styles.tabBarStyle, // Apply the taller tab bar style
       tabBarLabelStyle: styles.tabBarLabelStyle, 
       headerShown: false,
@@ -105,7 +101,7 @@ const HomePageNavigator = () => {
 const styles = {
   tabBarStyle: {
     backgroundColor: "#f7ffcc",
-    borderTopColor: "#e5e5e5",
+    borderTopColor: "gray",
     height: 95, // ⬆️ Makes the tab bar taller
     paddingBottom: 15, // Ensures icons are centered
     paddingTop: 10, // Adjusts spacing for alignment
@@ -119,7 +115,7 @@ const styles = {
     width: 50,
     height: 50,
     borderRadius: 25, // Makes it a perfect circle
-    backgroundColor: "gray", // Gray circle beneath the image
+    backgroundColor: "#e5e5e5", // Gray circle beneath the image
     justifyContent: "center",
     alignItems: "center",
   },
