@@ -13,6 +13,7 @@ import RoutineNavigator from "./RoutineNavigator";
 import ReorderSettings from "../components/routine/ReorderSettings";
 import Routine from "../screens/home/Routine";
 import DreamboardNavigator from "./DreamboardNavigator";
+import NotificationsPage from "../screens/discover/community/NotificationsPage";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -56,6 +57,11 @@ const MainPageOverviewNavigator = () => {
       <Stack.Screen
         name="DreamboardNavigator"
         component={DreamboardNavigator}
+        options={{ headerShown: false, presentation: "modal" }}
+      />
+      <Stack.Screen
+        name="Notifications"
+        component={NotificationsPage}
         options={{ headerShown: false, presentation: "modal" }}
       />
 

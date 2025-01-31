@@ -11,6 +11,7 @@ import PlaygroundNavigator from "./PlaygroundNavigator";
 import JournalDrawerNavigator from "./JournalDrawerNavigator";
 import JournalSideMenu from "./JournalSideMenu";
 import DiscoveryNavigator from "./DiscoverNavigator";
+import NotificationsPage from "../screens/discover/community/NotificationsPage";
 
 const Tab = createBottomTabNavigator();
 

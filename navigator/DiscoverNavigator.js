@@ -11,10 +11,11 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import Discover from "../screens/home/Discover";
 import CommunityNavigator from "./CommunityNavigator";
 import SOS from "../screens/home/SOS";
+// import NotificationsPage from "../screens/discover/community/Notifications";
 
 const Tab = createMaterialTopTabNavigator();
 
-const DiscoveryNavigator = () => {
+const DiscoverNavigator = ({navigation}) => {
   const [currentTab, setCurrentTab] = useState("Select"); // Track current tab
 
   const ErrorScreen = () => (
@@ -46,7 +47,7 @@ const DiscoveryNavigator = () => {
             <View style={styles.imageContainer}>
               <TouchableOpacity
                 style={styles.button}
-                onPress={() => console.log("First settings button pressed")}
+                onPress={() => navigation.navigate("Notifications")} 
               >
                 <Image
                   source={require("../assets/image/discover/communityBell.png")}
@@ -139,4 +140,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DiscoveryNavigator;
+export default DiscoverNavigator;
