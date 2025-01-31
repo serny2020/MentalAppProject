@@ -124,7 +124,7 @@ const SOS = ({ navigation }) => {
 
   const totalItems = 5; // Number of items
   const minValue = 1; // Start of the range
-  const maxValue = 10; // End of the range
+  const maxValue = 5; // End of the range
 
   // Calculate the contiguous number based on slider position
   const scaledNumber = Math.round(
@@ -219,7 +219,7 @@ const SOS = ({ navigation }) => {
               {scaledNumber} {/* Render the mapped number */}
             </Text>
           </View>
-          <Text style={styles.sliderBottomText}>10</Text>
+          <Text style={styles.sliderBottomText}>5</Text>
         </View>
       </View>
 

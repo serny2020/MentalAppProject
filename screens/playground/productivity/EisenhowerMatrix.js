@@ -9,6 +9,8 @@ import {
   Image,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import Matrix from "./Matrix";
+import CartesianCoordinates from "../../../components/letgo/CartesianCoord";
 
 const EisenhowerMatrix = ({ navigation }) => {
   return (
@@ -17,7 +19,7 @@ const EisenhowerMatrix = ({ navigation }) => {
       <View style={styles.header}>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
-          style={styles.backButton}
+          // style={styles.backButton}
         >
           <Text style={styles.backText}>Back</Text>
         </TouchableOpacity>
@@ -33,12 +35,14 @@ const EisenhowerMatrix = ({ navigation }) => {
         prioritizing tasks
       </Text>
 
+
       {/* Matrix Grid */}
       <View style={styles.matrixContainer}>
-        <Image
+        {/* <Image
           source={require("../../../assets/image/productivity/EisenMatrix.png")} // Replace with your local image path
           style={styles.image}
-        />
+        /> */}
+        <Matrix/>
       </View>
 
       {/* Example Tasks */}
@@ -99,6 +103,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 20,
   },
+  backButton:{
+    // fontSize: 18,
+    // color: "#000",
+    // fontWeight: "bold",
+  },
   centerIcon: {
     flex: 1,
     marginLeft: 120,
@@ -106,6 +115,7 @@ const styles = StyleSheet.create({
   backText: {
     fontSize: 18,
     color: "#000",
+    fontWeight: "bold",
   },
   title: {
     fontSize: 20,
@@ -119,38 +129,9 @@ const styles = StyleSheet.create({
   matrixContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
-    marginBottom: 30,
-  },
-  quadrant: {
-    width: "48%",
-    height: 120,
-    borderRadius: 10,
-    justifyContent: "center",
-    alignItems: "center",
-    margin: "1%",
-  },
-  doQuadrant: {
-    backgroundColor: "#FF6B6B",
-  },
-  decideQuadrant: {
-    backgroundColor: "#4BA3C7",
-  },
-  delegateQuadrant: {
-    backgroundColor: "#58C77C",
-  },
-  deleteQuadrant: {
-    backgroundColor: "#A8A8A8",
-  },
-  quadrantTitle: {
-    fontSize: 18,
-    color: "#fff",
-    fontWeight: "bold",
-    marginTop: 10,
-  },
-  quadrantSubtitle: {
-    fontSize: 14,
-    color: "#fff",
-    textAlign: "center",
+    marginBottom: 20,
+    // marginTop: 5,
+    // top: -10,
   },
   additionalInfo: {
     marginBottom: 20,

@@ -23,7 +23,7 @@ const MatrixQuadrant = () => {
 
   return (
     <View style={styles.container}>
-      <CartesianCoordinates translateX={2} translateY={0} />
+      <CartesianCoordinates translateX={2} translateY={0} scale={1.5} />
 
       {/* Quadrants */}
       <View style={styles.quadrantsContainer}>

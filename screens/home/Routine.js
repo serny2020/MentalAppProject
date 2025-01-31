@@ -78,14 +78,6 @@ const Routine = ({ navigation, route }) => {
   });
 
   const [isModalVisible, setModalVisible] = useState(false);
-  // const handleSettingsPress = (section) => {
-  //   console.log("a setting for ${section}");
-  // };
-
-  // const handleCollapsePress = () => {
-  //   setModalVisible(true);
-  // };
-
   const closeModal = () => {
     setModalVisible(false);
   };
@@ -194,7 +186,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   text: {
-    fontSize: 10,
+    fontSize: 12,
     color: "#000",
     fontWeight: "400",
   },
@@ -208,6 +200,11 @@ const styles = StyleSheet.create({
   icon: {
     width: 10,
     height: 10,
+  },
+  settingsButton: {
+    textAlign: "center",
+    elevation: 3, // Adds a subtle shadow (Android)
+    marginBottom: 20,
   },
 });
 
