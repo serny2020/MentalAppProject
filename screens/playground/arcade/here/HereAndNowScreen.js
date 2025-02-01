@@ -1,12 +1,24 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert, ImageBackground } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+// HereAndNowGameScreen.js
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, Alert, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons, Feather } from '@expo/vector-icons'; // Icons for help & settings
+import { Ionicons, Feather } from '@expo/vector-icons';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import EmdrBall from './EmdrBall';
 
 const HereAndNowGameScreen = () => {
   const navigation = useNavigation();
-  const [timeLeft, setTimeLeft] = useState("05:00");
+  const [timeLeft, setTimeLeft] = useState(300); // 5 minutes in seconds
+  const [isRunning, setIsRunning] = useState(false);
+
+  // Provide default values if route.params is undefined or missing properties
+  const { ballColor = '#ff4081', ballType = 'color' } = useRoute().params || {};
+
+  // Determine if we should use an image or just the color.
+  const ballImage =
+    ballType === 'image'
+      ? require('../../../../assets/image/arcade/hereNow/palette.png')
+      : null;
 
   const handleExit = () => {
     navigation.goBack();
@@ -16,22 +28,49 @@ const HereAndNowGameScreen = () => {
     Alert.alert("Record", "Show meditation record or history.");
   };
 
-  const handleStart = () => {
-    Alert.alert("Game Started", "The game will begin!");
-    // Here you can start a countdown timer or initiate the animation
+  const handleStartStop = () => {
+    if (isRunning) {
+      // Stop the game
+      setIsRunning(false);
+      setTimeLeft(300); // Reset timer to 5 minutes
+    } else {
+      // Start the game
+      setIsRunning(true);
+    }
   };
 
   const handleHelp = () => {
     navigation.navigate("HereAndNowHelpScreen");
   };
-  
+
   const handleSettings = () => {
-    navigation.navigate("HereNowSettingsScreen");
+    navigation.navigate("HereNowSettingsScreen", { ballColor });
+  };
+  
+
+  // Countdown Timer Logic
+  useEffect(() => {
+    let timer;
+    if (isRunning && timeLeft > 0) {
+      timer = setInterval(() => {
+        setTimeLeft((prev) => prev - 1);
+      }, 1000);
+    } else if (timeLeft === 0) {
+      setIsRunning(false);
+      Alert.alert("Time's up!", "The session has ended.");
+    }
+    return () => clearInterval(timer);
+  }, [isRunning, timeLeft]);
+
+  // Format time into MM:SS
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
   return (
     <LinearGradient colors={['#E3F3E3', '#B000B5']} style={styles.container}>
-      
       {/* Top Buttons */}
       <View style={styles.topRow}>
         <TouchableOpacity onPress={handleExit}>
@@ -45,18 +84,21 @@ const HereAndNowGameScreen = () => {
 
       {/* Timer Row */}
       <View style={styles.timerRow}>
-        <Text style={styles.timerText}>Counting down: {timeLeft}</Text>
-        <Text style={styles.timerText}>Time left: {timeLeft}</Text>
+        <Text style={styles.timerText}>Counting down: {formatTime(timeLeft)}</Text>
+        <Text style={styles.timerText}>Time left: {formatTime(timeLeft)}</Text>
       </View>
 
-      {/* Bouncing Ball Placeholder */}
-      {/* <ImageBackground source={require('../../../assets/image/arcade/bouncing_ball.png')} style={styles.ballArea}> */}
-        {/* Replace with actual animation later */}
-      {/* </ImageBackground> */}
+      {/* Bouncing Ball Area */}
+      <View style={styles.ballArea}>
+        <EmdrBall start={isRunning} ballColor={ballColor} ballImage={ballImage} />
+      </View>
 
-      {/* Start Button */}
-      <TouchableOpacity style={styles.startButton} onPress={handleStart}>
-        <Text style={styles.startText}>Start</Text>
+      {/* Start/Stop Button */}
+      <TouchableOpacity
+        style={[styles.startButton, isRunning ? styles.stopButton : null]}
+        onPress={handleStartStop}
+      >
+        <Text style={styles.startText}>{isRunning ? "Stop" : "Start"}</Text>
       </TouchableOpacity>
 
       {/* Bottom Buttons */}
@@ -68,7 +110,6 @@ const HereAndNowGameScreen = () => {
           <Feather name="sliders" size={30} color="black" />
         </TouchableOpacity>
       </View>
-      
     </LinearGradient>
   );
 };
@@ -76,60 +117,59 @@ const HereAndNowGameScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    alignItems: 'center',
   },
   topRow: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     marginTop: 40,
-  },
-  topButton: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: 'black',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  timerRow: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 20,
-  },
-  timerText: {
-    fontSize: 16,
-    fontWeight: '500',
-  },
-  ballArea: {
-    width: '100%',
-    height: 150,
-    backgroundColor: '#222', // Placeholder if no image
-    borderRadius: 10,
-    marginTop: 20,
-  },
-  startButton: {
-    backgroundColor: 'black',
-    paddingVertical: 10,
-    paddingHorizontal: 30,
-    borderRadius: 5,
-    marginTop: 20,
-  },
-  startText: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  bottomRow: {
-    position: 'absolute',
-    bottom: 20,
-    width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
+    alignItems: 'center',
+  },
+  topButton: {
+    fontSize: 18,
+    color: '#000',
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#000',
+  },
+  timerRow: {
+    marginVertical: 20,
+    alignItems: 'center',
+  },
+  timerText: {
+    fontSize: 18,
+    color: '#000',
+  },
+  ballArea: {
+    width: '90%',
+    height: 120,
+    alignSelf: 'center',
+    marginVertical: 20,
+    borderRadius: 10,
+    overflow: 'hidden',
+    backgroundColor: '#ffffffaa',
+  },
+  startButton: {
+    alignSelf: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 40,
+    backgroundColor: '#000',
+    borderRadius: 25,
+    marginVertical: 20,
+  },
+  stopButton: {
+    backgroundColor: '#FF6347', // Red color when running
+  },
+  startText: {
+    fontSize: 20,
+    color: '#fff',
+  },
+  bottomRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: 30,
   },
   iconButton: {
     padding: 10,
