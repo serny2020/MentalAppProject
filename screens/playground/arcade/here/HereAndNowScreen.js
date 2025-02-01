@@ -22,11 +22,11 @@ const HereAndNowGameScreen = () => {
   };
 
   const handleHelp = () => {
-    navigation.navigate("HelpScreen");
+    navigation.navigate("HereAndNowHelpScreen");
   };
-
+  
   const handleSettings = () => {
-    Alert.alert("Settings", "Modify game preferences.");
+    navigation.navigate("HereNowSettingsScreen");
   };
 
   return (

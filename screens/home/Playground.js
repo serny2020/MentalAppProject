@@ -39,7 +39,7 @@ const Playground = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.box, styles.boxPink]}
-          onPress={() => navigation.navigate('PlaygroundNavigator', { screen: 'Laughs' })} // Navigate to Laughs
+          onPress={() => navigation.navigate('PlaygroundNavigator', { screen: 'LaughsNavigator' })} // Navigate to Laughs
         >
           <Text style={styles.boxText}>Laughs</Text>
         </TouchableOpacity>

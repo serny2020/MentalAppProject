@@ -28,12 +28,12 @@ const ArcadeScreen = () => {
   const handleGamePress = (gameName) => {  
     // Mapping game names to their corresponding screens
     const screenMapping = {
-      "Vibration Scribbles": "VibrationScreen",
-      "Sound Scribbles": "SoundScreen",
-      "Chaos to Calm": "ChaosScreen",
+      "Vibration Scribbles": "VibrationScribblesNavigator",
+      "Sound Scribbles": "SoundScribblesNavigator",
+      "Chaos to Calm": "DontLaughNavigator",
       "Declutter Dash": "DeclutterScreen",
       "Happy Clear": "HappyScreen",
-      "Tap to Tune": "TapScreen",
+      "Tap to Tune": "FidgetSpinnerNavigator",
       "Escape": "EscapeScreen",
       "Here & Now": "HereAndNowNavigator",
     };

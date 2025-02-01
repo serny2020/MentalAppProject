@@ -1,124 +1,140 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-const Laughs = ({navigation}) => {
+const categories = [
+  { title: "Unexpectedly Funny Fails" },
+  { title: "Wholesome Pranks" },
+  { title: "Animal Antics" },
+  { title: "Kids Being Kids" },
+];
+
+const LaughsScreen = () => {
+  const navigation = useNavigation();
+
+  const handleUploadPress = () => {
+    Alert.alert("Upload", "Upload feature coming soon!");
+  };
+
   return (
-    <ScrollView style={styles.container}>
-      {/* Title */}
-      <View style={styles.header}>
-                <TouchableOpacity>
-                  <Text style={styles.backText} onPress={() => navigation.goBack()}>
-                    Back
-                  </Text>
-                </TouchableOpacity>
+    <View style={styles.container}>
+      
+      {/* Top Row (Back & Saved Button) */}
+      <View style={styles.topRow}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Text style={styles.backButton}>Back</Text>
+        </TouchableOpacity>
+        
         <Text style={styles.title}>Laughs</Text>
-        <TouchableOpacity>
-          <Text style={styles.heart}>❤️</Text>
+        
+        {/* Saved Button (Image Redirecting to Saved Videos Screen) */}
+        <TouchableOpacity onPress={() => navigation.navigate('SavedVideosScreen')}>
+          <Image source={require('../../../assets/image/icon/saved.png')} style={styles.localImage} />
         </TouchableOpacity>
       </View>
 
-      {/* Sections */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Unexpectedly Funny Fails</Text>
-        <View style={styles.boxContainer}>
-          <View style={styles.box}></View>
-          <View style={styles.box}></View>
-        </View>
-      </View>
+      {/* Scrollable Categories */}
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        {categories.map((category, index) => (
+          <View key={index}>
+            <Text style={styles.categoryTitle}>{category.title}</Text>
+            <View style={styles.videoRow}>
+              <TouchableOpacity style={styles.videoBox}>
+                <Text style={styles.videoText}>videos</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.videoBox}>
+                <Text style={styles.videoText}>videos</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        ))}
 
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Wholesome Pranks</Text>
-        <View style={styles.boxContainer}>
-          <View style={styles.box}></View>
-          <View style={styles.box}></View>
+        {/* Upload Section */}
+        <View style={styles.uploadContainer}>
+          <Text style={styles.uploadText}>
+            Didn’t like any of these, no worries! Upload your own funny stories here!
+          </Text>
+          <TouchableOpacity style={styles.uploadButton} onPress={handleUploadPress}>
+            <Text style={styles.uploadButtonText}>upload</Text>
+          </TouchableOpacity>
         </View>
-      </View>
+      </ScrollView>
 
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Animal Antics</Text>
-        <View style={styles.boxContainer}>
-          <View style={styles.box}></View>
-          <View style={styles.box}></View>
-        </View>
-      </View>
-
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Kids Being Kids</Text>
-        <View style={styles.boxContainer}>
-          <View style={styles.box}></View>
-          <View style={styles.box}></View>
-        </View>
-      </View>
-
-      {/* Upload Section */}
-      <Text style={styles.uploadPrompt}>Didn’t like any of these, no worries! Upload your own funny stories here!</Text>
-      <TouchableOpacity style={styles.uploadButton}>
-        <Text style={styles.uploadText}>upload</Text>
-      </TouchableOpacity>
-    </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffcce0',
-    padding: 50,
+    backgroundColor: '#FF99CC', // Pink background
+    padding: 20,
   },
-  header: {
+  topRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
+    justifyContent: 'space-between',
     marginBottom: 20,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#000',
-  },
-  heart: {
-    fontSize: 24,
-    color: '#ff69b4',
-  },
-  section: {
-    marginBottom: 20,
-  },
-  sectionTitle: {
+  backButton: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#000',
-    marginBottom: 10,
+    color: 'black',
   },
-  boxContainer: {
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+  },
+  localImage: {
+    width: 30,
+    height: 30,
+    resizeMode: 'contain',
+  },
+  scrollContainer: {
+    paddingBottom: 30, // Space for upload button
+  },
+  categoryTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginVertical: 10,
+  },
+  videoRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  box: {
-    backgroundColor: '#e5e5e5',
-    width: '48%',
-    height: 100,
-    borderRadius: 10,
+  videoBox: {
+    width: '45%',
+    height: 80,
+    backgroundColor: '#E0E0E0',
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 15,
   },
-  uploadPrompt: {
-    fontSize: 14,
-    color: '#000',
+  videoText: {
+    fontSize: 16,
+    color: 'black',
+  },
+  uploadContainer: {
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  uploadText: {
+    fontSize: 16,
     textAlign: 'center',
     marginBottom: 10,
   },
   uploadButton: {
-    alignSelf: 'center',
-    backgroundColor: '#fff',
-    borderRadius: 20,
+    backgroundColor: '#E0E0E0',
     paddingVertical: 10,
-    paddingHorizontal: 30,
-    borderWidth: 1,
-    borderColor: '#000',
+    paddingHorizontal: 20,
+    borderRadius: 20,
   },
-  uploadText: {
-    fontSize: 14,
+  uploadButtonText: {
+    fontSize: 18,
     fontWeight: 'bold',
-    color: '#000',
+    color: 'black',
   },
 });
 
-export default Laughs;
+export default LaughsScreen;

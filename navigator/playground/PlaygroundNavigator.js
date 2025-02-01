@@ -7,6 +7,7 @@ import DreamboardNavigator from "../discover/DreamboardNavigator";
 import LetGoNavigator from "./letgo/LetgoNavigator"
 import ProductivityNavigator from "./dreamboard/ProductivityNavigator";
 import ArcadeNavigator from "../arcade/ArcadeNavigator";
+import LaughsNavigator from "../laugh/LaughsNavigator";
 
 const Stack = createStackNavigator();
 
@@ -24,8 +25,8 @@ const PlaygroundNavigator = () => {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="Laughs"
-        component={Laughs}
+        name="LaughsNavigator"
+        component={LaughsNavigator}
         options={{ headerShown: false }}
       />
       {/* let go part */}

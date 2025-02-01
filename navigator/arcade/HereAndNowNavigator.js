@@ -1,11 +1,12 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import HereAndNowScreen from "../../screens/playground/arcade/here/HereAndNowScreen";
-import HelpScreen from "../../screens/playground/arcade/here/HelpScreen";
+import HereAndNowHelpScreen from "../../screens/playground/arcade/here/HereAndNowHelpScreen";
+import HereNowSettingsScreen from "../../screens/playground/arcade/here/HereNowSettingsScreen";
 
 const Stack = createStackNavigator();
 
-const ArcadeNavigator = () => {
+const HereAndNowNavigator = () => {
   return (
     <Stack.Navigator initialRouteName="HereAndNowScreen">
       <Stack.Screen
@@ -14,8 +15,13 @@ const ArcadeNavigator = () => {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="HelpScreen"
-        component={HelpScreen}
+        name="HereAndNowHelpScreen"
+        component={HereAndNowHelpScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="HereNowSettingsScreen"
+        component={HereNowSettingsScreen}
         options={{ headerShown: false }}
       />
 
@@ -23,4 +29,4 @@ const ArcadeNavigator = () => {
   );
 };
 
-export default ArcadeNavigator;
+export default HereAndNowNavigator;
