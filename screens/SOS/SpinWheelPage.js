@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
-import SpinWheel from "../../../components/SpinWheel"; // Adjust the path as needed
+import SpinWheel from "../../components/SpinWheel";
 
 const SpinWheelPage = ({ navigation }) => {
   const [selectedOption, setSelectedOption] = useState(null);
@@ -30,7 +30,8 @@ const SpinWheelPage = ({ navigation }) => {
       {/* Selected Option Section */}
       <View style={styles.selectedOptionContainer}>
         <Image
-          source={require("../../../assets/image/icon/selected.png")} // Replace with your icon file
+          // source={require("../../../assets/image/icon/selected.png")} // Replace with your icon file
+          source={require("../../assets/image/icon/selected.png")} // Replace with your icon file
           style={styles.selectedOptionIcon}
         />
         <View style={styles.textBackground}>

@@ -9,8 +9,9 @@ import {
   Image,
 } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-import { useTools } from "../../../context/ToolsContext";
-import ToolsList from "../../../components/SOS/ToolsList";
+// import { useTools } from "../../../context/ToolsContext";
+import { useTools } from "../../context/ToolsContext";
+import ToolsList from "../../components/SOS/ToolsList";
 
 const CustomizeScreen = ({ navigation, route }) => {
   const [tools, setTools] = useState([]);

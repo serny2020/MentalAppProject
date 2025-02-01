@@ -8,9 +8,9 @@ import {
   Image,
 } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import Discover from "../screens/home/Discover";
+import Discover from "../../screens/home/Discover";
 import CommunityNavigator from "./CommunityNavigator";
-import SOS from "../screens/home/SOS";
+import SOS from "../../screens/home/SOS";
 // import NotificationsPage from "../screens/discover/community/Notifications";
 
 const Tab = createMaterialTopTabNavigator();
@@ -36,7 +36,7 @@ const DiscoverNavigator = ({navigation}) => {
               onPress={() => console.log("Search button pressed")}
             >
               <Image
-                source={require("../assets/image/discover/communitySearch.png")}
+                source={require("../../assets/image/discover/communitySearch.png")}
                 style={styles.imageButton}
               />
             </TouchableOpacity>
@@ -50,7 +50,7 @@ const DiscoverNavigator = ({navigation}) => {
                 onPress={() => navigation.navigate("Notifications")} 
               >
                 <Image
-                  source={require("../assets/image/discover/communityBell.png")}
+                  source={require("../../assets/image/discover/communityBell.png")}
                   style={styles.imageButton}
                 />
               </TouchableOpacity>
@@ -60,7 +60,7 @@ const DiscoverNavigator = ({navigation}) => {
                 onPress={() => console.log("Second settings button pressed")}
               >
                 <Image
-                  source={require("../assets/image/discover/communitySearch.png")}
+                  source={require("../../assets/image/discover/communitySearch.png")}
                   style={styles.imageButton}
                 />
               </TouchableOpacity>

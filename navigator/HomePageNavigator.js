@@ -7,10 +7,10 @@ import Journal from "../screens/home/Journal";
 import Playground from "../screens/home/Playground";
 import Discover from "../screens/home/Discover";
 import SOS from "../screens/home/SOS";
-import PlaygroundNavigator from "./PlaygroundNavigator";
-import JournalDrawerNavigator from "./JournalDrawerNavigator";
-import JournalSideMenu from "./JournalSideMenu";
-import DiscoveryNavigator from "./DiscoverNavigator";
+import PlaygroundNavigator from "./playground/PlaygroundNavigator";
+import JournalDrawerNavigator from "./journal/JournalDrawerNavigator";
+import JournalSideMenu from "./journal/JournalSideMenu";
+import DiscoveryNavigator from "./discover/DiscoverNavigator";
 import NotificationsPage from "../screens/discover/community/NotificationsPage";
 
 const Tab = createBottomTabNavigator();

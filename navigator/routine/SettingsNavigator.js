@@ -1,15 +1,10 @@
 import React from "react";
-import { createDrawerNavigator } from "@react-navigation/drawer";
-import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 
 // Import screens
-import SettingsScreen from "../screens/playground/routine/SettingsScreen";
-import Routine from "../screens/home/Routine";
-import AffirmationPage from "../screens/check-in/Finish";
-import AffirmationCollection from "../screens/affirmation/AddAffirmationImages";
-import AffirmationNavigator from "./AffirmationNavigator";
+import SettingsScreen from "../../screens/routine/SettingsScreen";
+import AffirmationNavigator from "../playground/dreamboard/AffirmationNavigator";
 
 // const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();

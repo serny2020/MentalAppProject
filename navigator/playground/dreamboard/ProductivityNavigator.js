@@ -1,12 +1,12 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import ProductivityToolkitScreen from "../screens/playground/productivity/ProductivityToolkitScreen";
-import ThreeKsTechniqueScreen from "../screens/playground/productivity/ThreeKsTechniqueScreen";
-import StepOneScreen from "../screens/playground/productivity/StepOneScreen";
-import StepTwoScreen from "../screens/playground/productivity/StepTwoScreen";
-import StepThreeScreen from "../screens/playground/productivity/StepThreeScreen";
-import EisenhowerMatrix from "../screens/playground/productivity/EisenhowerMatrix";
-import EisenhowerMatrixInteractive from "../screens/playground/productivity/EisenhowerMatrixInteractive";
+import ProductivityToolkitScreen from "../../../screens/playground/productivity/ProductivityToolkitScreen";
+import ThreeKsTechniqueScreen from "../../../screens/playground/productivity/ThreeKsTechniqueScreen";
+import StepOneScreen from "../../../screens/playground/productivity/StepOneScreen";
+import StepTwoScreen from "../../../screens/playground/productivity/StepTwoScreen";
+import StepThreeScreen from "../../../screens/playground/productivity/StepThreeScreen";
+import EisenhowerMatrix from "../../../screens/playground/productivity/EisenhowerMatrix";
+import EisenhowerMatrixInteractive from "../../../screens/playground/productivity/EisenhowerMatrixInteractive";
 
 const Stack = createStackNavigator();
 

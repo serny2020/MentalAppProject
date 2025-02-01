@@ -5,9 +5,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 
 // Import screens
-import SettingsScreen from "../screens/playground/routine/SettingsScreen";
-import AffirmationNavigator from "./AffirmationNavigator";
-import Routine from "../screens/home/Routine";
+import AffirmationNavigator from "../playground/dreamboard/AffirmationNavigator";
+import Routine from "../../screens/home/Routine";
 // import ReorderSettings from "../components/routine/ReorderSettings";
 
 // const Drawer = createDrawerNavigator();

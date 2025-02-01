@@ -18,13 +18,13 @@ const Playground = () => {
       <View style={styles.boxContainer}>
         <TouchableOpacity
           style={[styles.box, styles.boxPurple]}
-          onPress={() => navigation.navigate('PlaygroundNavigator', { screen: 'Dreamboard' })}  // Navigate to Dreamboard
+          onPress={() => navigation.navigate('PlaygroundNavigator', { screen: 'DreamboardNavigator' })}  // Navigate to Dreamboard
         >
           <Text style={styles.boxText}>Dreamboard</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.box, styles.boxYellow]}
-          onPress={() => navigation.navigate('PlaygroundNavigator', { screen: 'Arcade' })} // Navigate to Arcade
+          onPress={() => navigation.navigate('PlaygroundNavigator', { screen: 'ArcadeNavigator' })} // Navigate to Arcade
         >
           <Text style={styles.boxText}>Arcade</Text>
         </TouchableOpacity>
@@ -33,7 +33,7 @@ const Playground = () => {
       <View style={styles.boxContainer}>
         <TouchableOpacity
           style={[styles.box, styles.boxGreen]}
-          onPress={() => navigation.navigate('PlaygroundNavigator', { screen: 'LetGo' })} // Navigate to LetGo
+          onPress={() => navigation.navigate('PlaygroundNavigator', { screen: 'LetGoNavigator' })} // Navigate to LetGo
         >
           <Text style={styles.boxText}>LetGo</Text>
         </TouchableOpacity>

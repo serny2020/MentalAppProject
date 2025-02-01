@@ -1,12 +1,12 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import CheckInNavigator from "./CheckInNavigator";
-import Playground from "../screens/home/Playground";
-import Arcade from "../screens/playground/Arcade";
-import Laughs from "../screens/playground/Laughs";
-import DreamboardNavigator from "./DreamboardNavigator";
-import LetGoNavigator from "./LetgoNavigator"
-import ProductivityNavigator from "./ProductivityNavigator";
+import CheckInNavigator from "../CheckInNavigator";
+import Playground from "../../screens/home/Playground";
+import Laughs from "../../screens/playground/laughs/Laughs";
+import DreamboardNavigator from "../discover/DreamboardNavigator";
+import LetGoNavigator from "./letgo/LetgoNavigator"
+import ProductivityNavigator from "./dreamboard/ProductivityNavigator";
+import ArcadeNavigator from "../arcade/ArcadeNavigator";
 
 const Stack = createStackNavigator();
 
@@ -19,8 +19,8 @@ const PlaygroundNavigator = () => {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="Arcade"
-        component={Arcade}
+        name="ArcadeNavigator"
+        component={ArcadeNavigator}
         options={{ headerShown: false }}
       />
       <Stack.Screen
@@ -30,14 +30,14 @@ const PlaygroundNavigator = () => {
       />
       {/* let go part */}
       <Stack.Screen
-        name="LetGo"
+        name="LetGoNavigator"
         component={LetGoNavigator}
         options={{ headerShown: false }}
       />
 
       {/* dreamboard part */}
       <Stack.Screen
-        name="Dreamboard"
+        name="DreamboardNavigator"
         component={DreamboardNavigator}
         options={{
           headerShown: false, // Hide header

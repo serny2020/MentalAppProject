@@ -17,7 +17,7 @@ const CrisisHelpPage = ({ navigation }) => {
       <View style={styles.mainContent}>
         <Text style={styles.title}>Are You Feeling Overwhelmed?</Text>
         <Image
-          source={require("../../../assets/SOS/call.png")} // Replace with your image path
+          source={require("../../assets/SOS/call.png")} // Replace with your image path
           style={styles.iconImage}
         />
         <Text style={styles.description}>

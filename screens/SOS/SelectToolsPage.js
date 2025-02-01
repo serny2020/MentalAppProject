@@ -9,11 +9,12 @@ import {
   Image,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import tools from "../../../data/tools-data";
-import SelectToolsModal from "../../../components/SOS/SelectToolsModal";
-import { useTools } from "../../../context/ToolsContext";
-import CheckBoxBotton from "../../../components/SOS/CheckBoxBotton";
-import Tabs from "../../../components/SOS/Tabs";
+import tools from "../../data/tools-data";
+import SelectToolsModal from "../../components/SOS/SelectToolsModal";
+import { useTools } from "../../context/ToolsContext";
+import CheckBoxBotton from "../../components/SOS/CheckBoxBotton";
+import Tabs from "../../components/SOS/Tabs";
+
 
 const SelectToolsPage = ({ navigation }) => {
   const [selectedTab, setSelectedTab] = useState("General");

@@ -7,9 +7,9 @@ import Journal from '../screens/home/Journal';
 import Playground from '../screens/home/Playground';
 import Discover from '../screens/home/Discover';
 import SOS from '../screens/home/SOS';
-import PlaygroundNavigator from './PlaygroundNavigator';
-import JournalDrawerNavigator from './JournalDrawerNavigator';
-import JournalSideMenu from './JournalSideMenu';
+import PlaygroundNavigator from './playground/PlaygroundNavigator';
+import JournalDrawerNavigator from './journal/JournalDrawerNavigator';
+import JournalSideMenu from './journal/JournalSideMenu';
 
 const Tab = createBottomTabNavigator();
 

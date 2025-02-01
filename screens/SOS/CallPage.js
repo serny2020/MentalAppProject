@@ -19,7 +19,7 @@ const CallPage = ({ navigation }) => {
         <Text style={styles.emergencyNumber}>911</Text>
         <Text style={styles.emergencyLabel}>EMERGENCY NUMBER</Text>
         <Image
-          source={require("../../../assets/SOS/call2.png")} // Replace with your image path
+          source={require("../../assets/SOS/call2.png")} // Replace with your image path
           style={styles.phoneIcon}
         />
         <TouchableOpacity style={styles.callButton} onPress={() => console.log("Call button pressed")}>

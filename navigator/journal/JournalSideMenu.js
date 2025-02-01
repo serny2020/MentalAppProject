@@ -4,9 +4,9 @@ import { createStackNavigator } from "@react-navigation/stack";
 import SideMenu from "react-native-side-menu";
 
 // Import screens
-import SettingsScreen from "../screens/playground/routine/SettingsScreen";
-import Journal from "../screens/home/Journal";
-import JournalSummaryScreen from "../screens/home/JournalSummaryScreen";
+import SettingsScreen from "../../screens/routine/SettingsScreen";
+import Journal from "../../screens/home/Journal";
+import JournalSummaryScreen from "../../screens/home/JournalSummaryScreen";
 
 const Stack = createStackNavigator();
 

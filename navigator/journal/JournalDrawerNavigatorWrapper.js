@@ -6,10 +6,10 @@ import { View, StyleSheet } from "react-native";
 
 
 // Import screens
-import SettingsScreen from "../screens/playground/routine/SettingsScreen";
-import Journal from "../screens/home/Journal";
-import JournalSummaryScreen from "../screens/home/JournalSummaryScreen";
-import HomePageNavigator from "./HomePageNavigator";
+import SettingsScreen from "../../screens/routine/SettingsScreen";
+import Journal from "../../screens/home/Journal";
+import JournalSummaryScreen from "../../screens/home/JournalSummaryScreen";
+import HomePageNavigator from "../HomePageNavigator";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();

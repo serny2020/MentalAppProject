@@ -5,9 +5,9 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { View, StyleSheet } from "react-native";
 
 // Import screens
-import SettingsScreen from "../screens/playground/routine/SettingsScreen";
-import Journal from "../screens/home/Journal";
-import JournalSummaryScreen from "../screens/home/JournalSummaryScreen";
+import SettingsScreen from "../../screens/routine/SettingsScreen";
+import Journal from "../../screens/home/Journal";
+import JournalSummaryScreen from "../../screens/home/JournalSummaryScreen";
 import { useCallback } from "react";
 
 const Drawer = createDrawerNavigator();

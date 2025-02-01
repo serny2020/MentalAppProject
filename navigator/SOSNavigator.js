@@ -2,14 +2,14 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import CheckInNavigator from "./CheckInNavigator";
 import SOS from "../screens/home/SOS";
-import SpinWheelPage from "../screens/playground/SOS/SpinWheelPage";
-import EmergencyToolkitScreen from "../screens/playground/SOS/EmergencyToolkitScreen";
-import CustomizeScreen from "../screens/playground/SOS/CustomizeScreen";
-import SelectToolsPage from "../screens/playground/SOS/SelectToolsPage";
-import LovedOnesPage from "../screens/playground/SOS/LovedOnesPage";
-import CrisisHelpPage from "../screens/playground/SOS/CrisisHelpPage";
-import CallPage from "../screens/playground/SOS/CallPage";
-import ReorderSOS from "../screens/playground/SOS/ReorderSOS";
+import SpinWheelPage from "../screens/SOS/SpinWheelPage";
+import EmergencyToolkitScreen from "../screens/SOS/EmergencyToolkitScreen";
+import CustomizeScreen from "../screens/SOS/CustomizeScreen";
+import SelectToolsPage from "../screens/SOS/SelectToolsPage";
+import LovedOnesPage from "../screens/SOS/LovedOnesPage";
+import CrisisHelpPage from "../screens/SOS/CrisisHelpPage";
+import CallPage from "../screens/SOS/CallPage";
+import ReorderSOS from "../screens/SOS/ReorderSOS";
 
 import { ToolsProvider } from "../context/ToolsContext";
 

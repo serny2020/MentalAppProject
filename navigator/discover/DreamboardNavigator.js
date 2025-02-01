@@ -1,10 +1,10 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import Dreamboard from "../screens/playground/dreamboard/Dreamboard";
-import DreamOverview from "../screens/playground/dreamboard/DreamOverview";
-import DreamDetailScreen from "../screens/playground/dreamboard/DreamDetailScreen";
-import PhotoCollageScreen from "../screens/playground/dreamboard/PhotoCollageScreen";
-import CollagingNavigator from './CollagingNavigator';
+import Dreamboard from "../../screens/playground/dreamboard/Dreamboard";
+import DreamOverview from "../../screens/playground/dreamboard/DreamOverview";
+import DreamDetailScreen from "../../screens/playground/dreamboard/DreamDetailScreen";
+import PhotoCollageScreen from "../../screens/playground/dreamboard/PhotoCollageScreen";
+import CollagingNavigator from "../playground/dreamboard/CollagingNavigator";
 
 const Stack = createStackNavigator();
 
