@@ -1,14 +1,15 @@
 import React from "react";
 import { View, Text, StyleSheet, SafeAreaView } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import PostsScreen from "../../screens/playground/discover/community/PostsScreen";
 
 
 // Dummy Screens
-const PostsScreen = () => (
-  <View style={styles.screen}>
-    <Text>Posts Page</Text>
-  </View>
-);
+// const PostsScreen = () => (
+//   <View style={styles.screen}>
+//     <Text>Posts Page</Text>
+//   </View>
+// );
 
 const GroupsScreen = () => (
   <View style={styles.screen}>

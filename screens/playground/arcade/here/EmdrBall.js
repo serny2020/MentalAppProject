@@ -1,13 +1,15 @@
-// EmdrBall.js
 import React, { useEffect, useRef } from 'react';
 import { Animated, View, StyleSheet, Dimensions, Image } from 'react-native';
 
-const EmdrBall = ({ start, ballColor = '#ff4081', ballImage }) => {
+const EmdrBall = ({ start, ballColor = '#ff4081', ballImage, bumpSpeed = 2 }) => {
   const ballAnimation = useRef(new Animated.Value(0)).current;
   const ballSize = 50;
   const screenWidth = Dimensions.get('window').width;
   const horizontalMargin = 20;
   const ballTravelDistance = screenWidth - ballSize - horizontalMargin * 2;
+
+  // Calculate animation speed dynamically
+  const animationDuration = 3000 / bumpSpeed; // Faster speed = shorter duration
 
   useEffect(() => {
     if (start) {
@@ -15,12 +17,12 @@ const EmdrBall = ({ start, ballColor = '#ff4081', ballImage }) => {
         Animated.sequence([
           Animated.timing(ballAnimation, {
             toValue: ballTravelDistance,
-            duration: 1500,
+            duration: animationDuration,
             useNativeDriver: true,
           }),
           Animated.timing(ballAnimation, {
             toValue: 0,
-            duration: 1500,
+            duration: animationDuration,
             useNativeDriver: true,
           }),
         ])
@@ -28,7 +30,7 @@ const EmdrBall = ({ start, ballColor = '#ff4081', ballImage }) => {
     } else {
       ballAnimation.setValue(0); // Reset position when stopped
     }
-  }, [start, ballTravelDistance]);
+  }, [start, bumpSpeed, ballTravelDistance]); // Added bumpSpeed as a dependency
 
   return (
     <View style={styles.container}>
@@ -36,8 +38,7 @@ const EmdrBall = ({ start, ballColor = '#ff4081', ballImage }) => {
         style={[
           styles.ball,
           { transform: [{ translateX: ballAnimation }] },
-          // If no image is passed, use the background color.
-          ballImage ? {} : { backgroundColor: ballColor },
+          ballImage ? {} : { backgroundColor: ballColor }, // If no image, use color
         ]}
       >
         {ballImage && (
@@ -56,7 +57,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 100,
     justifyContent: 'center',
-    backgroundColor: '#F0F0F0',
   },
   ball: {
     width: 50,

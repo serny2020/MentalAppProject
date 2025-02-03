@@ -1,13 +1,18 @@
-import React from "react";
+// BallColorScreen.js
+import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import WheelColorPicker from "react-native-wheel-color-picker";
+import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { useNowAndThen } from "../../../../context/Arcade/NowAndThenContext";
 
 const BallColorScreen = () => {
   const navigation = useNavigation();
-  const { ballColor, setBallColor } = useNowAndThen(); // Get and set color from context
+  const route = useRoute();
+  const [selectedColor, setSelectedColor] = useState(
+    route.params?.ballColor || "#ff4081"
+  );
+  //   console.log(route.params?.ballColor)
 
   return (
     <LinearGradient colors={["#E3F3E3", "#B000B5"]} style={styles.container}>
@@ -20,7 +25,12 @@ const BallColorScreen = () => {
           source={require("../../../../assets/image/arcade/hereNow/palette.png")}
           style={{ width: 30, height: 30 }}
         />
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.pop(1); // Pop the top two screens
+            navigation.navigate("HereNowSettingsScreen",  { selectedColor }); // Navigate to HereAndNowScreen
+          }}
+        >
           <Text style={styles.topButton}>Done</Text>
         </TouchableOpacity>
       </View>
@@ -34,8 +44,8 @@ const BallColorScreen = () => {
       {/* Color Picker */}
       <View style={styles.colorPickerContainer}>
         <WheelColorPicker
-          initialColor={ballColor}
-          onColorChangeComplete={setBallColor} // Directly update context
+          initialColor={selectedColor}
+          onColorChangeComplete={(color) => setSelectedColor(color)}
           style={{ width: 250, height: 250 }}
         />
       </View>
@@ -43,7 +53,9 @@ const BallColorScreen = () => {
       {/* Preview */}
       <Text style={styles.previewText}>Preview</Text>
       <View style={styles.previewContainer}>
-        <View style={[styles.previewBall, { backgroundColor: ballColor }]} />
+        <View
+          style={[styles.previewBall, { backgroundColor: selectedColor }]}
+        />
       </View>
     </LinearGradient>
   );

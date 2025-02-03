@@ -4,7 +4,7 @@ import { CollagingContextProvider} from "../../../context/CollagingContext";
 import CollagingDreamsScreen from '../../../screens/playground/dreamboard/Collaging/CollagingDreamsScreen';
 import AlbumSelectionScreen from '../../../screens/playground/dreamboard/Collaging/AlbumSelectionScreen';
 import RecommendationScreen from '../../../screens/playground/dreamboard/Collaging/RecommendationScreen';
-import SelectTemplateScreen from '../../../screens/playground/dreamboard/SelectTemplateScreen-backup';
+import SelectTemplateScreen from '../../../screens/playground/dreamboard/Collaging/SelectTemplateScreen';
 import DreamLifeCraftedScreen from '../../../screens/playground/dreamboard/Collaging/DreamLifeCraftedScreen';
 
 const Stack = createStackNavigator();

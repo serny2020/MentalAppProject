@@ -1,18 +1,32 @@
+// BallTypeScreen.js
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  ScrollView,
+} from "react-native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import ballsOptions from "../../../../data/balls-option";
-import { useNowAndThen } from "../../../../context/Arcade/NowAndThenContext";
 
 const BallTypeScreen = () => {
   const navigation = useNavigation();
-  const { ballType, setBallType } = useNowAndThen(); // Get and set ball type from context
+  const route = useRoute();
 
-  // Handle selection
+  // Optionally receive the current ball type and ball color (if needed)
+  // so you can show which image is currently selected.
+  const { currentBallType } = route.params || {};
+
+  // When an image option is selected, navigate back (or forward) with the chosen type.
+  // For example, if your settings screen is expecting { ballType, ballColor }.
   const handleSelect = (option) => {
-    setBallType(option.id); // Update context
-    navigation.goBack(); // Go back without passing props
+    // navigation.pop(1); // Pop the top two screens
+    navigation.navigate("HereNowSettingsScreen", {
+      ballType: option.id,
+    });
   };
 
   return (
@@ -30,7 +44,6 @@ const BallTypeScreen = () => {
             <Text style={styles.topButton}>Done</Text>
           </TouchableOpacity>
         </View>
-
         <Text style={styles.title}>
           Select <Text style={{ fontWeight: "bold" }}>Ball Type</Text>
         </Text>
@@ -42,11 +55,12 @@ const BallTypeScreen = () => {
                 key={option.id}
                 style={[
                   styles.option,
-                  ballType === option.id && styles.selectedOption, // Use context ballType
+                  currentBallType === option.id && styles.selectedOption,
                 ]}
                 onPress={() => handleSelect(option)}
               >
                 <Image source={option.source} style={styles.ballImage} />
+                {/* <Text style={styles.label}>{option.label}</Text> */}
               </TouchableOpacity>
             ))}
           </View>
@@ -62,6 +76,7 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: "center",
     justifyContent: "center",
+    // backgroundColor: "#fff",
   },
   topRow: {
     flexDirection: "row",
@@ -75,6 +90,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "black",
   },
+
   title: {
     fontSize: 24,
     marginBottom: 20,
@@ -91,18 +107,15 @@ const styles = StyleSheet.create({
     width: "30%", // Adjust width for a 3-column grid
     margin: 5, // Space between items
     alignItems: "center",
-    padding: 10,
-    borderRadius: 10,
-  },
-  selectedOption: {
-    borderWidth: 2,
-    borderColor: "#fff", // Highlight selected ball type
-    backgroundColor: "rgba(255, 255, 255, 0.2)",
   },
   ballImage: {
-    width: 50,
+    width: 50, // Adjust as needed
     height: 50,
     resizeMode: "contain",
+  },
+  label: {
+    marginTop: 5,
+    fontSize: 14,
   },
 });
 

@@ -1,19 +1,19 @@
+// HereAndNowGameScreen.js
 import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, Alert, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons, Feather } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import EmdrBall from "./EmdrBall";
 import ballsOptions from "../../../../data/balls-option";
-import { useNowAndThen } from "../../../../context/Arcade/NowAndThenContext";
 
 const HereAndNowScreen = () => {
   const navigation = useNavigation();
   const [timeLeft, setTimeLeft] = useState(300); // 5 minutes in seconds
   const [isRunning, setIsRunning] = useState(false);
 
-  // Get values from context
-  const { ballColor, ballType, bumpSpeed } = useNowAndThen();
+  // Provide default values if route.params is undefined or missing properties
+  const { ballColor = "#ff4081", ballType = "color", bumpSpeed = 2 } = useRoute().params || {};
 
   // Function to get ball image from ballsOptions
   const getBallImage = (type) => {
@@ -45,7 +45,7 @@ const HereAndNowScreen = () => {
   };
 
   const handleSettings = () => {
-    navigation.navigate("HereNowSettingsScreen"); // No need to pass props
+    navigation.navigate("HereNowSettingsScreen", { ballColor, ballType, bumpSpeed });
   };
 
   // Countdown Timer Logic
@@ -84,7 +84,7 @@ const HereAndNowScreen = () => {
 
       <View style={styles.timerRow}>
         <Text style={styles.timerText}>
-          Total Time: 05:00
+          Counting down: {formatTime(timeLeft)}
         </Text>
         <Text style={styles.timerText}>Time left: {formatTime(timeLeft)}</Text>
       </View>
@@ -128,16 +128,12 @@ const styles = StyleSheet.create({
     color: "#000",
   },
   title: {
-    marginLeft: 30,
     fontSize: 22,
     fontWeight: "bold",
     color: "#000",
   },
   timerRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingHorizontal: 20,
-    marginTop: 40,
+    marginVertical: 20,
     alignItems: "center",
   },
   timerText: {

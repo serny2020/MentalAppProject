@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { useNowAndThen } from "../../../../context/Arcade/NowAndThenContext";
 
 const settingsOptions = [
   {
@@ -29,9 +29,19 @@ const settingsOptions = [
 
 const HereNowSettingsScreen = () => {
   const navigation = useNavigation();
+  const route = useRoute();
 
-  // Get and set values from context
-  const { ballColor, setBallColor, ballType, setBallType, bumpSpeed, setBumpSpeed } = useNowAndThen();
+  // Get initial values from route params, fallback to defaults
+  const [ballColor, setBallColor] = useState(route.params?.ballColor || "#ff4081");
+  const [ballType, setBallType] = useState(route.params?.ballType || "color"); // 'color' or 'image'
+  const [bumpSpeed, setBumpSpeed] = useState(route.params?.bumpSpeed || 2); // Default speed
+
+  // Update state when returning from other screens
+  useEffect(() => {
+    if (route.params?.selectedColor) setBallColor(route.params.selectedColor);
+    if (route.params?.selectedBallType) setBallType(route.params.selectedBallType);
+    if (route.params?.bumpSpeed) setBumpSpeed(route.params.bumpSpeed);
+  }, [route.params]);
 
   return (
     <LinearGradient colors={["#E3F3E3", "#B000B5"]} style={styles.container}>
@@ -39,11 +49,16 @@ const HereNowSettingsScreen = () => {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Text style={styles.topButton}>Cancel</Text>
         </TouchableOpacity>
-        <Image
-          source={require("../../../../assets/image/arcade/hereNow/setting.png")}
-          style={{ width: 30, height: 30 }}
-        />
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Image
+            source={require("../../../../assets/image/arcade/hereNow/setting.png")}
+            style={{ width: 30, height: 30 }}
+          />
+        <TouchableOpacity
+          onPress={() => {
+            navigation.pop(3);
+            navigation.navigate("HereAndNowScreen", { ballColor, ballType, bumpSpeed }); 
+          }}
+        >
           <Text style={styles.topButton}>Done</Text>
         </TouchableOpacity>
       </View>
@@ -56,11 +71,11 @@ const HereNowSettingsScreen = () => {
           style={styles.settingItem}
           onPress={() => {
             if (option.id === 1) {
-              navigation.navigate("BallColorScreen");
+              navigation.navigate("BallColorScreen", { ballColor });
             } else if (option.id === 3) {
-              navigation.navigate("BallTypeScreen");
+              navigation.navigate("BallTypeScreen", { ballType });
             } else if (option.id === 4) {
-              navigation.navigate("BallSpeedScreen");
+              navigation.navigate("BallSpeedScreen", { bumpSpeed });
             } else {
               console.log(option.name);
             }
