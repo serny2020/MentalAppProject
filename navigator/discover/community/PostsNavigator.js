@@ -13,11 +13,11 @@ const PostsNavigator = () => {
         component={PostsScreen}
         options={{ headerShown: false }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="CreatePostScreen"
         component={CreatePostScreen}
         options={{ headerShown: false }}
-      />
+      /> */}
     </Stack.Navigator>
   );
 };

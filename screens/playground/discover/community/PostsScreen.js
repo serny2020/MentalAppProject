@@ -1,15 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
-  Text,
   FlatList,
-  Image,
   TouchableOpacity,
   StyleSheet,
-  Alert,
 } from "react-native";
-import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 import PostItem from "../../../../components/discover/community/PostItem";
+import CreatePostModal from "./CreatePostScreen";
 
 const posts = [
   {
@@ -56,7 +54,9 @@ const posts = [
   },
 ];
 
-const PostsScreen = ({ navigation }) => {
+const PostsScreen = () => {
+  const [modalVisible, setModalVisible] = useState(false); // State to control modal visibility
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -64,12 +64,20 @@ const PostsScreen = ({ navigation }) => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <PostItem item={item} />}
       />
+
+      {/* Floating Button to Open Create Post Modal */}
       <TouchableOpacity
         style={styles.floatingButton}
-        onPress={() => navigation.navigate("CreatePostScreen")}
+        onPress={() => setModalVisible(true)} // Open Modal
       >
         <FontAwesome name="plus" size={30} color="#ffffff" />
       </TouchableOpacity>
+      {/* Create Post Modal */}
+      <CreatePostModal
+        visible={modalVisible}
+        closeModal={() => setModalVisible(false)} // Close Modal
+      />
+
     </View>
   );
 };

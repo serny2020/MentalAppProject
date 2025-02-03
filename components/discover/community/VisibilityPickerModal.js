@@ -93,6 +93,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     minWidth: 80, // Ensures a minimum width
     height: 38,
+    marginRight: 30,
   },
   pickerButtonText: {
     fontSize: 12,

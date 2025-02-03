@@ -4,6 +4,7 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 // import PostsScreen from "../../../screens/playground/discover/community/PostsScreen";
 import PostsNavigator from "./PostsNavigator";
 import PostDetailScreen from "../../../screens/playground/discover/community/PostDetailScreen";
+import PostsScreen from "../../../screens/playground/discover/community/PostsScreen";
 
 const GroupsScreen = () => (
   <View style={styles.screen}>
@@ -30,6 +31,7 @@ const CommunityNavigator = () => {
         }}
       >
         <Tab.Screen name="Posts" component={PostsNavigator} />
+        {/* <Tab.Screen name="Posts" component={PostsScreen} /> */}
         <Tab.Screen name="Groups" component={GroupsScreen} />
         <Tab.Screen name="Events" component={EventsScreen} />
       </Tab.Navigator>

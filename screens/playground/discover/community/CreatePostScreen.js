@@ -6,122 +6,127 @@ import {
   TouchableOpacity,
   FlatList,
   StyleSheet,
-  Image
+  Image,
+  Modal
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import VisibilityPickerModal from "../../../../components/discover/community/VisibilityPickerModal";
 
 const categories = [
-  "I need help",
-  "Addiction",
-  "School",
-  "Friends",
-  "Relationship",
-  "Anxiety",
-  "Self-care",
-  "My Story",
-  "Helpful Tips",
-  "Self-harm",
-  "Mental Health",
-  "Depression",
-  "Hope",
-  "Health",
-  "Grief",
-  "Family",
-  "Job",
-  "Other",
+  "I need help", "Addiction", "School", "Friends", "Relationship", "Anxiety",
+  "Self-care", "My Story", "Helpful Tips", "Self-harm", "Mental Health",
+  "Depression", "Hope", "Health", "Grief", "Family", "Job", "Other",
 ];
 
-const CreatePostScreen = () => {
-  const navigation = useNavigation();
+const CreatePostModal = ({ visible, closeModal }) => {
   const [postText, setPostText] = useState("");
-//   const [visibility, setVisibility] = useState("Public");
 
   return (
-    <View style={styles.container}>
-      {/* <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Text style={styles.backText}>Back</Text>
-      </TouchableOpacity> */}
+    <Modal visible={visible} animationType="slide" transparent>
+      <View style={styles.modalOverlay}>
+        <View style={styles.modalContainer}>
+          
+          {/* Top Bar with Back and Post Button */}
+          <View style={styles.topBar}>
+            <TouchableOpacity onPress={closeModal}>
+              <Text style={styles.backText}>Back</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.postButton}>
+              <Text style={styles.postButtonText}>Post</Text>
+            </TouchableOpacity>
+          </View>
 
-<View style={styles.topBar}>
-  <TouchableOpacity onPress={() => navigation.goBack()}>
-    <Text style={styles.backText}>Back</Text>
-  </TouchableOpacity>
+          {/* Header with Avatar & Visibility Picker */}
+          <View style={styles.headerContainer}>
+            <Image source={require("../../../../assets/image/avatar.png")} style={styles.icon} />
+            <Text style={styles.header}>Write a Post</Text>
+            <VisibilityPickerModal />
+          </View>
 
-  <TouchableOpacity style={styles.postButton}>
-    <Text style={styles.postButtonText}>Post</Text>
-  </TouchableOpacity>
-</View>
+          {/* Post Input */}
+          <TextInput
+            style={styles.textInput}
+            placeholder="Write about how you feel at this moment..."
+            multiline
+            value={postText}
+            onChangeText={setPostText}
+          />
 
-      <View style={styles.headerContainer}>
-        <Image source={require("../../../../assets/image/avatar.png")} style={styles.icon} />
-        <Text style={styles.header}>Write a Post</Text>
-        <VisibilityPickerModal />
-      </View>
-
-      <TextInput
-        style={styles.textInput}
-        placeholder="Write about how you feel at this moment..."
-        multiline
-        value={postText}
-        onChangeText={setPostText}
-      />
-
-      <Text style={styles.label}>Add Emotion:</Text>
-      <TouchableOpacity style={styles.selectButton}>
-        <Text>Select</Text>
-      </TouchableOpacity>
-
-      <Text style={styles.label}>Add Category:</Text>
-      <FlatList
-        data={categories}
-        keyExtractor={(item) => item}
-        numColumns={3}
-        renderItem={({ item }) => (
-          <TouchableOpacity style={styles.categoryButton}>
-            <Text>{item}</Text>
+          {/* Add Emotion Button */}
+          <Text style={styles.label}>Add Emotion:</Text>
+          <TouchableOpacity style={styles.selectButton}>
+            <Text>Select</Text>
           </TouchableOpacity>
-        )}
-      />
-    </View>
+
+          {/* Add Category Section */}
+          <Text style={styles.label}>Add Category:</Text>
+          <FlatList
+            data={categories}
+            keyExtractor={(item) => item}
+            numColumns={3}
+            renderItem={({ item }) => (
+              <TouchableOpacity style={styles.categoryButton}>
+                <Text>{item}</Text>
+              </TouchableOpacity>
+            )}
+          />
+        </View>
+      </View>
+    </Modal>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  modalOverlay: {
     flex: 1,
+    backgroundColor: "rgba(0,0,0,0.5)", // Dim background effect
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContainer: {
     backgroundColor: "#f7ffcc",
+    width: "90%", // Smaller width to look like a modal
+    maxHeight: "90%",
+    borderRadius: 15,
     padding: 16,
+  },
+  modalContainer: {
+    backgroundColor: "#f7ffcc",
+    width: "100%", // Full screen width
+    height: "100%", // Full screen height
+    padding: 16,
+    justifyContent: "flex-start",
+  },
+  topBar: {
+    flexDirection: "row",
+    justifyContent: "space-between", // "Back" on left, "Post" on right
+    alignItems: "center",
+    marginTop: 50,
+    marginBottom: 10,
   },
   backText: {
     fontSize: 16,
     fontWeight: "bold",
-    marginBottom: 10,
   },
-headerContainer: {
+  postButtonText: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  headerContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "flex-end", // Aligns content to the right
-    paddingHorizontal: 16,
+    justifyContent: "space-between", 
     marginBottom: 10,
   },
   header: {
     fontSize: 18,
     fontWeight: "bold",
-    marginLeft: 10, // Adds space between modal and text
-    flex: 1, // Allows text to take available space
-    textAlign: "center", // Moves the text to the right
+    flex: 1,
+    textAlign: "center",
   },
   icon: {
-    width: 30, // Adjust as needed
+    width: 30,
     height: 30,
-    marginLeft: 25, // Adds space between text and icon
-  },
-  dropdownContainer: {
-    marginVertical: 10,
-    padding: 10,
-    backgroundColor: "#fff",
-    borderRadius: 8,
+    marginRight: 10,
   },
   textInput: {
     backgroundColor: "#e0e0e0",
@@ -150,26 +155,6 @@ headerContainer: {
     alignItems: "center",
     borderRadius: 8,
   },
-  postButtonText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-topBar: {
-    flexDirection: "row",
-    justifyContent: "space-between", // Aligns "Back" to the left and "Post" to the right
-    alignItems: "center",
-    paddingHorizontal: 16,
-    marginBottom: 10,
-  },
-  postButton: {
-    // backgroundColor: "#000",
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-  },
-  
 });
 
-
-export default CreatePostScreen;
+export default CreatePostModal;
