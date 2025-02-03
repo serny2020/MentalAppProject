@@ -1,81 +1,88 @@
 import React, { useState } from "react";
 import { 
-  View, Text, Image, TouchableOpacity, TextInput, StyleSheet, Modal 
+  View, Text, Image, TouchableOpacity, TextInput, StyleSheet, Modal, Keyboard, TouchableWithoutFeedback 
 } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import PostDetailNavigator from "../../../../navigator/discover/community/PostDetailNavigator";
 
 const PostDetailModal = ({ visible, closeModal, post }) => {
-  const [replyModalVisible, setReplyModalVisible] = useState(false);
-  const [replyText, setReplyText] = useState("");
+  const [commentText, setCommentText] = useState("");
 
   return (
     <Modal visible={visible} animationType="slide" transparent>
-      <View style={styles.modalOverlay}>
-        <View style={styles.modalContainer}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContainer}>
 
-          {/* Close Button */}
-          <TouchableOpacity onPress={closeModal} style={styles.backButton}>
-            <Text style={styles.backText}>Back</Text>
-          </TouchableOpacity>
+            {/* Close Button */}
+            <TouchableOpacity onPress={closeModal} style={styles.backButton}>
+              <Text style={styles.backText}>Back</Text>
+            </TouchableOpacity>
 
-          {/* Post Header */}
-          <View style={styles.postHeader}>
-            <Image source={post.avatar} style={styles.avatar} />
-            <View style={styles.userInfo}>
-              <Text style={styles.userName}>
-                <Text style={{ fontWeight: "bold" }}>{post.user}</Text> is <Text style={styles.mood}>{post.mood} {post.moodIcon}</Text>
-              </Text>
-              <Text style={styles.metaInfo}>{post.category} • {post.time}</Text>
+            {/* Post Header */}
+            <View style={styles.postHeader}>
+              <Image source={post.avatar} style={styles.avatar} />
+              <View style={styles.userInfo}>
+                <Text style={styles.userName}>
+                  <Text style={{ fontWeight: "bold" }}>{post.user}</Text> is <Text style={styles.mood}>{post.mood} {post.moodIcon}</Text>
+                </Text>
+                <Text style={styles.metaInfo}>{post.category} • {post.time}</Text>
+              </View>
             </View>
-          </View>
 
-          {/* Post Content */}
-          <Text style={styles.postText}>{post.content}</Text>
+            {/* Post Content */}
+            <Text style={styles.postText}>{post.content}</Text>
 
-          {/* Reply Button (Opens Second Modal) */}
-          <TouchableOpacity 
-            style={styles.replyButton} 
-            onPress={() => setReplyModalVisible(true)}
-          >
-            <FontAwesome name="comment" size={18} color="#888" />
-            <Text style={styles.replyButtonText}>Reply</Text>
-          </TouchableOpacity>
+            {/* Post Actions (Dynamic Data from Props) */}
+            <View style={styles.actionsRow}>
+              <TouchableOpacity style={styles.actionButton}>
+                <FontAwesome name="comment" size={18} color="#888" />
+                <Text style={styles.actionText}>{post.comments}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.actionButton}>
+                <FontAwesome name="heart" size={18} color="#e74c3c" />
+                <Text style={styles.actionText}>{post.likes}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.actionButton}>
+                <MaterialIcons name="people" size={18} color="#888" />
+                <Text style={styles.actionText}>{post.shares}</Text>
+              </TouchableOpacity>
+            </View>
 
-          {/* Second Modal (Reply Modal) */}
-          <Modal visible={replyModalVisible} animationType="slide" transparent>
-            <View style={styles.modalOverlay}>
-              <View style={styles.replyModalContainer}>
-                
-                <TouchableOpacity onPress={() => setReplyModalVisible(false)} style={styles.closeReplyButton}>
-                  <Text style={styles.closeReplyText}>Close</Text>
-                </TouchableOpacity>
+            <PostDetailNavigator/>
 
-                <Text style={styles.modalTitle}>Reply to {post.user}</Text>
-                
+            {/* Comment Section */}
+            <View style={styles.commentContainer}>
+              {/* Avatar Outside Input Box */}
+              <Image source={post.avatar} style={styles.commentAvatar} />
+
+              {/* Input Box with Send Button */}
+              <View style={styles.commentInputWrapper}>
                 <TextInput
-                  style={styles.replyInput}
-                  placeholder="Write your reply..."
-                  value={replyText}
-                  onChangeText={setReplyText}
+                  style={styles.commentInput}
+                  placeholder="Write a comment..."
+                  value={commentText}
+                  onChangeText={setCommentText}
+                  onSubmitEditing={Keyboard.dismiss} // Dismiss keyboard when "Enter" is pressed
+                  returnKeyType="done"
                 />
 
                 <TouchableOpacity 
-                  style={styles.sendReplyButton}
+                  style={styles.sendButton}
                   onPress={() => {
-                    console.log("Reply Sent:", replyText);
-                    setReplyModalVisible(false);
-                    setReplyText("");
+                    console.log("Sent comment:", commentText);
+                    setCommentText(""); // Clear input after sending
+                    Keyboard.dismiss(); // Hide keyboard
                   }}
                 >
-                  <Text style={styles.sendReplyText}>Send Reply</Text>
+                  <FontAwesome name="paper-plane" size={20} color="#888" />
                 </TouchableOpacity>
-
               </View>
             </View>
-          </Modal>
 
+          </View>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     </Modal>
   );
 };
@@ -89,13 +96,14 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     backgroundColor: "#f7ffcc",
-    width: "90%",
-    maxHeight: "90%",
-    borderRadius: 15,
+    width: "100%", // Full screen width
+    height: "100%", // Full screen height
     padding: 16,
+    justifyContent: "flex-start",
   },
   backButton: {
     marginBottom: 10,
+    marginTop: 50,
   },
   backText: {
     fontSize: 16,
@@ -130,56 +138,49 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 10,
   },
-  replyButton: {
+  actionsRow: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginVertical: 10,
+  },
+  actionButton: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#e0e0e0",
-    padding: 10,
-    borderRadius: 8,
-    alignSelf: "flex-start",
-    marginTop: 10,
   },
-  replyButtonText: {
+  actionText: {
     marginLeft: 5,
     fontSize: 14,
     color: "#555",
   },
-  replyModalContainer: {
-    backgroundColor: "#fff",
-    width: "80%",
-    padding: 20,
-    borderRadius: 10,
+  commentContainer: {
+    flexDirection: "row", // Align avatar and input horizontally
+    alignItems: "center",
+    position: "absolute",
+    bottom: 20, // Keeps it at the bottom
+    left: 10,
+    right: 10,
+  },
+  commentAvatar: {
+    width: 35, // Avatar size
+    height: 35,
+    borderRadius: 17.5,
+    marginRight: 10, // Space between avatar and input
+  },
+  commentInputWrapper: {
+    flexDirection: "row", // Align input and send button horizontally
+    flex: 1, // Makes input take full available space
+    backgroundColor: "#f0f0f0",
+    borderRadius: 20,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
     alignItems: "center",
   },
-  closeReplyButton: {
-    alignSelf: "flex-end",
+  commentInput: {
+    flex: 1,
+    fontSize: 14,
   },
-  closeReplyText: {
-    fontSize: 16,
-    color: "red",
-  },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  replyInput: {
-    width: "100%",
-    height: 50,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 8,
-    paddingHorizontal: 10,
-    marginBottom: 10,
-  },
-  sendReplyButton: {
-    backgroundColor: "#4CAF50",
+  sendButton: {
     padding: 10,
-    borderRadius: 8,
-  },
-  sendReplyText: {
-    color: "#fff",
-    fontWeight: "bold",
   },
 });
 
