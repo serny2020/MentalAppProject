@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import Discover from "../../screens/home/Discover";
-import CommunityNavigator from "./CommunityNavigator";
+import CommunityNavigator from "./community/CommunityNavigator";
 import SOS from "../../screens/home/SOS";
 // import NotificationsPage from "../screens/discover/community/Notifications";
 

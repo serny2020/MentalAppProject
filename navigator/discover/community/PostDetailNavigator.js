@@ -1,31 +1,28 @@
 import React from "react";
 import { View, Text, StyleSheet, SafeAreaView } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import PostsScreen from "../../screens/playground/discover/community/PostsScreen";
 
-
-// Dummy Screens
-// const PostsScreen = () => (
-//   <View style={styles.screen}>
-//     <Text>Posts Page</Text>
-//   </View>
-// );
-
-const GroupsScreen = () => (
+const CommentsScreen = () => (
   <View style={styles.screen}>
-    <Text>Groups Page</Text>
+    <Text>Comments Page</Text>
   </View>
 );
 
-const EventsScreen = () => (
+const LovesScreen = () => (
   <View style={styles.screen}>
-    <Text>Events Page</Text>
+    <Text>Loves Page</Text>
+  </View>
+);
+
+const HugsScreen = () => (
+  <View style={styles.screen}>
+    <Text>Hugs Page</Text>
   </View>
 );
 
 const Tab = createMaterialTopTabNavigator();
 
-const CommunityNavigator = () => {
+const PostDetailNavigator = () => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <Tab.Navigator
@@ -35,9 +32,9 @@ const CommunityNavigator = () => {
           tabBarLabelStyle: { fontSize: 16, fontWeight: "bold" },
         }}
       >
-        <Tab.Screen name="Posts" component={PostsScreen} />
-        <Tab.Screen name="Groups" component={GroupsScreen} />
-        <Tab.Screen name="Events" component={EventsScreen} />
+        <Tab.Screen name="Comments" component={CommentsScreen} />
+        <Tab.Screen name="Loves" component={LovesScreen} />
+        <Tab.Screen name="Hugs" component={HugsScreen} />
       </Tab.Navigator>
     </SafeAreaView>
   );
@@ -56,4 +53,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CommunityNavigator;
+export default PostDetailNavigator;
