@@ -34,7 +34,7 @@ const PostItem = ({ item }) => {
                 source={require("../../../assets/image/discover/community/comment.png")} // Path to your local image
                 style={styles.icon} // Apply custom styles
               />
-              <Text style={styles.actionText}>{item.comments}</Text>
+              <Text style={styles.actionText}>{item.commentIds.length}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.actionButton}>
               {/* <FontAwesome name="heart" size={18} color="#e74c3c" /> */}
@@ -43,7 +43,7 @@ const PostItem = ({ item }) => {
                 style={styles.icon} // Apply custom styles
               />
 
-              <Text style={styles.actionText}>{item.likes}</Text>
+              <Text style={styles.actionText}>{item.loveIds.length}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.actionButton}>
               <Image
@@ -52,7 +52,7 @@ const PostItem = ({ item }) => {
               />
 
               {/* <MaterialIcons name="people" size={18} color="#888" /> */}
-              <Text style={styles.actionText}>{item.shares}</Text>
+              <Text style={styles.actionText}>{item.hugIds.length}</Text>
             </TouchableOpacity>
           </View>
         </View>

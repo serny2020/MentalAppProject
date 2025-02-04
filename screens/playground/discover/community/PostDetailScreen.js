@@ -55,7 +55,7 @@ const PostDetailModal = ({ visible, closeModal, post }) => {
                   style={styles.icon} // Apply custom styles
                 />
                 {/* </View> */}
-                <Text style={styles.actionText}>{post.comments}</Text>
+                <Text style={styles.actionText}>{post.commentIds.length}</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.actionButton}>
                 {/* <FontAwesome name="heart" size={18} color="#e74c3c" /> */}
@@ -64,7 +64,7 @@ const PostDetailModal = ({ visible, closeModal, post }) => {
                   style={styles.icon} // Apply custom styles
                 />
 
-                <Text style={styles.actionText}>{post.likes}</Text>
+                <Text style={styles.actionText}>{post.loveIds.length}</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.actionButton}>
                 {/* <MaterialIcons name="diversity-3" size={18} color="#888" /> */}
@@ -73,7 +73,7 @@ const PostDetailModal = ({ visible, closeModal, post }) => {
                   style={styles.icon} // Apply custom styles
                 />
 
-                <Text style={styles.actionText}>{post.shares}</Text>
+                <Text style={styles.actionText}>{post.hugIds.length}</Text>
               </TouchableOpacity>
             </View>
 
