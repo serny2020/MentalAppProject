@@ -1,6 +1,14 @@
 import React, { useState } from "react";
-import { 
-  View, Text, Image, TouchableOpacity, TextInput, StyleSheet, Modal, Keyboard, TouchableWithoutFeedback 
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  TextInput,
+  StyleSheet,
+  Modal,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import PostDetailNavigator from "../../../../navigator/discover/community/PostDetailNavigator";
@@ -13,7 +21,6 @@ const PostDetailModal = ({ visible, closeModal, post }) => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.modalOverlay}>
           <View style={styles.modalContainer}>
-
             {/* Close Button */}
             <TouchableOpacity onPress={closeModal} style={styles.backButton}>
               <Text style={styles.backText}>Back</Text>
@@ -24,9 +31,14 @@ const PostDetailModal = ({ visible, closeModal, post }) => {
               <Image source={post.avatar} style={styles.avatar} />
               <View style={styles.userInfo}>
                 <Text style={styles.userName}>
-                  <Text style={{ fontWeight: "bold" }}>{post.user}</Text> is <Text style={styles.mood}>{post.mood} {post.moodIcon}</Text>
+                  <Text style={{ fontWeight: "bold" }}>{post.user}</Text> is{" "}
+                  <Text style={styles.mood}>
+                    {post.mood} {post.moodIcon}
+                  </Text>
                 </Text>
-                <Text style={styles.metaInfo}>{post.category} • {post.time}</Text>
+                <Text style={styles.metaInfo}>
+                  {post.category} • {post.time}
+                </Text>
               </View>
             </View>
 
@@ -36,20 +48,36 @@ const PostDetailModal = ({ visible, closeModal, post }) => {
             {/* Post Actions (Dynamic Data from Props) */}
             <View style={styles.actionsRow}>
               <TouchableOpacity style={styles.actionButton}>
-                <FontAwesome name="comment" size={18} color="#888" />
+                {/* <FontAwesome name="comment" size={18} color="#888" /> */}
+                {/* <View style={styles.container}> */}
+                <Image
+                  source={require("../../../../assets/image/discover/community/comment.png")} // Path to your local image
+                  style={styles.icon} // Apply custom styles
+                />
+                {/* </View> */}
                 <Text style={styles.actionText}>{post.comments}</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.actionButton}>
-                <FontAwesome name="heart" size={18} color="#e74c3c" />
+                {/* <FontAwesome name="heart" size={18} color="#e74c3c" /> */}
+                <Image
+                  source={require("../../../../assets/image/discover/community/heart.png")} // Path to your local image
+                  style={styles.icon} // Apply custom styles
+                />
+
                 <Text style={styles.actionText}>{post.likes}</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.actionButton}>
-                <MaterialIcons name="people" size={18} color="#888" />
+                {/* <MaterialIcons name="diversity-3" size={18} color="#888" /> */}
+                <Image
+                  source={require("../../../../assets/image/discover/community/hug.png")} // Path to your local image
+                  style={styles.icon} // Apply custom styles
+                />
+
                 <Text style={styles.actionText}>{post.shares}</Text>
               </TouchableOpacity>
             </View>
 
-            <PostDetailNavigator/>
+            <PostDetailNavigator />
 
             {/* Comment Section */}
             <View style={styles.commentContainer}>
@@ -67,7 +95,7 @@ const PostDetailModal = ({ visible, closeModal, post }) => {
                   returnKeyType="done"
                 />
 
-                <TouchableOpacity 
+                <TouchableOpacity
                   style={styles.sendButton}
                   onPress={() => {
                     console.log("Sent comment:", commentText);
@@ -79,7 +107,6 @@ const PostDetailModal = ({ visible, closeModal, post }) => {
                 </TouchableOpacity>
               </View>
             </View>
-
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -181,6 +208,11 @@ const styles = StyleSheet.create({
   },
   sendButton: {
     padding: 10,
+  },
+  icon: {
+    width: 20, // Set the width
+    height: 20, // Set the height
+    resizeMode: "contain", // Keep the aspect ratio
   },
 });
 

@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import PostDetailModal from "../../../screens/playground/discover/community/PostDetailScreen";
 
@@ -35,15 +29,29 @@ const PostItem = ({ item }) => {
           <Text style={styles.content}>{item.content}</Text>
           <View style={styles.actions}>
             <TouchableOpacity style={styles.actionButton}>
-              <FontAwesome name="comment" size={18} color="#888" />
+              {/* <FontAwesome name="comment" size={18} color="#888" /> */}
+              <Image
+                source={require("../../../assets/image/discover/community/comment.png")} // Path to your local image
+                style={styles.icon} // Apply custom styles
+              />
               <Text style={styles.actionText}>{item.comments}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.actionButton}>
-              <FontAwesome name="heart" size={18} color="#e74c3c" />
+              {/* <FontAwesome name="heart" size={18} color="#e74c3c" /> */}
+              <Image
+                source={require("../../../assets/image/discover/community/heart.png")} // Path to your local image
+                style={styles.icon} // Apply custom styles
+              />
+
               <Text style={styles.actionText}>{item.likes}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.actionButton}>
-              <MaterialIcons name="people" size={18} color="#888" />
+              <Image
+                source={require("../../../assets/image/discover/community/hug.png")} // Path to your local image
+                style={styles.icon} // Apply custom styles
+              />
+
+              {/* <MaterialIcons name="people" size={18} color="#888" /> */}
               <Text style={styles.actionText}>{item.shares}</Text>
             </TouchableOpacity>
           </View>
@@ -51,7 +59,11 @@ const PostItem = ({ item }) => {
       </TouchableOpacity>
 
       {/* Modal Component */}
-      <PostDetailModal visible={modalVisible} closeModal={() => setModalVisible(false)} post={item} />
+      <PostDetailModal
+        visible={modalVisible}
+        closeModal={() => setModalVisible(false)}
+        post={item}
+      />
     </View>
   );
 };
@@ -81,7 +93,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   mood: {
-    color: "#555",
+    // color: "#555",
+    color: "#e74c3c",
     fontWeight: "bold",
   },
   category: {
